@@ -101,10 +101,10 @@ function mnh(vl,pb,dg){
 }
 </SCRIPT>
 </head>
-<?
+<?php
 require("dao/connection.php");
 $login1=$_SESSION["login1"];
-$profile=$_SESSION["agence"];
+$profile=$_SESSION["profil"];
 
 $requete=("select status from etablissements ");
 $resultat=mysql_query($requete);
@@ -143,18 +143,21 @@ $reqcl=mysql_query($sqlstmcl);
 <div id='m'class="element4" style='overflow:hidden;position:relative;top:0px; left:0px; width:200px; height:100px; z-Index:0'>
 
     <img src='menu/images/classes.jpg' ONCLICK='controle=1;mnh("e",500,"m")'><br/>
-	<?
+	<?php
 	while($lignecl=mysql_fetch_array($reqcl))
 {
 $code=$lignecl['libelle'];
+$etag1 = findByValue('classes','idclasse',$code);
+						$cha1 = mysql_fetch_row($etag1);
+						$classe=$cha1[3];
 ?>
-		<a href="seleves.php?num=<?echo $code;?>& annee=<?echo $aca;?>" class="smenu"><?echo $code;?></a><BR>
-	<?
+		<a href="seleves.php?num=<?phpecho $code;?>& annee=<?php echo $aca;?>" class="smenu"><?php echo $classe;?></a><BR>
+	<?php
 }
 
 }
 ?>
-<?
+<?php
 if($status=='PRIVE')	{
 ?>
 	<div id='e'class="element4" style='position:absolute;top:50px;left:0;width:200px; height:200px;'>
@@ -164,7 +167,7 @@ if($status=='PRIVE')	{
 <a href="bilanj.php" class="smenu">Bilan Paiement Journalier</a><BR>
 <a href="resultat.php" class="smenu">Bilan Paiement Mensuel</a><BR>
 <a href="lidepenses.php" class="smenu">Dépenses Journaliéres</a><BR>
-<?
+<?php
 }
 ?>
 

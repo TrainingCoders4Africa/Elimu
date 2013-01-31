@@ -25,10 +25,9 @@ if(isset($_POST['EVA_ID'])  and isset($_POST['CL_ID']) )
 //récupération code de l'évaluation
 $codee =$_POST['EVA_ID'];
 $sclasse =$_POST['CL_ID'];
-//$cycle =$_POST['PROF_ID'];
 $annee=annee_academique();
-//  echo'discipline '.accents($discipline);
- $sql="select * from eleves where matricule not in (select eleve from notes where evaluation='$codee') and  matricule in (select eleve from inscription where classe='".htmlentities($sclasse)."' and annee='$annee' )";
+ $sql="select * from eleves where matricule  in (select eleve from notes where evaluation='$codee' and note=0) and
+ matricule in (select eleve from inscription where classe='".$sclasse."' and annee='$annee' ) ";
                   $exec=mysql_query($sql) or die(mysql_error());
 $nb=mysql_num_rows($exec);
                   $i=1;
@@ -44,10 +43,20 @@ echo'
             <th width=100><b><font color="white">Matricule</th>
             <th width=300><b><font color="white">Eleve</th>
             <th width=300><b><font color="white">Date et Lieu de Naissance</th>
-            <th width=100><b><font color="white">Notes</th>
+            <th width=100><b><font color="white">Notes Evaluation</th>
+            <th width=100><b><font color="white">Notes Absence</th>
                      </tr>';
+  $sqlstm4="select eleve,note from notes where evaluation='$codee' and note=0";
+$req4=mysql_query($sqlstm4);
+$nb=mysql_num_rows($req4);
+                  $i=1;
+while($ligne4=mysql_fetch_array($req4))
+{
+				  $meleve=$ligne4['eleve'];
+$note=$ligne4['note'];
 				   		
-                	
+                	 $sql="select * from eleves where matricule='$meleve'";
+                  $exec=mysql_query($sql) or die(mysql_error());
                   $ligne=mysql_fetch_row($exec);
                                $code=$ligne['0'];
 							      $prenom=$ligne['1'];
@@ -61,25 +70,28 @@ echo'
 			            <td align=center>$prenom $nom</td>
 							<td align=center>$date_n &agrave; ".htmlentities($lieu)."</td>
 							<td  align=center>
-			            		  <input size=9 name=note$i type=text id='Note Eléve' value='$note'  onkeyup='verif_nombre(this);' lang='bonfond:#FFFFFF;bontexte:#400040; erreurfond:#FF0000;bontexte:#0000FF;type:obligatoire2;erreur: CV obligatoire'>
+			            		  <input size=9 name=note$i type=text id='Note Eléve' value='$note' readonly>
 			            	 <script type=text/javascript>      //
 				                 			new SUC( document.frm.nbptotal$i );       //
 				             	      </script>
 			            		</td>
+			            		
+								<td  align=center>
+			            		  <input size=9 name=absence$i type=text id='Note Eléve' value='ABS' readonly>
+			            	 <script type=text/javascript>      //
+				                 			new SUC( document.frm.nbptotal$i );       //
+				             	      </script>
 			            		</td>
 							";
-						
-			              
-
-
-
-
-			         echo" <input name=code$i type=hidden value='$code'>
-			        
-			          ";
+							echo" <input name=code$i type=hidden value='$code'>";
                      $i++;
-                  
+                  }
 				  echo" <input name=evaluation type=hidden value='$codee'>";
+			
+				  echo'	<table>
+<TR><TD class=petit>&nbsp;</TD>
+	<TR><TD><BUTTON TITLE="Confirmer Notes"name="enregistrer" TYPE="submit" id="flashit"><b>Note Justifi&eacute;e</b></BUTTON>&nbsp;<BUTTON TITLE="Annuler " TYPE="reset"><b>&nbsp;Annuler&nbsp;</b></BUTTON></TD>
+	</table>';
 				
 
 }

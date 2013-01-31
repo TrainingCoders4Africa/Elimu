@@ -1,6 +1,6 @@
 <?php
 //$_SESSION['classe']=;
-$sclasse=$_GET['num'];
+$sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
 $type='';
@@ -13,7 +13,11 @@ while($lignee=mysql_fetch_array($req1e))
 {
 	$ns=$lignee['ns'];
 	}
-
+	// récupération des évaluations déja enregistrées
+$sql1="select distinct evaluation from notes where notes.eleve in(select eleve from inscription where  classe='$sclasse' and annee='$annee')and evaluation in
+(select id from evaluations where annee='$annee' and classe='$sclasse' and 
+personnel='$personnel' ) order by evaluation desc";
+$req1=mysql_query($sql1);
 ?>
 <script language="Javascript">
 function verif_nombre(champ)
@@ -33,7 +37,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 }
 </script>
 
-<form name="inscription_form" action="<?php echo 'modif_notes.php?ajout=1&num='.$sclasse;?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<script language="Javascript">
@@ -91,40 +95,38 @@ function go(){
 <table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
 		<tbody>
 		<TR><TD class=petit>&nbsp;</TD></TR>
-		<?php
-		if($ns==0){
-echo $datejour .' n\'est dans  aucun semestre donc impossible de faire un traitement  pour cette date';
-}
-
-else{
-?>
 		<TR>
 <B>&nbsp;Evaluation &nbsp;*&nbsp;</B><SELECT NAME="evaluation" id="evaluation" required onchange="go()">
 <OPTION value=""></OPTION>
- <?
-$sql1="select distinct evaluation from notes where notes.eleve in(select eleve from inscription where  classe='".htmlentities($sclasse)."' and annee='$annee')and evaluation in(select id from evaluations where annee='$annee' and classe='".htmlentities($sclasse)."' and 
-evaluations.discipline in(select discipline from enseigner where personnel='$personnel' and annee='$annee' and classe='".htmlentities($sclasse)."' )) order by evaluation desc";
-$req1=mysql_query($sql1);
+ <?php
+
 while($ligne1=mysql_fetch_array($req1))
 {
 $eva=$ligne1['evaluation'];
 $sqlst="select date_prevue,discipline,type from evaluations where   id='$eva' order by type ,date_prevue desc ";
 $req=mysql_query($sqlst);
-while($lig=mysql_fetch_array($req))
-{
+$lig=mysql_fetch_array($req);
 $datep=$lig['date_prevue'];
-$discipline=$lig['discipline'];
+$disci=$lig['discipline'];
 $type=$lig['type'];
-}
 
-$table = 'disciplines';
-				 $selection = findByValue($table,'iddis',$discipline);
-				$ro=mysql_fetch_row($selection);
-                            //echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
-    			
+ $dis = explode("D", $disci);
+			$iddis = $dis[0];
+			$idsm=$dis[1];
+				$titres = findByValue('disciplines','iddis',$iddis);
+						$tit = mysql_fetch_row($titres);
+						$discipline=accents($tit[1]);
+							//libelle sous discipline
+					 $smat = findByValue('sous_matiere','idsm',$idsm);
+						$sousmat = mysql_fetch_row($smat);
+						$sousd=accents($sousmat[1]);
+						if($sousd<>"")
+						$affi=$discipline.' : '.$sousd;
+						else
+						$affi=$discipline;
 ?>
-  <OPTION value="<?echo $eva;?>"><?echo $type.' de '.$ro[1].' du '.$datep;?>
-  <?
+  <OPTION value="<?php echo $eva;?>"><?php echo $type.' de '.$affi.' du '.$datep;?>
+  <?php
 }
 ?>
  </OPTION></SELECT></TD></TR>
@@ -136,13 +138,10 @@ $table = 'disciplines';
 				  echo" <input name=an type=hidden value='$annee'>";
 				   echo" <input name=matricule type=hidden value='$personnel'>";
  ?>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=95%></TD></TR>
 
 
-	</tbody><table>
-<TR><TD class=petit>&nbsp;</TD>
-	<TR><TD><BUTTON TITLE="Confirmer Notes"name="enregistrer" TYPE="submit" id="flashit"><b>Noter</b></BUTTON>&nbsp;<BUTTON TITLE="Annuler " TYPE="reset"><b>&nbsp;Annuler&nbsp;</b></BUTTON></TD>
-	</table>
+	</tbody>
+	
 </div>
 
 </form>
@@ -206,5 +205,5 @@ location.href="modif_notes.php?ajout=1&num='. $classe.'"
 	}
 }
 //}
-}
+//}
 ?>

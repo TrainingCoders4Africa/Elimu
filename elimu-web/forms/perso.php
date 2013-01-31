@@ -2,7 +2,7 @@
 $matricule=$_SESSION["matricule"];
 $etagiaire = findByValue('personnels','matricule',$matricule);
 						$row = mysql_fetch_row($etagiaire);
-                       //$matricule=$row[0];
+
                            $titre=$row[1];
 					      $prenom=$row[2];
 					      $nom=$row[3];
@@ -73,7 +73,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action=<?php echo '"perso.php"';?> method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action=<?php echo lien();?> method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 
@@ -87,42 +87,43 @@ else
 echo'<img src="photos/personull.png" align=center width="250" height="400">';
 ?>
 </b></B><INPUT TYPE="file"  NAME="photo">
-</td> 
-    <td><B>&nbsp;Matricule :&nbsp;&nbsp;&nbsp;</B><?php echo $matricule;?>
-<B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Profile&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><?php echo $profile;?>
+</td>   <td><B>&nbsp;Matricule :&nbsp;&nbsp;&nbsp;</B><?php echo $matricule;?>
+<B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Profile&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><?php echo $profile;?>
 </TD></td> 
 <tr><td><B>&nbsp;Titre :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><SELECT NAME="titre" required autofocus />
 <OPTION  value="<?php echo $titre?>"><?php echo $tre?></OPTION>
-<?
+<?php
 				 $selection = findNByValue('titre5','id',$titre);
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}
 				?>
-</SELECT ></td>    </tr>   
-<tr><td><B>&nbsp;Prénom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT type="text" SIZE=30 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $prenom?>" required>
+</SELECT ></td>    </tr>  
+<tr><td ><B>&nbsp;Prénom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
+<INPUT type="text" SIZE=30 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo accents($prenom) ;?>" required>
 </td></tr>
-<tr><td><B>&nbsp;Nom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $nom?>" required></td>    </tr>
-<tr><td><B>&nbsp;Date Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required value="<?php echo $date_nais?>"></td>    </tr>
+<tr><td><B>&nbsp;Nom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo accents($nom);?>" required></td>    </tr>
+<tr><td><B>&nbsp;Date Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
+<INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required value="<?php echo $date_nais?>"></td>    </tr>
 <tr><td>
-<B>&nbsp;Lieu Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $lieu_nais?>" required></td>    </tr>
+<B>&nbsp;Lieu Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo accents($lieu_nais) ;?>" required></td>    </tr>
 <tr><td><B>&nbsp;Sexe :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><SELECT NAME="sexe" id="Sexe" required>
-<OPTION value="<?php echo $sexe?>"><?php echo $sx?></OPTION>
-<?
+<OPTION value="<?php echo $sexe?>"><?php echo accents($sx) ;?></OPTION>
+<?php
 
 				 $table = 'sexe5';
 				 $selection = findNByValue('sexe5','id',$sexe);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}
 				?>			
 					</select></td></tr>
 					<tr><td><B>&nbsp;Situation Matrimoniale :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><SELECT NAME="matrimonial" id="Situation Matrimoniale" required>
-<OPTION value="<?php echo $matrimonial?>"><?php echo $ma?></OPTION>
-			<?
+<OPTION value="<?php echo $matrimonial?>"><?php echo accents($ma) ;?></OPTION>
+			<?php
 				 $selection = findNByValue('matrimonial5','id',$matrimonial);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}?>
 			
 					</select></td>    </tr>
@@ -131,7 +132,7 @@ echo'<img src="photos/personull.png" align=center width="250" height="400">';
 
 <tr><td><B>&nbsp;Corps :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><SELECT NAME="corps" id="corps" required>
 <OPTION value="<?php echo $corps?>"><?php echo $co?></OPTION>
-<?
+<?php
 				 $selection = findNByValue('corps5','id',$corps);
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
@@ -158,12 +159,14 @@ echo'<img src="photos/personull.png" align=center width="250" height="400">';
 <tr><td><B>&nbsp;Début Carriére:*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT TYPE="date" SIZE=12 MAXLENGTH="12" NAME="date_c" id="date" value="<?php echo $date_c;?>"required></td>    </tr>
 <tr><td></td>    </tr>
 <tr><td><B>&nbsp;Pseudo :* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>&nbsp;<input name="pseudo" type="text"  id="pseudo" value="<?php echo $login;?>" required></td>    </tr>
-<tr><td><B>&nbsp;PassWord :*</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="passe" type="password" id="password"  value="<?php echo $passe;?>"required></td>    </tr>
-<tr><td><B>&nbsp;Adresse :*</B><INPUT TYPE="text" SIZE=60 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required value="<?php echo $adresse?>"></td>    </tr>
-<tr><td><B>&nbsp;E-mail :*</B><INPUT TYPE="email" SIZE=60 MAXLENGTH="100" NAME="mail" id="mail" required value="<?php echo $email?>"></td>    </tr>
-<tr><td><input type="hidden" name="matricule" value="<? echo $matricule;?>"></td>
-<td><input type="hidden" name="profile" value="<? echo $profile;?>"></td>
-<td><input type="hidden" name="lien" value="<? echo $photo;?>"></td>
+<tr><td><B>&nbsp;PassWord :*</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="passe" type="password" id="password"  value="<?php echo $passe;?>"required></td>    </tr>
+<tr><td><B>&nbsp;Adresse :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</B><INPUT TYPE="text" SIZE=35 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required value="<?php echo $adresse?>"></td>    </tr>
+<tr><td><B>&nbsp;E-mail :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
+<INPUT TYPE="email" SIZE=35 MAXLENGTH="100" NAME="mail" id="mail" required value="<?php echo $email?>"></td>    </tr>
+<tr><td><input type="hidden" name="matricule" value="<?php echo $matricule;?>"></td>
+<td><input type="hidden" name="profile" value="<?php echo $profile;?>"></td>
+<td><input type="hidden" name="lien" value="<?php echo $photo;?>"></td>
 	</tbody>
 <TR><TD class=petit>&nbsp;</TD></TR>
 	<tr><td><BUTTON TITLE="Confirmer la Modification de vos Données" TYPE="submit" id="flashit" name="modif">Modifier</BUTTON>

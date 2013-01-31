@@ -1,15 +1,12 @@
 <?php
-//header('Content-Type: text/html; charset=UTF-8');
-//header('Content-Type: text/html; charset=iso-8859-1');
 include 'all_function.php';
-//if(isset($_POST['DEBUT_ID'])  and isset($_POST['FIN_ID']) )
 if(isset($_POST['FIN_ID'])and isset($_POST['JOUR_ID']) and isset($_POST['DEBUT_ID']) and isset($_POST['SEMESTRE_ID']) and isset($_POST['CLASSE_ID']))
 {
-$jour =$_POST['JOUR_ID'];
-$debut =$_POST['DEBUT_ID'];
-$fin =$_POST['FIN_ID'];
-$semestre =$_POST['SEMESTRE_ID'];
-$sclasse=accents($_POST['CLASSE_ID']);
+$jour =securite_bdd($_POST['JOUR_ID']);
+$debut =securite_bdd($_POST['DEBUT_ID']);
+$fin =securite_bdd($_POST['FIN_ID']);
+$semestre =securite_bdd($_POST['SEMESTRE_ID']);
+$sclasse=securite_bdd($_POST['CLASSE_ID']);
 $annee=annee_academique();
 $sq45="select * from emploi_temps WHERE ((debut  <='$debut'  and fin >='$fin') or(debut  >='$debut'  and fin <='$fin')  or debut >='$fin' or (debut  <='$debut'  and fin <='$fin' and fin >'$debut'))  and jour='$jour' and annee='$annee' and semestre='$semestre' and classe='$sclasse' ";
 $rq45=mysql_query($sq45);
@@ -58,9 +55,9 @@ $slib2=$ligne['discipline'];
 $prof=$ligne['personnel'];
  $naturee = findByValue('disciplines','iddis',$slib2);
 						$entitee = mysql_fetch_row($naturee);
-						$uv=htmlentities($entitee[1]);
+						$uv=$entitee[1];
 echo'
-<OPTION value="'.$slib2.'*'.$prof.'">'. $uv;
+<OPTION value="'.$slib2.'*'.$prof.'">'. utf8_encode($uv);
   
 }
 echo' </OPTION>

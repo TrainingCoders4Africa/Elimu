@@ -15,14 +15,14 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'salles.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<table border="0" cellpadding="3" cellspacing="0" width="600" >
 		<tbody>
 		<tr>
-			<td width="200" align=center ><b>Libellé Salle *</B></td><td>
-				<input name="libelle" id="Nom" value=""size=10 class="inputbig" type="text" autofocus required  ONCHANGE="this.value=this.value.toUpperCase()">
+			<td width="300" align=center ><b>Libellé Salle / lieu du cours*</B></td><td>
+				<input name="libelle" id="Nom" value=""size=40 class="inputbig" type="text" autofocus required  ONCHANGE="this.value=this.value.toUpperCase()">
 			</td>
 			</tr>
 <TR><TD class=petit>&nbsp;</TD></TR>

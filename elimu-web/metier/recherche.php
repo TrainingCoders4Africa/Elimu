@@ -186,12 +186,9 @@ $datejour=date("Y")."-".date("m")."-".date("d");
                                              <br><b><i><u>Tuteur : </u></i></b>'.$tuteur.'
                                              <br><b><i><u>Téléphone Tuteur  : </u></i></b>'.$tel_tuteur.'
                                              <br><b><i><u>Email_Tuteur : </u></i></b>'.$email_tuteur.'
-                                             <br> <b><i><u>Adresse :</u></i></b> '.$adresse.'</td>
-
-
-
-}
-							       </tr>
+                                             <br> <b><i><u>Adresse :</u></i></b> '.$adresse.'</td>';
+											 
+							    echo'   </tr>
 								</table>
 								</td>';
 							      if($j==3){

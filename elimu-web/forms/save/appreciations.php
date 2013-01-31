@@ -15,7 +15,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'appreciations.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<table border="0" cellpadding="3" cellspacing="0" width="600" >
@@ -25,14 +25,15 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 <TD width="30" ROWSPAN=1  NOWRAP SIZE="1"><SELECT NAME="libelle" id="libelle1" required
 placeholder="Selectionner" autofocus/ >
 <OPTION value=>Selectionner</OPTION>
-<OPTION  value="Excellent travail">Excellent travail</OPTION>
-<OPTION value="Bon travail">Bon travail</OPTION>
-<OPTION value="Assez bien">Assez bien</OPTION>
+<OPTION  value="Excellent Travail">Excellent Travail</OPTION>
+<OPTION value="Trés Bon Travail">Trés Bon Travail</OPTION>
+<OPTION value="Bon Travail">Bon Travail</OPTION>
+<OPTION value="Assez Bien">Assez Bien</OPTION>
 <OPTION value="Moyen">Moyen</OPTION>
 <OPTION value="Passable">Passable</OPTION>
 <OPTION value="Insuffisant">Insuffisant</OPTION>
 <OPTION value="Faible">Faible</OPTION>
-<OPTION value="trés faible">trés faible</OPTION>
+<OPTION value="Trés Faible">Trés Faible</OPTION>
 </OPTION>
 
 </SELECT></TD>
@@ -41,13 +42,13 @@ placeholder="Selectionner" autofocus/ >
 <TR><TD class=petit>&nbsp;</TD></TR>
  <tr>
 		              <td width="200" ALIGN=center><b>Note Minimale *</b></td><td >
-		              <input name="mini" type="number" id="numeric"  size="10"  min=1 max=21  onkeyup="verif_nombre(this);" required></td>
+		              <input name="mini" type="number" id="numeric"  size="5" MAXLENGTH="2" min="0" max="21"  onkeyup="verif_nombre(this);" required></td>
 		            </tr>
 
 <TR><TD class=petit>&nbsp;</TD></TR>
  <tr>
 		              <td width="200" ALIGN=center><b>Note Maximale *</b></td><td >
-		              <input name="maxi" type="number" size="10"  min=1 max=21  onkeyup="verif_nombre(this);" required></td>
+		              <input name="maxi" type="number" size="5" MAXLENGTH="2"  min="1" max="21"  onkeyup="verif_nombre(this);" required></td>
 		            </tr>
 
 

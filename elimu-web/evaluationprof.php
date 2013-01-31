@@ -1,6 +1,6 @@
 <?php
 session_start();
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 if (isset($_GET["sup"])) {
   $titre="  Programme d'Evaluation  >> Suppression" ;
   $pageint="forms/delete/evaluationprof.php";
@@ -21,7 +21,7 @@ else {
 $p="";
 $uno=1;
 $dos=1;
-$trois=1;
+$trois=0;
 $quatre=0;
 $cinq=0;
 $six=0;

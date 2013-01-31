@@ -1,16 +1,9 @@
 <?php
-/*
-$first_name = $_POST['first_name'];
-$first_name = htmlentities($first_name);
-echo $first_name;
-
-header('Content-Type: text/html; charset=iso-8859-1');*/
-
 header('Content-Type: text/html; charset=UTF-8');
 include 'all_function.php';
 if(isset($_POST['CLASSE_ID']))
 {
-$matricule =$_POST['CLASSE_ID'];
+$matricule =securite_bdd($_POST['CLASSE_ID']);
 $annee=annee_academique();
 echo'	<tr>
 	 <TD width="150" ROWSPAN=1 ALIGN=LEFT NOWRAP SIZE="2"><B>Classes *&nbsp; </B></TD>
@@ -18,14 +11,14 @@ echo'	<tr>
 	   <tr> ';      
  $table = 'classes';
 				 
-				 $selection = findByNValue($table,"etude in(select libelle from etudes where cycle in( select cycle from fonction where personnel='$matricule' and profile='SURVEILLANT')) and
-				 libelle not in(select classe from surveiller where personnel<>'$matricule'and annee='$annee')");
+				 $selection = findByNValue($table,"etude in(select idetude from etudes where cycle in( select cycle from fonction where personnel='$matricule' and profile='SURVEILLANT')) and
+				 idclasse not in(select classe from surveiller where personnel<>'$matricule'and annee='$annee')");
 				while($ligne2d=mysql_fetch_row($selection))
 {
-$slib2d=$ligne2d['2'];
-$cl=$slib2d;
+$slib2d=$ligne2d['3'];
+$cl=$ligne2d['0'];
 $table1 = 'surveiller';
-$prof = findByNValue($table1,"annee='$annee' and personnel='$matricule' and classe='$slib2d'");
+$prof = findByNValue($table1,"annee='$annee' and personnel='$matricule' and classe='$cl'");
 						$pval = mysql_fetch_row($prof);
 						$cy=$pval[1];
 						if($cy=="")
@@ -41,21 +34,14 @@ echo'
 }
 
 ECHO'
-
 <td><input type="hidden" name="annee" value="'.$annee.'"></td>
 </tr></TR>';
+echo' 
+<table> <TR><TD class=petit>&nbsp;</TD></TR>
+<tr><td>&nbsp; </td><td><input class=kc1 type="submit" name="enregistrer" value="Valider" />&nbsp;&nbsp;<input class=kc1 type="reset" value="Annuler" />
+</table>';
 				
 }
-/*if ($idsel<>"AUTRES") {
-ECHO'</tr></TR>
 
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Pseudo * </B><input name="pseudo" type="text"  id="pseudo" required>
-<B>&nbsp;PassWord *</FONT></B><input name="passe" type="password" id="password" required>';
-$titre="Emetteur";	
-}$etagiaire = findByValue('fonction','personnel',$p1);
-						$champ = mysql_fetch_row($etagiaire);
-						$p8=$champ[1];
-
-$other="Expéditeur";*/
 
 ?>

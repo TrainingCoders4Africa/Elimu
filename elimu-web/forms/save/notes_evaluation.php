@@ -1,6 +1,6 @@
 <?php
 //$_SESSION['classe']=;
-$sclasse=$_GET['num'];
+$sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
 $type='';
@@ -30,6 +30,9 @@ $type=$ligne['type'];
 $hd=$ligne['hd'];
 $hf=$ligne['hf'];
 }
+ $sqlst="select id,date_prevue,discipline,type from evaluations where  classe='$sclasse' and annee='$annee' and semestre='$codes' and id not in (select evaluation from notes) and 
+ personnel='$personnel' order by type ,date_prevue desc ";
+$req=mysql_query($sqlst);
 ?>
 <script language="Javascript">
 function verif_nombre(champ)
@@ -49,9 +52,63 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 }
 </script>
 
-<form name="inscription_form" action="<?php echo 'notes_evaluation.php?ajout=1&num='.$sclasse;?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
+	<script language="Javascript">
+//Fonction nécessaire : ne rien modifier ici...
+function getXhr(){
+    var xhr = null; 
+			
+	if(window.XMLHttpRequest) // Firefox et autres
+		xhr = new XMLHttpRequest(); 
+	else if(window.ActiveXObject)
+	{ // Internet Explorer 
+		try 
+		{
+			xhr = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+	}
+	else 
+	{ // XMLHttpRequest non supporté par le navigateur 
+		alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest..."); 
+		xhr = false; 
+	} 
+            
+	return xhr;
+}
+//Fonction de liste dynamique
+function go(){
+	var xhr = getXhr();
+			
+	// On défini ce qu'on va faire quand on aura la réponse
+	xhr.onreadystatechange = function()
+	{
+		// On ne fait quelque chose que si on a tout reçu et que le serveur est ok
+		if(xhr.readyState == 4 && xhr.status == 200){
+			leselect = xhr.responseText;
+			// On se sert de innerHTML pour rajouter les options a la liste des élèves
+			document.getElementById('notes').innerHTML = leselect;
+		}
+	}
+
+	// On poste la requête ajax vers le fichier de traitement
+	xhr.open("POST","noter_eleves.php",true);
+	
+	// ne pas oublier ça pour le post
+	xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	
+		sel = document.getElementById('evaluation');
+		sel1 = document.getElementById('cl');
+		evaluation = sel.options[sel.selectedIndex].value;		
+		classe = sel1.value;
+		xhr.send("EVA_ID="+evaluation+ "&CL_ID=" +classe);
+}
+
+</script>
+
 <table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
 		<tbody>
 		<TR><TD class=petit>&nbsp;</TD></TR>
@@ -62,92 +119,52 @@ echo $datejour .' n\'est dans  aucun semestre donc impossible de faire un traite
 
 else{
 ?>
-		<TR>
-<B>&nbsp;Evaluation &nbsp;*&nbsp;</B><SELECT NAME="evaluation" id="evaluation" required>
+			<TR>
+<B>&nbsp;Evaluation &nbsp;*&nbsp;</B><SELECT NAME="evaluation" id="evaluation" required onchange="go()">
 <OPTION value=""></OPTION>
- <?
-$sqlst="select id,date_prevue,discipline,type from evaluations where  classe='".htmlentities($sclasse)."' and annee='$annee' and semestre='$codes' and id not in (select evaluation from notes) and 
-evaluations.discipline in( select discipline from enseigner where personnel='$personnel') order by type ,date_prevue desc ";
-$req=mysql_query($sqlst);
+ <?php
+
 while($lig=mysql_fetch_array($req))
 {
 $id=$lig['id'];
 $datep=$lig['date_prevue'];
-$discipline=$lig['discipline'];
+$disci=$lig['discipline'];
 $type=$lig['type'];
-$table = 'disciplines';
-				 $selection = findByValue($table,'iddis',$discipline);
-				$ro=mysql_fetch_row($selection);
-                            //echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
-    			
+    $dis = explode("D", $disci);
+			$iddis = $dis[0];
+			$idsm=$dis[1];
+				$titres = findByValue('disciplines','iddis',$iddis);
+						$tit = mysql_fetch_row($titres);
+						$discipline=accents($tit[1]);
+							//libelle sous discipline
+					 $smat = findByValue('sous_matiere','idsm',$idsm);
+						$sousmat = mysql_fetch_row($smat);
+						$sousd=accents($sousmat[1]);
+						if($sousd<>"")
+						$affi=$discipline.' : '.$sousd;
+						else
+						$affi=$discipline;
 ?>
-  <OPTION value="<?echo $id;?>"><?echo $type.' de '.$ro[1].' du '.$datep;?>
-  <?
+  <OPTION value="<?php echo $id;?>"><?php echo $type.' de '.$affi.' du '.$datep;?>
+  <?php
 }
 ?>
  </OPTION></SELECT></TD></TR>
-<tr>
-  <td style="padding-left:30px;" ALIGN=center>
-  <table cellpadding=2 cellspacing=1 border=2>
-	   	    <tr bgcolor=#033155 align=center >
-            <th width=100><b><font color="white">Matricule</th>
-            <th width=300><b><font color="white">Eleve</th>
-            <th width=300><b><font color="white">Date et Lieu de Naissance</th>
-            <th width=100><b><font color="white">Notes</th>
-                     </tr>
-                <?php
-                  //include"connect.php";
-                  $sql="select * from eleves where matricule in(  select eleve from inscription where classe='".htmlentities($sclasse)."' and annee='$annee')";
-                  $exec=mysql_query($sql) or die(mysql_error());
-                  $nb=mysql_num_rows($exec);
-                  $i=1;
-                 echo" <input name=nbart type=hidden value=$nb>";
-                  while($ligne=mysql_fetch_row($exec)){
-                               $code=$ligne['0'];
-							      $prenom=$ligne['1'];
-                               $nom=$ligne['2'];
-                               $mode=$ligne['3'];
-							   $date_n=$ligne['4'];
-                               $lieu=$ligne['5'];
-		              echo"<tr bgcolor=#CCFFFF>
-			            <td align=center>$code</td>
-			            <td align=center>$prenom $nom</td>
-							<td align=center>$date_n à $lieu</td>
-							<td  align=center>
-			            		  <input size=9 name=note$i type=text id='Note Eléve'  onkeyup='verif_nombre(this);' lang='bonfond:#FFFFFF;bontexte:#400040; erreurfond:#FF0000;bontexte:#0000FF;type:obligatoire2;erreur: CV obligatoire'>
-			            	 <script type=text/javascript>      //
-				                 			new SUC( document.frm.nbptotal$i );       //
-				             	      </script>
-			            		</td>
-			            		</td>
-							";
-						
-			                       echo" <input name=code$i type=hidden value='$code'>
-			        
-			          ";
-                     $i++;
-                  }
-				   echo" <input name=semestre type=hidden value='$codes'>";
-				  echo" <input name=cl type=hidden value='$sclasse'>";
-				  echo" <input name=an type=hidden value='$annee'>";
-				  echo" <input name=matricule type=hidden value='$personnel'>";
-
-				?>
-		</table>
-	</td>
-  </tr>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=95%></TD></TR>
-
-
-	</tbody>
-<TR><TD class=petit>&nbsp;</TD>
-
 </TR>
-	<TR><TD><BUTTON TITLE="Confirmer Notes"name="enregistrer" TYPE="submit" id="flashit"><b>Noter</b></BUTTON>&nbsp;<BUTTON TITLE="Annuler " TYPE="reset"><b>&nbsp;Annuler&nbsp;</b></BUTTON></TD>
-	</table>
+ <tr colspan=2 bgcolore="red" id="notes" align="left">
+
+			</tr>
+			<?php 
+			 echo" <input name=semestre type=hidden value='$codes'>";
+				  echo" <input name=cl id='cl' type=hidden value='$sclasse'>";
+				  echo" <input name=an type=hidden value='$annee'>";
+				  echo" <input name=matricule type=hidden value='$personnel'>";		
+			
+			?>
 </div>
 
 </form>
+
 <?php
 if (isset($_POST["enregistrer"]) and isset($_POST["cl"]) ) {
 
@@ -162,7 +179,7 @@ $nbart=addslashes($_POST['nbart']);
 	   $code= addslashes($_POST['code'.$i.'']);
 	   $note= addslashes($_POST['note'.$i.'']);
 if($note>=0 and $note<=20){
-		  echo $sql="insert into notes values('$code','$note','$evaluation','')";
+		 $sql="insert into notes values('$code','$note','$evaluation','')";
 		           
 		            $exe=mysql_query($sql) or die(mysql_error());
 		            if (@$exe) {
@@ -208,6 +225,6 @@ location.href="notes_evaluation.php?ajout=1&num='.$classe.'"
  
 	}
 }
-//}
 }
+//}
 ?>

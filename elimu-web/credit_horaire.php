@@ -1,7 +1,7 @@
 <?php
 session_start();
-$menu=$_SESSION["menu"];
-		$profile=$_SESSION["agence"];
+@$menu=$_SESSION["menu"];
+		$profile=$_SESSION["profil"];
 				
 if (isset($_GET["sup"])) {
   $titre="  Credit_Horaire >> Suppression" ;

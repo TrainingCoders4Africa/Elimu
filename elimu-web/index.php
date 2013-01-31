@@ -13,7 +13,7 @@ ChangeTitle("ELIMU: GESTION SCOLAIRE & COLLABOTION PARENTS ET ADMINISTRATION VIA
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <?php
-$menu="";
+@$menu="";
 include"dao/connection.php";
 
 $req="select * from etablissements";

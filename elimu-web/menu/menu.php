@@ -1,4 +1,14 @@
 <?php
+
+      /* $date = $values['Datedebut'];
+                    $date=implode('-',array_reverse (explode('/',$date)));
+                    $values['Datedebut'] = $date." 0000:00:00";
+
+<script>
+    $(function() {
+        $( "#birthdate_farmer" ).datepicker();
+    });
+</script>*/
 //require("all_function.php");
 
 $sqlstmcl="select distinct cycle  from categories";
@@ -158,7 +168,14 @@ echo'
 <li><span class="dir">gestion des Cycles </span>
 <ul>';
 echo'
-<li><a href="profiles.php" class="smenu">Ges Profiles</a></li>
+<li><a href="profiles.php" class="smenu">Ges Profiles</a></li>';
+if($n<> 0)	{
+echo'<li><a href="serie.php" class="smenu">Ges Série</a></li>';
+}
+if($np<> 0)	{
+echo'<li><a href="filieres.php" class="smenu">Ges Des Filiéres</a></li>';
+}
+echo'
 <li><a href="etudes.php" class="smenu">Ges Niveau Etude</a></li>
 <li><a href="classes.php" class="smenu">Ges Classes</a></li>
 ';
@@ -167,15 +184,11 @@ if($ma<> 0)	{
 echo'
 <li><a href="disciplines.php" class="smenu">Ges Disciplines</a></li>
 <li><a href="credit_horaire.php" class="smenu">Ges Crédit Horaire</a></li>
-<li><a href="coefs.php?cycle" class="smenu">Ges Coéficients</a></li>
+<li><a href="coefs.php" class="smenu">Ges Coéficients</a></li>
+<li><a href="programmesd.php" class="smenu">Ges Programmes</a></li>
 
 ';}
-if($n<> 0)	{
-echo'<li><a href="serie.php" class="smenu">Ges Série</a></li>';
-}
-if($np<> 0)	{
-echo'<li><a href="filieres.php" class="smenu">Ges Des Filiéres</a></li>';
-}
+
 ?>
 </ul>
 </li>
@@ -187,7 +200,7 @@ echo'<li><a href="filieres.php" class="smenu">Ges Des Filiéres</a></li>';
 <li><a href="echelons.php" class="smenu">Ges des Echelons</a></li>
 <li><a href="grades.php" class="smenu">Ges des Grades</a></li>
 <li><a href="personnels.php" class="smenu">Ges Personnel</a></li>
-</ul>
+</ul></li>
 <?php
 //}
 if($li<> 0)	{
@@ -198,7 +211,7 @@ if($li<> 0)	{
 <li><a href="honneurs.php" class="smenu">Ges des Honneurs</a></li>
 <li><a href="remarques.php" class="smenu">Ges Remarques</a></li>
 <li><a href="decision.php" class="smenu">Décision Conseil</a></li>
-</ul>
+</ul></li>
 <?php
 }
 ?>

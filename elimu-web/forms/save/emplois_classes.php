@@ -1,7 +1,7 @@
 <?php
-$_SESSION['classe']=$_GET['num'];
-$classe=$_GET['num'];
-$personnel=$_SESSION['matricule'];
+$_SESSION['classe']=securite_bdd($_GET['num']);
+$classe=securite_bdd($_GET['num']);
+$personnel=securite_bdd($_SESSION['matricule']);
 $annee=annee_academique();
 
 ?>
@@ -22,7 +22,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'emplois_classes.php?ajout=1&num='.$classe;?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 <script language="Javascript">
@@ -130,7 +130,7 @@ function go1(){
 <TR>
 <TD><B>&nbsp;Semestre :*</B>&nbsp;&nbsp;&nbsp;&nbsp;<SELECT NAME="semestre" id="semestre" required>
  <OPTION  value=""></OPTION>
- <?
+ <?php
 $sqa="SELECT id,libelle FROM semestres where annee='$annee'";
 $rea=mysql_query($sqa);
 while($ligna=mysql_fetch_array($rea))
@@ -139,25 +139,25 @@ $ids=$ligna['id'];
 $slib=$ligna['libelle'];
 
 ?>
-  <OPTION value="<?echo $ids;?>"><?echo $slib;?>
-  <?
+  <OPTION value="<?php echo $ids;?>"><?php echo $slib;?>
+  <?php
 }
 ?>
  </OPTION></SELECT>&nbsp;&nbsp;
 
 <B>&nbsp;Jour :*</B>&nbsp;&nbsp;&nbsp;&nbsp;<SELECT NAME="jour" id="Jour" required>
  <OPTION  value=""></OPTION>
- <?
+ <?php
 $sq="SELECT id,libelle FROM jours";
 $re=mysql_query($sq);
 while($lign=mysql_fetch_array($re))
 {
 $ids=$lign['id'];
-$slib=$lign['libelle'];
+$slib=accents($lign['libelle']);
 
 ?>
-  <OPTION value="<?echo $ids;?>"><?echo $slib;?>
-  <?
+  <OPTION value="<?php echo $ids;?>"><?php echo $slib;?>
+  <?php
 }
 ?>
  </OPTION></SELECT>&nbsp;&nbsp;

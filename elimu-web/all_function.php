@@ -1,6 +1,8 @@
 <?php
 
+
 include"dao/connection.php";
+include"dao/fonctionutiles.php";
 include"dao/savekc.php";
 include"dao/action.php";
 include"dao/select.php";

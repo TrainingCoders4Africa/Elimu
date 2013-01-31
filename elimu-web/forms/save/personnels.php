@@ -1,21 +1,4 @@
-<script language="Javascript">
-function verif_nombre(champ)
-{
-var chiffres = new RegExp("[0-9]"); /* Modifier pour : var chiffres = new RegExp("[0-9]"); */
-var verif;
-var points = 0; /* Supprimer cette ligne */
-
-for(x = 0; x < champ.value.length; x++)
-{
-verif = chiffres.test(champ.value.charAt(x));
-/*if(champ.value.charAt(x) == "."){points++;}  Supprimer cette ligne */
-if(points > 1){verif = false; points = 1;} /* Supprimer cette ligne */
-if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+1,champ.value.length-x+1); x--;}
-}
-
-}
-</script>
-<form name="inscription_form" action="<?php echo 'personnels.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 <script language="Javascript">
@@ -77,100 +60,107 @@ function go()
 </script>
 
 
-	<table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
+	<table border="0" cellpadding="3" cellspacing="0"  align=letf >
 		<tbody>
-		<TR>
-<TD width="25%"><B>&nbsp;Matricule *</B><INPUT TYPE="text" SIZE=13 MAXLENGTH="13" NAME="matricule" ONCHANGE="this.value=this.value.toUpperCase()" required><B>&nbsp;Titre *</B><SELECT NAME="titre" required autofocus />
+		
+<TD  ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Matricule *</B>
+ <INPUT TYPE="text" SIZE=13 MAXLENGTH="13" NAME="matricule" ONCHANGE="this.value=this.value.toUpperCase()" required></td>
+<TD  ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Titre *</B>
+  <SELECT NAME="titre" required autofocus />
 <OPTION  value=""></OPTION>
-<?
+<?php
 				 $table = 'titre5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}
 				?>
-</SELECT >
-<B>&nbsp;Prénom *&nbsp;</B><INPUT type="text" SIZE=25 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
+</SELECT ></td>
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<B>&nbsp;Prénom *&nbsp;</B><INPUT type="text" SIZE=20 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
 
-</TR>
+<TR></TR>
 <TR><TD class=petit>&nbsp;</TD></TR>
 
 <tr>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Nom *</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" required>
-<B>&nbsp;Date Naissance *&nbsp;</B><INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required>
-<B>&nbsp;Lieu Naissance *</B><INPUT  type="text" SIZE=20 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
+<TD  ALIGN=LEFT ROWSPAN=1 NOWRAP colspan="0"><B>&nbsp;Nom *</B><INPUT  type="text" SIZE=20 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" required></td>
+<td  ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Date Naissance *&nbsp;</B><INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required></td>
+<td  ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Lieu Naissance *</B><INPUT  type="text" SIZE=20 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+
 <TR>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Photo</B><INPUT TYPE="file"  NAME="photo"><B>&nbsp;Sexe *</B><SELECT NAME="sexe" id="Sexe" required>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Photo</B><INPUT TYPE="file"  NAME="photo"></td>
+<td  ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Sexe *</B><SELECT NAME="sexe" id="Sexe" required>
 <OPTION value=""></OPTION>
-<?
+<?php
 
 				 $table = 'sexe5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".($ro[1])."</option>";
     			}
 				?>			
-					</select><B>&nbsp;Situation Matrimoniale *:&nbsp;</B><SELECT NAME="matrimonial" id="Situation Matrimoniale" required>
+					</select></td>
+<td  ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Situation Matrimoniale *:&nbsp;</B><SELECT NAME="matrimonial" id="Situation Matrimoniale" required>
 <OPTION value=""></OPTION>
-			<?
+			<?php
 
 				 $table = 'matrimonial5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}?>
 			
 					</select></TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+
 <TR>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Teléphone *&nbsp;</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="12" NAME="tel" id="téléphone" required>
-<B>&nbsp;Adresse *</B><INPUT TYPE="text" SIZE=30 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required>
-<B>&nbsp;E-mail&nbsp;*</B><INPUT TYPE="email" SIZE=25 MAXLENGTH="55" NAME="mail" id="mail" required></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Teléphone *&nbsp;</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="12" NAME="tel" id="téléphone" required></td>
+<td  ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Adresse *</B><INPUT TYPE="text" SIZE=30 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required></td>
+<td  ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;E-mail&nbsp;*</B><INPUT TYPE="email" SIZE=25 MAXLENGTH="55" NAME="mail" id="mail" required></TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+
 <TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Corps *</B><SELECT NAME="corps" id="corps" required>
 <OPTION value=""></OPTION>
-<?
+<?php
 
 				 $table = 'corps5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}?>
-</select>
+</select></td><td>
 <B>&nbsp;Grade *</B><SELECT NAME="grade" id="grade" required>
 <OPTION value=""></OPTION>
 <?php
 				 $table = 'grades5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}?>
-					</select>
+					</select></td><td  ALIGN=LEFT ROWSPAN=1 NOWRAP>
 <B>&nbsp;Echelon *</B><SELECT NAME="echelon" id="echelon" required>
 <OPTION value=""></OPTION>
 <?php
 				 $table = 'echelons5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}?>
-					</select>
-<B>&nbsp;Date Commencement&nbsp;*</B><INPUT TYPE="date" SIZE=12 MAXLENGTH="12" NAME="date_c" id="date" required></TD>
-</tr>
-<TR><TD class=petit>&nbsp;</TD></TR>
+					</select></td></tr>
+
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
-<TR><TD>
+
+<TR>
+<td  ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp;Date Commencement&nbsp;*</B><INPUT TYPE="date" SIZE=12 MAXLENGTH="12" NAME="date_c" id="date" required></TD>
+<TD  ALIGN=LEFT ROWSPAN=1 NOWRAP>
 <B>&nbsp;Profile *</B><select name="classe" id="classe" onchange="go()" required>
 <OPTION value=""></OPTION>
 <?php
@@ -190,7 +180,7 @@ function go()
 			</tr>
 	</tbody>
 <TR><TD class=petit>&nbsp;</TD></TR>
-	<tr><td><input class=kc1 type="submit" value="Valider" />&nbsp;&nbsp;<input class=kc1 type="reset" value="Annuler" />
+	<tr><td><input class=kc1 type="submit" value="Valider"  />&nbsp;&nbsp;<input class=kc1 type="reset" value="Annuler" />
 	</table>
 </div>
 

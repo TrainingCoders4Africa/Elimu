@@ -1,7 +1,7 @@
 <?php
 //require("all_function.php");
 $matricule=$_SESSION["matricule"];
-$profile=$_SESSION["agence"];
+$profile=$_SESSION["profil"];
 
 $requete=("select status from etablissements ");
 $resultat=mysql_query($requete);
@@ -147,17 +147,28 @@ function mnh(vl,pb,dg){
 			while($lignecl=mysql_fetch_array($reqcl))
 {
 $code=$lignecl['classe'];
+$etag1 = findByValue('classes','idclasse',$code);
+						$cha1 = mysql_fetch_row($etag1);
+						$classe=$cha1[3];
+$conduitecc=("select count(*) nbo from classes where idclasse='".$code."' and etude in(select idetude from etudes where cycle='MOYEN')");
+$resultatcc=mysql_query($conduitecc);
+$lignecc=mysql_fetch_array($resultatcc);
+$nc=$lignecc['nbo'];
 echo'
-<li><span class="dir">gestion de la '.$code.' </span>
+<li><span class="dir">gestion de la '.$classe.' </span>
 <ul>';
 $_SESSION["classe"]=$code;
 echo'
 <li><a href="info_classe.php?num='.$code.'" class="smenu">INFOS CLASSES</a></li>
 <li><a href="eleves.php?num='.$code.'" class="smenu">LISTE DES ELEVES</a></li>
 <li><a href="emplois_classes.php?num='.$code.'" class="smenu">EMPLOI DU TEMPS</a></li>
-
-</ul>
-</li>';
+<li><a href="retards_eleves.php?num='.$code.'" class="smenu">RETARDS</a></li>';
+if($nc<>0)
+echo'<li><a href="notes_conduite.php?num='.$code.'" class="smenu">NOTES CONDUITE </a></li>
+<li><a href="deliberation.php?num='.$code.'" class="smenu">DELIBERATION</a></li>
+<li><a href="informer_tuteur.php?num='.$code.'" class="smenu">INFORMER TUTEUR</a></li>
+';
+echo'</ul></li>';
 
 	}
 ?>

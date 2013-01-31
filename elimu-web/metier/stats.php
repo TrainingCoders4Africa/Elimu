@@ -81,19 +81,19 @@ $nb=0;
 <TABLE BORDER="0" CELLSPACING="0" align="left">
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste du planning pour le <?phpecho $sem;?>.&nbsp;</B></TD>
+<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste du planning pour le <?php echo $sem;?>.&nbsp;</B></TD>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></tr>
 <TR><TD align=left><img src="t-rouge.gif" align=baseline>
-<A HREF="ajemplois.php?num=<?phpecho $sclasse;?>&annee=<?phpecho $annee;?>&semestre=<?phpecho $code;?>"
+<A HREF="ajemplois.php?num=<?php echo $sclasse;?>&annee=<?php echo $annee;?>&semestre=<?php echo $code;?>"
 onMouseOver="self.status='Ajouter un achat de produit'; return true"
             onMouseOut="self.status=''; return true">
 <B>Ajouter Emploi du temps pour la période en cours</B></A></TD>
 
 <TD class=petit>&nbsp;</TD>
 <TD align=left><img src="t-rouge.gif" align=baseline>
-<A HREF="#" OnClick="window.open('aemploi.php?classe=<?phpecho $sclasse;?>&annee=<?phpecho $annee;?>&se=<?phpecho $code;?>','icfenetre','toolbar=no,status=nomenubar=yes,scrollbars=yes,dependant=yes,resizeable=yes,location=no,width=500,height=400,top=10,left=300');return(false)">
-	&nbsp;<?phpecho "<font color=blue><font color=blue> Apperçu";?>&nbsp;</A>
+<A HREF="#" OnClick="window.open('aemploi.php?classe=<?php echo $sclasse;?>&annee=<?php echo $annee;?>&se=<?php echo $code;?>','icfenetre','toolbar=no,status=nomenubar=yes,scrollbars=yes,dependant=yes,resizeable=yes,location=no,width=500,height=400,top=10,left=300');return(false)">
+	&nbsp;<?php echo "<font color=blue><font color=blue> Apperçu";?>&nbsp;</A>
 
 </TD>
 
@@ -199,15 +199,15 @@ $nb=0;
 <TABLE BORDER="0" CELLSPACING="0" align="left">
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste du planning pour le <?phpecho $sem;?>.&nbsp;</B></TD>
+<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste du planning pour le <?php echo $sem;?>.&nbsp;</B></TD>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></tr>
 <TR>
 
 <TD class=petit>&nbsp;</TD>
 <TD align=left><img src="t-rouge.gif" align=baseline>
-<A HREF="#" OnClick="window.open('profemploi.php?matricule=<?phpecho $matricule;?>&annee=<?phpecho $aca;?>&se=<?phpecho $code;?>','icfenetre','toolbar=no,status=nomenubar=yes,scrollbars=yes,dependant=yes,resizeable=yes,location=no,width=500,height=400,top=10,left=300');return(false)">
-	&nbsp;<?phpecho "<font color=blue><font color=blue> Apperçu";?>&nbsp;</A>
+<A HREF="#" OnClick="window.open('profemploi.php?matricule=<?php echo $matricule;?>&annee=<?php echo $aca;?>&se=<?php echo $code;?>','icfenetre','toolbar=no,status=nomenubar=yes,scrollbars=yes,dependant=yes,resizeable=yes,location=no,width=500,height=400,top=10,left=300');return(false)">
+	&nbsp;<?php echo "<font color=blue><font color=blue> Apperçu";?>&nbsp;</A>
 
 </TD>
 
@@ -260,7 +260,7 @@ $array_heure=explode(":",$debut);
 
 
 ?>
-<td align=center ROWSPAN=1 NOWRAP>&nbsp;<?phpecho $d.' - '.$fi?>&nbsp;</B></FONT></TD>
+<td align=center ROWSPAN=1 NOWRAP>&nbsp;<?php echo $d.' - '.$fi?>&nbsp;</B></FONT></TD>
 
 <?php
  $sqlstm1gaz100="select id from jours  order by id";
@@ -288,7 +288,7 @@ echo'<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP >-</TD>';
 }//$svent=$svent+@$nombre;
 else{
 ?>
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP >&nbsp;<?phpecho $classe.'<br/>'.$discipline.'<br/>'.$salle;?>&nbsp;</TD>
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP >&nbsp;<?php echo $classe.'<br/>'.$discipline.'<br/>'.$salle;?>&nbsp;</TD>
 
 <?php
 }
@@ -364,7 +364,7 @@ $sclasse=$lignecl['etude'];
 <TABLE BORDER="0" CELLSPACING="0" align="left">
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des résultats pour le <?phpecho $sem;?>.&nbsp;</B></TD>
+<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des résultats pour le <?php echo $sem;?>.&nbsp;</B></TD>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></tr>
 <TR><TD class=petit>&nbsp;</TD></TR>
@@ -543,12 +543,12 @@ echo"</tr>";
 echo"</TABLE>";
 ?>
 <div>          
-<a href="impression/impression.php?id=<?phpecho $annee;?>&sem=<?phpecho $sem;?>&page=<?phpecho 'RESULTATSEMESTRE';?>" target="_blank" class=imp>Apperçu</a>
+<a href="impression/impression.php?id=<?php echo $annee;?>&sem=<?php echo $sem;?>&page=<?php echo 'RESULTATSEMESTRE';?>" target="_blank" class=imp>Apperçu</a>
 </div>
 <?php
  }
 ?>
-<?phpphp
+<?php
 function resultatpassant($classe,$annee){
 $sclasse=$classe;
 //$personnel=$personnel;
@@ -566,7 +566,7 @@ $somoy=0;
 <TABLE BORDER="0" CELLSPACING="0" align="left">
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des passants en classe supérieure pour l'année académique <?phpecho $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
+<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des passants en classe supérieure pour l'année académique <?php echo $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></tr>
 <TR><TD class=petit>&nbsp;</TD></TR>
@@ -650,13 +650,13 @@ echo'</table>';
 
 ?>
 <div>          
-<a href="impression/impression.php?id=<?phpecho $annee;?>&sem=<?phpecho $sclasse;?>&page=<?phpecho 'RESULTATPASSANT';?>" target="_blank" class=imp>Apperçu</a>
+<a href="impression/impression.php?id=<?php echo $annee;?>&sem=<?php echo $sclasse;?>&page=<?php echo 'RESULTATPASSANT';?>" target="_blank" class=imp>Apperçu</a>
 </div>
 <?php
  }
 ?>
 
-<?phpphp
+<?php
 function resultatrebouble($classe,$annee){
 $sclasse=$classe;
 //$personnel=$personnel;
@@ -674,7 +674,7 @@ $somoy=0;
 <TABLE BORDER="0" CELLSPACING="0" align="left">
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des redoublants pour l'année académique <?phpecho $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
+<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des redoublants pour l'année académique <?php echo $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></tr>
 <TR><TD class=petit>&nbsp;</TD></TR>
@@ -759,12 +759,12 @@ echo'</table>';
 
 ?>
 <div>          
-<a href="impression/impression.php?id=<?phpecho $annee;?>&sem=<?phpecho $sclasse;?>&page=<?phpecho 'RESULTATREDOUBLE';?>" target="_blank" class=imp>Apperçu</a>
+<a href="impression/impression.php?id=<?php echo $annee;?>&sem=<?php echo $sclasse;?>&page=<?php echo 'RESULTATREDOUBLE';?>" target="_blank" class=imp>Apperçu</a>
 </div>
 <?php
  }
 ?>
-<?phpphp
+<?php
 function resultatexclus($classe,$annee){
 $sclasse=$classe;
 //$personnel=$personnel;
@@ -782,7 +782,7 @@ $somoy=0;
 <TABLE BORDER="0" CELLSPACING="0" align="left">
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des Exclus pour l'année académique <?phpecho $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
+<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des Exclus pour l'année académique <?php echo $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></tr>
 <TR><TD class=petit>&nbsp;</TD></TR>
@@ -867,12 +867,12 @@ echo'</table>';
 
 ?>
 <div>          
-<a href="impression/impression.php?id=<?phpecho $annee;?>&sem=<?phpecho $sclasse;?>&page=<?phpecho 'RESULTATEXCLUS';?>" target="_blank" class=imp>Apperçu</a>
+<a href="impression/impression.php?id=<?php echo $annee;?>&sem=<?php echo $sclasse;?>&page=<?php echo 'RESULTATEXCLUS';?>" target="_blank" class=imp>Apperçu</a>
 </div>
 <?php
  }
 ?>
-<?phpphp
+<?php
 function resultatexam($classe,$annee){
 $sclasse=$classe;
 //$personnel=$personnel;
@@ -890,7 +890,7 @@ $somoy=0;
 <TABLE BORDER="0" CELLSPACING="0" align="left">
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des recalés pour examen de passage pour l'année académique <?phpecho $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
+<TD align=center colspan=6 NOWRAP  ><B>&nbsp;Liste des recalés pour examen de passage pour l'année académique <?php echo $annee.' de la classe de '.$sclasse;?>.&nbsp;</B></TD>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></tr>
 <TR><TD class=petit>&nbsp;</TD></TR>
@@ -975,7 +975,7 @@ echo'</table>';
 
 ?>
 <div>          
-<a href="impression/impression.php?id=<?phpecho $annee;?>&sem=<?phpecho $sclasse;?>&page=<?phpecho 'RESULTATEXAM';?>" target="_blank" class=imp>Apperçu</a>
+<a href="impression/impression.php?id=<?php echo $annee;?>&sem=<?php echo $sclasse;?>&page=<?php echo 'RESULTATEXAM';?>" target="_blank" class=imp>Apperçu</a>
 </div>
 <?php
  }

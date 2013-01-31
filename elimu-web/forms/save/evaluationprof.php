@@ -20,7 +20,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'evaluationprof.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data" >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<script language="Javascript">
@@ -138,30 +138,30 @@ function go2(){
 	<table border="0" cellpadding="3" cellspacing="0" width="100%" >
 		<tbody><tr>
 		<TR><TD class=petit>&nbsp;</TD>
-		<TD class=petit>&nbsp;<input type=hidden name="matricule" id="matricule" value="<? echo $matricule;?>"></TD>
+		<TD class=petit>&nbsp;<input type=hidden name="matricule" id="matricule" value="<?php echo $matricule;?>"></TD>
 		</TR>
 <TR>
 <TR><TD>
 <B>&nbsp;Liste des Spécialités*</B><select name="discipline" id="discipline" onchange="go()" required>
 <OPTION value=""></OPTION>
 <?php
-$sqlstm2d="select iddis,libelle1 from disciplines where iddis
- in(select discipline from specialites where professeur='$matricule')   ORDER BY libelle1";
+$sqlstm2d="select iddis,libelle from disciplines where iddis
+ in(select discipline from specialites where professeur='$matricule')   ORDER BY libelle";
 $req2d=mysql_query($sqlstm2d);
 
 while($ligne2d=mysql_fetch_array($req2d))
 {
 $code_uv=$ligne2d['iddis'];
-$slib2d=$ligne2d['libelle1'];
- echo' <OPTION value="'.$code_uv.'">'.$slib2d;
+$slib2d=$ligne2d['libelle'];
+
+echo' <OPTION value="'.$code_uv.'">'.$slib2d;
  }
  echo'</OPTION>';?>
 					</select></TD>
-</TR><TR><TD class=petit>&nbsp;</TD></tr>
- <tr >
- <td id="eleve" align="left">
+ <tr ><td>
+ <table id="eleve" align="left">
 
-			</tr>
+			</table></td></tr>
 			<TR><TD class=petit>&nbsp;</TD></tr>
 			<TR><TD class=petit>&nbsp;</TD></tr>
 			<tr>

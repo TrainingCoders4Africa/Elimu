@@ -1,4 +1,4 @@
-<?
+<?php
 $serveur = mysql_connect ("localhost","root","");
 if (!$serveur)
 {

@@ -1,5 +1,6 @@
 <?php
-$matricule=$_GET['upd'];
+//modification des infos du personnel
+$matricule=securite_bdd($_GET['upd']);
 $etagiaire = findByValue('personnels','matricule',$matricule);
 						$row = mysql_fetch_row($etagiaire);
                        //$matricule=$row[0];
@@ -74,7 +75,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action=<?php echo '"personnels.php?mod=1&upd='.$_GET['upd'].'"';?> method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action=<?php echo lien();?> method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 <script language="Javascript">
@@ -141,76 +142,71 @@ function go()
 	<table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
 		<tbody>
 		<TR>
-<TD><B>&nbsp;Matricule *</B><INPUT TYPE="text" SIZE=13 MAXLENGTH="13" NAME="matricule" value="<?php echo $matricule?>" id="matricule" readonly>
-<B>&nbsp;Titre *</B><SELECT NAME="titre" required autofocus />
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Matricule *</B><INPUT TYPE="text" SIZE=13 MAXLENGTH="13" NAME="matricule" value="<?php echo $matricule?>" id="matricule" readonly>
+</td><td ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Titre *</B><SELECT NAME="titre" required autofocus />
 <OPTION  value="<?php echo $titre?>"><?php echo $tre?></OPTION>
-<?
+<?php
 				 $selection = findNByValue('titre5','id',$titre);
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}
 				?>
-</SELECT >
-<B>&nbsp;Prénom *&nbsp;</B><INPUT type="text" SIZE=25 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $prenom?>" required></TD>
+</SELECT ></td>
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<B>&nbsp;Prénom *&nbsp;</B><INPUT type="text" SIZE=25 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo accents($prenom);?>" required></TD>
 
 </TR>
 <TR><TD class=petit>&nbsp;</TD></TR>
 
 <tr>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Nom *</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $nom?>" required>
-<B>&nbsp;Date Naissance *&nbsp;</B><INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required value="<?php echo $date_nais?>">
-<B>&nbsp;Lieu Naissance *</B><INPUT  type="text" SIZE=20 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $lieu_nais?>" required></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Nom *</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $nom ;?>" required>
+</td><td ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Date Naissance *&nbsp;</B><INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required value="<?php echo $date_nais ;?>">
+</td><td ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Lieu Naissance *</B><INPUT  type="text" SIZE=20 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $lieu_nais ;?>" required></TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
-<tr><td>
+<tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <?php
 if($photo<>"")
 echo'<img src="photos/'.$photo.'" align=center width="100" height="100">'
 ?>
 </b><B>&nbsp;Photo</B><INPUT TYPE="file"  NAME="photo">
-<B>&nbsp;Sexe *</B><SELECT NAME="sexe" id="Sexe" required>
-<OPTION value="<?php echo $sexe?>"><?php echo $sx?></OPTION>
-<?
+</td><td ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Sexe *</B><SELECT NAME="sexe" id="Sexe" required>
+<OPTION value="<?php echo $sexe?>"><?php echo accents($sx)?></OPTION>
+<?php
 
 				 $table = 'sexe5';
 				 $selection = findNByValue('sexe5','id',$sexe);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}
 				?>			
-					</select>
+					</select></td><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 					<B>&nbsp;Situation Matrimoniale *:&nbsp;</B><SELECT NAME="matrimonial" id="Situation Matrimoniale" required>
-<OPTION value="<?php echo $matrimonial?>"><?php echo $ma?></OPTION>
-			<?
+<OPTION value="<?php echo $matrimonial?>"><?php echo accents($ma)?></OPTION>
+			<?php
 				 $selection = findNByValue('matrimonial5','id',$matrimonial);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}?>
 			
 					</select></TD>
 					</td>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
 <TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Teléphone *&nbsp;</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="12" NAME="tel" id="téléphone" value="<?php echo $tel?>" required>
-<B>&nbsp;Adresse *</B><INPUT TYPE="text" SIZE=30 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required value="<?php echo $adresse?>">
-<B>&nbsp;E-mail&nbsp;*</B><INPUT TYPE="email" SIZE=25 MAXLENGTH="55" NAME="mail" id="mail" required value="<?php echo $email?>"></TD>
+</td><td ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;Adresse *</B><INPUT TYPE="text" SIZE=30 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required value="<?php echo $adresse?>">
+</td><td ROWSPAN=1  ALIGN=LEFT NOWRAP><B>&nbsp;E-mail&nbsp;*</B><INPUT TYPE="email" SIZE=25 MAXLENGTH="55" NAME="mail" id="mail" required value="<?php echo $email?>"></TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
 <TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Corps *</B><SELECT NAME="corps" id="corps" required>
 <OPTION value="<?php echo $corps?>"><?php echo $co?></OPTION>
-<?
+<?php
 				 $selection = findNByValue('corps5','id',$corps);
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
-</select>
+</select></td><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <B>&nbsp;Grade *</B><SELECT NAME="grade" id="grade" required>
 <OPTION value="<?php echo $grade?>"><?php echo $gr?></OPTION>
 <?php
@@ -219,7 +215,7 @@ echo'<img src="photos/'.$photo.'" align=center width="100" height="100">'
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
-					</select>
+					</select></td><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <B>&nbsp;Echelon *</B><SELECT NAME="echelon" id="echelon" required>
 <OPTION value="<?php echo $echelon?>"><?php echo $echel?></OPTION>
 <?php
@@ -228,22 +224,23 @@ echo'<img src="photos/'.$photo.'" align=center width="100" height="100">'
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
-					</select>
-<B>&nbsp;Date Commencement&nbsp;*</B><INPUT TYPE="date" SIZE=12 MAXLENGTH="12" NAME="date_c" id="date" value="<?php echo $date_c;?>"required></TD>
-</tr>
-<TR><TD class=petit>&nbsp;</TD></TR>
+					</select></td></tr>
 <TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
-<TR><TD>
+<TR>
+					<td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<B>&nbsp;Date Commencement&nbsp;*</B><INPUT TYPE="date" SIZE=12 MAXLENGTH="12" NAME="date_c" id="date" value="<?php echo $date_c;?>"required></TD>
+
+
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <B>&nbsp;Etat *:&nbsp;</B><SELECT NAME="enable" id="Sexe" ONCHANGE="this.value=this.value.toUpperCase()">
-<OPTION value="<?echo $enable;?>"><?echo $etat;?></OPTION>
+<OPTION value="<?php echo $enable;?>"><?php echo $etat;?></OPTION>
 <?php
 				 $table = 'enable5';
 				 $selection = findNByValue('enable5','id',$enable);
 				while($ro=mysql_fetch_row($selection)){
                             echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
-					</select>
+					</select></td><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <B>&nbsp;Profile *</B><select name="classe" id="classe" onchange="go()" required>
 <option></option>
 <OPTION value="<?php echo $profile?>"><?php echo $profile?></OPTION>
@@ -255,7 +252,7 @@ echo'<img src="photos/'.$photo.'" align=center width="100" height="100">'
                             echo"<option value='".$ro[0]."'>".$ro[0]."</option>";
     			}?>
 					</select></TD>
-						<td><input type="hidden" name="lien" value="<? echo $photo;?>"></td>
+						<td><input type="hidden" name="lien" value="<?php echo $photo;?>"></td>
 </TR>
 <TR><TD class=petit>&nbsp;</TD></TR>
 <tr>

@@ -1,7 +1,7 @@
 <?php
 //require("all_function.php");
 $matricule=$_SESSION["matricule"];
-$profile=$_SESSION["agence"];
+$profile=$_SESSION["profil"];
 
 $requete=("select status from etablissements ");
 $resultat=mysql_query($requete);
@@ -154,15 +154,18 @@ function mnh(vl,pb,dg){
 			while($lignecl=mysql_fetch_array($reqcl))
 {
 $code=$lignecl['classe'];
+$etag1 = findByValue('classes','idclasse',$code);
+						$cha1 = mysql_fetch_row($etag1);
+						$classe=$cha1[3];
 if($nd<>0){
-$conduitecc=("select count(*) nbo from classes where libelle='".$code."' and etude in(select libelle from etudes where cycle='MOYEN')");
+$conduitecc=("select count(*) nbo from classes where idclasse='".$code."' and etude in(select idetude from etudes where cycle='MOYEN')");
 $resultatcc=mysql_query($conduitecc);
 $lignecc=mysql_fetch_array($resultatcc);
 $nc=$lignecc['nbo'];
 
 
 echo'
-<li><span class="dir">gestion de la '.$code.' </span>
+<li><span class="dir">gestion de la '.$classe.' </span>
 <ul>';
 $_SESSION["classe"]=$code;
 echo'
@@ -170,7 +173,8 @@ echo'
 <li><a href="cahierabsence.php?num='.$code.'" class="smenu">CAHIER D\'ABSENCE</a></li>
 <li><a href="notes_evaluation.php?num='.$code.'" class="smenu">NOTES EVALUATIONS</a></li>
 <li><a href="modif_notes.php?num='.$code.'" class="smenu">NOTES ELEVES</a></li>
-<li><a href="notes_eleveabsent.php?num='.$code.'" class="smenu">NOTES ELEVES ABSENTS</a></li>';
+<li><a href="notes_eleveabsent.php?num='.$code.'" class="smenu">NOTES ABSENCES JUSTIFIEES</a></li>
+<li><a href="notes_appeciation.php?num='.$code.'" class="smenu">APPRECIATION PROF</a></li>';
 if($nc<>0)
 echo'<li><a href="notes_conduite.php?num='.$code.'" class="smenu">NOTES CONDUITE </a></li>';
 echo'

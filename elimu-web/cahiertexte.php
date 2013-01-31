@@ -1,7 +1,7 @@
 <?php
 session_start();
 $rechtab="cahiertexte";
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 $_SESSION["classe"]=$_GET['num'];
 $classe=$_SESSION["classe"];
 if (isset($_GET["sup"])) {

@@ -1,12 +1,12 @@
  
-<form name="inscription_form" action="filieres.php?mod=1" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action=<?php echo lien();?> method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<table border="0" cellpadding="3" cellspacing="0" width="600" >
 		<tbody>
 
 
-			<?
+			<?php
                 /*
 				 $table = 'sigle';
 				 $selection = findByAll($table);
@@ -45,7 +45,7 @@
 
 		<tr>
 			<td width="200" ><B>Sigle Filiére</B></td><td>
-				<input name="sigle1" id="Nom" value="<?echo $info[0];?>"size=10 class="inputbig" type="text" readonly>
+				<input name="sigle1" id="Nom" value="<?phpecho $info[0];?>"size=10 class="inputbig" type="text" readonly>
 			</td>
 			</tr>
 
@@ -53,7 +53,7 @@
 <tr><td>&nbsp; </td></tr>
 			<tr>
 			<td  width="200" ><B>Libellé Filiére</B></td><td>
-				<input name="libelle" id="Specification" value="<?echo $info[1];?>" realname="Prénom"size=70 class="inputbig" type="text" lang="bonfond:#FFFFFF;bontexte:#400040; erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champs Obligatoire">
+				<input name="libelle" id="Specification" value="<?phpecho $info[1];?>" realname="Prénom"size=70 class="inputbig" type="text" lang="bonfond:#FFFFFF;bontexte:#400040; erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champs Obligatoire">
 			</td>
 		</tr>
 

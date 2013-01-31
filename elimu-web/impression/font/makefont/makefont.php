@@ -333,7 +333,7 @@ function MakeFont($fontfile,$afmfile,$enc='cp1252',$patch=array(),$type='TrueTyp
 			die('<B>Error:</B> incorrect font type: '.$type);
 	}
 	//Start generation
-	$s='<?php'."\n";
+	$s='<?phpphp'."\n";
 	$s.='$type=\''.$type."';\n";
 	$s.='$name=\''.$fm['FontName']."';\n";
 	$s.='$desc='.$fd.";\n";

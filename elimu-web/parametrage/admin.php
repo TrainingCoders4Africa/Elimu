@@ -43,7 +43,7 @@ while($ligne=mysql_fetch_array($query))
 		<table border=0 cellpadding=0 cellspacing=5 width=100% >
                    <tr bgcolor=#DD0000>
 		              <td COLSPAN=2 align=center height="90"><big>Configuration</big></td>
-					   <td> <img <? echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
+					   <td> <img <?php echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
 		            </tr>
 
          </table>
@@ -56,23 +56,23 @@ while($ligne=mysql_fetch_array($query))
 		 <table border=0 cellpadding=0 cellspacing=5 width=100%>
 		 			<tr>
 		              <td >Code</td>
-		              <td><input name="code" type="text" value="<? echo $code;?>" lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
+		              <td><input name="code" type="text" value="<?php echo $code;?>" lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
 		            </tr>
 		            <tr>
 		              <td >Libelle</td>
-		              <td><input name="libelle" type="text" value="<? echo $libelle;?>"  lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
+		              <td><input name="libelle" type="text" value="<?php echo $libelle;?>"  lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
 		            </tr>
 		            <tr>
 		              <td>Date Début</td>
-		              <td><input name="date_d" type="text" value="<? echo $debut;?>" lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
+		              <td><input name="date_d" type="text" value="<?php echo $debut;?>" lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
 		            </tr>
       <tr>
 		              <td >Date Fin</td>
-		              <td><input name="date_f" type="text" value="<? echo $fin;?>"  lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
+		              <td><input name="date_f" type="text" value="<?php echo $fin;?>"  lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></td>
 		            </tr>
 		            <tr>
 		              <td>Année Académique</td>
-					 			  <TD><input type="text" name="annee_a" value="<? echo $d."/".date("Y");?>" lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></TD>
+					 			  <TD><input type="text" name="annee_a" value="<?php echo $d."/".date("Y");?>" lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:obligatoire;erreur:champ Obligatoire'></TD>
 		             		            </tr>
 		 </table>
   		 <table border=0 cellpadding=0 cellspacing=5 width=100% height=100>

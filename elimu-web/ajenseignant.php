@@ -9,23 +9,26 @@ $table = 'classes';
 $prof = findByNValue($table1,"annee='$annee' and personnel='$matricule'");
 						$pval = mysql_fetch_row($prof);
 						$cy=$pval[1];
+						$etag = findByValue('classes','idclasse',$cy);
+						$cha = mysql_fetch_row($etag);
+						$classe=$cha[3];
 				
 				if($cy==""){
-					$selection = findByNValue($table,"etude in(select libelle from etudes where cycle in( select cycle from fonction where personnel='$matricule' and profile='ENSEIGNANT'))");
+					$selection = findByNValue($table,"etude in(select idetude from etudes where cycle in( select cycle from fonction where personnel='$matricule' and profile='ENSEIGNANT'))");
 						}
 						else{
-						$selection = findByNValue($table,"etude in(select libelle from etudes where cycle in( select cycle from fonction where personnel='$matricule' and profile='ENSEIGNANT')) and libelle<>'$cy'");
+						$selection = findByNValue($table,"etude in(select idetude from etudes where cycle in( select cycle from fonction where personnel='$matricule' and profile='ENSEIGNANT')) and idclasse<>'$cy'");
 					
 						}
 						
 						
 echo'<tr><td align="left">
 <B>&nbsp;Liste des Classes *</B><select name="classes" id="classes"  required>
-<OPTION value="'.$cy.'">'.$cy.'</OPTION>';    
+<OPTION value="'.$cy.'">'.$classe.'</OPTION>';    
 
 				 
 				 while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[2]."'>".$ro[2]."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[3]."</option>";
     			}
 				
 ECHO'</SELECT ></td>
@@ -33,18 +36,12 @@ ECHO'</SELECT ></td>
 
 <td><input type="hidden" name="annee" value="'.$annee.'"></td>
 </td></TR>';
-				
+echo'
+ 
+<table> <TR><TD class=petit>&nbsp;</TD></TR>
+<tr><td>&nbsp; </td><td><input class=kc1 type="submit" name="enregistrer" value="Valider" />&nbsp;&nbsp;<input class=kc1 type="reset" value="Annuler" />
+</table>';				
 }
-/*if ($idsel<>"AUTRES") {
-ECHO'</tr></TR>
 
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Pseudo * </B><input name="pseudo" type="text"  id="pseudo" required>
-<B>&nbsp;PassWord *</FONT></B><input name="passe" type="password" id="password" required>';
-$titre="Emetteur";	
-}$etagiaire = findByValue('fonction','personnel',$p1);
-						$champ = mysql_fetch_row($etagiaire);
-						$p8=$champ[1];
-
-$other="Expéditeur";*/
 
 ?>

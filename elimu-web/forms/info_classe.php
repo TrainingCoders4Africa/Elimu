@@ -1,14 +1,13 @@
-<? //require("dao/connection.php");
-$sclasse=$_GET['num'];
+<?php 
+$sclasse=securite_bdd($_GET['num']);
 $annee=annee_academique();
-//$agence=$_SESSION["agence"];
 
 ?>
-<form name="inscription_form" action="<?php echo 'info_classe.php';?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 
-<table border="1" cellspacing="0" bordercolor="#033155" cellpadding="2" bgcolor="#EFF2FB" width=100 ALIGN=left>
+<table border="1" cellspacing="0" bordercolor="#033155" cellpadding="2" bgcolor="#EFF2FB" width="100" ALIGN="left">
 <tbody>
 
 <TR>
@@ -20,7 +19,7 @@ $annee=annee_academique();
 <TH align=center ROWSPAN=1 NOWRAP><FONT COLOR="#5773AD"><B>&nbsp;Coéfficient&nbsp;</B></FONT></TH>
 </TR>
 <?php
-$sqlstm1="SELECT personnel,discipline FROM enseigner WHERE classe='".htmlentities($sclasse)."' and annee='$annee'";
+$sqlstm1="SELECT personnel,discipline FROM enseigner WHERE classe='$sclasse' and annee='$annee'";
 $req1=mysql_query($sqlstm1);
 while($ligne=mysql_fetch_array($req1))
 {
@@ -29,7 +28,7 @@ $mati=$ligne['discipline'];
 
  $uvs = findByValue('disciplines','iddis',$mati);
 						$mat = mysql_fetch_row($uvs);
-						$uv=$mat[1];
+						$uv=accents($mat[1]);
 
 
 $sqlstm3="select titre8,prenom,nom from personnels where matricule='$prof'";
@@ -42,12 +41,11 @@ $nom=$ligne3['nom'];
  $titres = findByValue('titre5','id',$titre);
 						$tit = mysql_fetch_row($titres);
 						$tre=$tit[1];
-$sqlstm3e="select etude from classes where libelle='".htmlentities($sclasse)."'";
+$sqlstm3e="select etude from classes where idclasse='$sclasse'";
 $req3e=mysql_query($sqlstm3e);
 $ligne3e=mysql_fetch_array($req3e);
 $etude=$ligne3e['etude'];
-
-$sqlstm3c="select coef from coefficients where discipline='$mati' and etude='$etude'";
+$sqlstm3c="select sum(coef) coef from coefficients where discipline like '".$mati."D%' and etude='$etude'";
 $req3c=mysql_query($sqlstm3c);
 $ligne3c=mysql_fetch_array($req3c);
 $coef=$ligne3c['coef'];
@@ -56,14 +54,14 @@ $coef=$ligne3c['coef'];
 
 
 <TR>
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP><?echo $uv;?>&nbsp;</TD>
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?echo $tre.' '.$prenom.' '.$nom;?>&nbsp;</TD>
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?echo $coef;?>&nbsp;</TD>
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP><?php echo $uv;?>&nbsp;</TD>
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?php echo $tre.' '.$prenom.' '.$nom;?>&nbsp;</TD>
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?php echo $coef;?>&nbsp;</TD>
 </TR>
 
-<?
+<?php
 }
-$sqlstm3u8="select count(eleve) effectif from inscription where classe='".htmlentities($sclasse)."' and annee='$annee'";
+ $sqlstm3u8="select count(eleve) effectif from inscription where classe='$sclasse' and annee='$annee'";
 $req3u8=mysql_query($sqlstm3u8);
 $ligne3u8=mysql_fetch_array($req3u8);
 
@@ -72,23 +70,23 @@ $effect=$ligne3u8['effectif'];
 </TABLE>
 <table border="1" cellspacing="0" bordercolor="#033155" cellpadding="2" bgcolor="#EFF2FB" width=100 ALIGN=center>
 <TR>
-<?
+<?php
 if(mysql_num_rows($req3u8)==0){
 echo'<TD align=center colspan=2 NOWRAP  bgcolor="yellow"><FONT COLOR="#80FF00"><B>&nbsp;Effectid de la classe:-</TD>';
 }//$svent=$svent+@$nombre;
 else{
 
 ?>
-<TD align=center colspan=2 NOWRAP  bgcolor="yellow"><FONT COLOR="blue"><B>&nbsp;Effectif de la classe: <?echo $effect?>&nbsp;</B></FONT></TD>
-<?
+<TD align=center colspan=2 NOWRAP  bgcolor="yellow"><FONT COLOR="blue"><B>&nbsp;Effectif de la classe: <?php echo $effect?>&nbsp;</B></FONT></TD>
+<?php
 }
-$sqlstmm="select count(eleve) effectif from inscription where classe='".htmlentities($sclasse)."' and annee='$annee' and eleve in ( select matricule from eleves where sexe8='1')";
+$sqlstmm="select count(eleve) effectif from inscription where classe='$sclasse' and annee='$annee' and eleve in ( select matricule from eleves where sexe8='1')";
 $reqm=mysql_query($sqlstmm);
 $lignem=mysql_fetch_array($reqm);
 
 $effectm=$lignem['effectif'];
 
-$sqlstmf="select count(eleve) effectif from inscription where classe='".htmlentities($sclasse)."' and annee='$annee'and eleve in ( select matricule from eleves where sexe8='2')";
+$sqlstmf="select count(eleve) effectif from inscription where classe='$sclasse' and annee='$annee'and eleve in ( select matricule from eleves where sexe8='2')";
 $reqf=mysql_query($sqlstmf);
 $lignef=mysql_fetch_array($reqf);
 
@@ -105,8 +103,8 @@ $div=$effect;
 <TH align=center ROWSPAN=1 NOWRAP><FONT COLOR="#5773AD"><B>&nbsp;Garçons&nbsp;</B></FONT></TH>
 </TR>
 <tr>
-<td align=center ROWSPAN=1 NOWRAP>&nbsp;<?echo $effectf?>&nbsp; Soit <?echo round($effectf/ $div*100) .'%'?> </td>
-<td align=center ROWSPAN=1 NOWRAP>&nbsp;<?echo $effectm?>&nbsp; Soit <?echo round($effectm/ $div*100) .'%'?> </td>
+<td align=center ROWSPAN=1 NOWRAP>&nbsp;<?phpecho $effectf?>&nbsp; Soit <?php echo round($effectf/ $div*100) .'%';?> </td>
+<td align=center ROWSPAN=1 NOWRAP>&nbsp;<?phpecho $effectm?>&nbsp; Soit <?php echo round($effectm/ $div*100) .'%';?> </td>
 </tr>
 
 </TABLE>

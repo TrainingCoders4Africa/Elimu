@@ -15,7 +15,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'remarques.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<table border="0" cellpadding="3" cellspacing="0" width="600" >
@@ -40,13 +40,13 @@ placeholder="Selectionner" autofocus/ >
 <TR><TD class=petit>&nbsp;</TD></TR>
  <tr>
 		              <td   ALIGN=LEFT width="200"><b>Note Minimale *</b></td><td  ALIGN=LEFT>
-		              <input name="mini" type="number" size="10"  min=1 max=21  onkeyup="verif_nombre(this);" required></td>
+		              <input name="mini" type="number" size="5" MAXLENGTH="2" min=0 max=21  onkeyup="verif_nombre(this);" required></td>
 		            </tr>
 
 <TR><TD class=petit>&nbsp;</TD></TR>
  <tr>
 		              <td  ALIGN=LEFT width="200"><b>Note Maximale *</b></td><td  ALIGN=LEFT>
-		              <input name="maxi" type="number" size="10"  min=1 max=21  onkeyup="verif_nombre(this);" required></td>
+		              <input name="maxi" type="number" size="10" MAXLENGTH="2" min=1 max=21  onkeyup="verif_nombre(this);" required></td>
 		            </tr>
 
 

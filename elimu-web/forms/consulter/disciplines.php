@@ -3,35 +3,39 @@
 
   				 <tr bgcolor="white">
                     <th width="350"> Disciplines</th>
-  				 	<!--<th width="150">Niveau Etude</th>!-->
+					   <th width="150"> Cycle</th>
+					   <th width="450"> Sous Disicpline</th>
+					   
                 </tr>
 				<tbody><tr>
-				<?
-              		$selection = findByAll('disciplines');
+				<?php
+								$profile=$_SESSION["profil"];
+				if($profile=="Administrateur"){
+	$selection = findByAll('disciplines');
+}
+else{
+	$selection = findByNValue('disciplines',"disciplines.cycle in(select cycle from fonction where profile='$profile')");
+}
+				
+              		//$selection = findByAll('disciplines');
               		while($row1 = mysql_fetch_row($selection))
 				 	{
-				 		/*echo"<tr>";
-                       for($j = 0 ; $j<5 ; $j++){
-                       echo"<td align='center'>".$row[$j]."</td>";
-                       }
-                       echo"</tr>";*/
-                       	$p1=$row1[1];
-						/*$p2=$row1[3];
-						$p3=$row1[2];
-						$p4=$row1[4];
-						$p5=$row1[4];*/
-						//$p6=$row1[5];
-						//$p7=$row1[6];
-						echo"<tr>
-							<td  align=center>$p1</td>";
-						/*$etagiaire = findByValue('rayon','idRa',$p2);
-						$champ = mysql_fetch_row($etagiaire);
-						$p8=$champ[1];
-						//$p9=$champ[2];
-						//$p10=$champ[3];
-						//$p11=$champ[4];
-						echo"
-							<td  align=center>$p8</td></tr>";*/
+					$b=''; //liste des sous disciplines
+												$iddis=$row1[0];
+				 		                    	$libelle=accents($row1[1]);
+												$cycle=accents($row1[2]);
+												// les sous disciplines
+						$dis = findByValue('sous_matiere','discipline',$iddis);
+						while($Champdis = mysql_fetch_row($dis)){
+						$libdis=$Champdis[1];
+						$b=$b.', '.$libdis;
+						}
+						echo'<tr>
+							<td  align=left><a href="sousmatiere.php?discipline='. $iddis.'title="Ajouter des sous disciplines">'.$libelle.'</td>
+							<td  align=left>'.$cycle.'</td>
+							<td  align=left>'.$b.'</td>
+							';
+					
         			}
   				 ?>
 </tr></tbody>

@@ -22,15 +22,16 @@ ChangeTitle("ELIMU: GESTION SCOLAIRE & COLLABOTION PARENTS ET ADMINISTRATION VIA
 <?php
 include"../dao/connection.php";
  include "style.php";
-   $titre="ELIMU >> Paramétrage Terminé";
-		
+   $titre="ELIMU >> Paramétrage Terminé";	
 $d=date("Y")-1;
+//vérifier si la table administrateur est vide ou pas
 $req=mysql_query("select * from administrateurs");
 $rw=mysql_fetch_row($req);
+//selectionner le logo de l'établissement
 		$requete=("select logo from etablissements ");
 $resultat=mysql_query($requete);
-   $b=mysql_fetch_object($resultat);
-$a=$b->logo;
+ $ligne=mysql_fetch_array($resultat);
+$a=$ligne['logo'];
 
 ?>
 <body>
@@ -45,36 +46,37 @@ $a=$b->logo;
 		<table border=0 cellpadding=0 cellspacing=0 width=100%  height="90">
                    <tr  class="titr">  
 				   <td COLSPAN=2 align=center height="50"><b><big>Configuration  </big></b></td>
-					   <?
+					   <?php
                     	if($a <>""){
                     	?>
-					  <td> <img <? echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
-					  <?
-					}
-					
-					?>
+					  <td> <img <?php echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?>
+					  </td>
+					  <?php
+					}?>
 		            </tr>
 
          </table>
          <table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
 		            <tr class="legend">
-		              <td align="right" height="30"  ><b> <?echo $titre;?></b></td>
+		              <td align="right" height="30"  ><b> <?php echo $titre;?></b></td>
 		            </tr>
 
 		 </table>
 		 		 <table border=0 cellpadding=0 cellspacing=0 width=100%  height="90">
 		      
  <tr>
- <td><b> Pseudo *:</b>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 <input name="pseudo" type="text" value="<?echo @$rw[1];?>" required  autofocus></td></tr>
-<tr><td><b>Mot de Passe *</b>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><input name="passe" type="password"  value="<?echo @$rw[2];?>" required></td></tr>
-<tr></td><b>Confirmation Mot de Passe *:</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="cpasse" type="password" value="<?echo @$rw[2];?>"required></td></tr>
-		         
-					
+ <TD ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Pseudo :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+		 <input name="pseudo" type="text" value="<?php echo @$rw[1];?>" required  autofocus></td></tr>
+		 <TR><TD class=petit>&nbsp;</TD></TR>
+<tr><TD ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Mot de Passe :*&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><input name="passe" type="password"  value="<?php echo @$rw[2];?>" required></td></tr>
+<TR><TD class=petit>&nbsp;</TD></TR>
+<tr><TD ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Confirmation Mot de Passe :*</b>&nbsp;&nbsp;&nbsp;<input name="cpasse" type="password" value="<?php echo @$rw[2];?>"required></td></tr>
+
+
 		   </table>
 		              
 					   <table border=0 cellpadding=0 cellspacing=0 width=100% height=100>
-					   <tr>      <td>&nbsp;</td><td>
+					   <tr>      <td>&nbsp;</td><td align=right>
 					  <br><a href="design.php"><img src="img/prec.jpg" alt="" border="0"></a>
 		              &nbsp;&nbsp;<input type="image" src="img/suiv.jpg">
 					   </td>

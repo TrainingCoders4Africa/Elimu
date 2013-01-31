@@ -17,13 +17,11 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 </script>
 
 <?php
-//header('Content-Type: text/html; charset=UTF-8');
-//header('Content-Type: text/html; charset=iso-8859-1');
 include 'all_function.php';
-if(isset($_POST['PROF_ID']) and isset($_POST['MAT']) )
+if(isset($_POST['CYCLE_ID']) and isset($_POST['MAT']) )
 {
-$discipline =$_POST['MAT'];
-$cycle =$_POST['PROF_ID'];
+$discipline =securite_bdd($_POST['MAT']);
+$cycle =securite_bdd($_POST['CYCLE_ID']);
 $annee=annee_academique();
 //  echo'discipline '.accents($discipline);
 echo'
@@ -32,16 +30,14 @@ echo'
   <td style="padding-left:30px;" ALIGN=center>
   <table cellpadding=2 cellspacing=1 border=2>
 	   	    <tr bgcolor=white align=center >
-			<th width=100>Niveau Etude</th>
-            <th width=100>Cr&eacute;dit Horaire</th>
+			<th width=200>Niveau Etude</th>
+            <th width=200>Cr&eacute;dit Horaire</th>
             <th width=100>Nbre le&ccedil;on</th>
+            <th width=100>Type de Discipline</th>
             
                      </tr>';
+$req4=mysql_query(" select idetude,libelle from etudes where cycle='$cycle' and idetude not in(select etude from credit_horaire where discipline='$discipline')");
 
-
-
-$sqlstm4="select distinct libelle from etudes where cycle='$cycle' and libelle not in(select etude from credit_horaire where discipline='$discipline')";
-$req4=mysql_query($sqlstm4);
 $nb=mysql_num_rows($req4);
                   $i=1;
 if($nb==0){
@@ -51,7 +47,8 @@ else{
 while($ligne4=mysql_fetch_array($req4))
 {
 $niveau=$ligne4['libelle'];
-$niv=htmlentities($niveau);
+$idetude=$ligne4['idetude'];
+//$niv=htmlentities($niveau);
   echo" <input name=nbart type=hidden value=$nb>";
 
       echo"<tr>
@@ -68,14 +65,25 @@ $niv=htmlentities($niveau);
 				                 			new SUC( document.frm.nbre_lesson$i );       //
 				             	      </script>
 			            		</td>
+								<td  align=center>
+			            		  <select name=typeuv$i id='Type'  required>
+								  <OPTION  value=''></OPTION>  ";
+			
+								 $table = 'nature';
+				 $selection = findByAll($table);
+				while($ro=mysql_fetch_row($selection)){
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+    			}
+
+					echo"</select>
+			            	 <script type=text/javascript>      //
+				                 			new SUC( document.frm.nbptotal$i );       //
+				             	      </script>
 			            		</td>
+			            		</tr>
 							"; 
- echo" <input name=niveau$i type=hidden value='$niv'>";
-
-
-
-			       
-                     $i++;
+ echo" <input name=niveau$i type=hidden value='$idetude'>";
+$i++;
 }
 echo"
 <input type=hidden name=cycle value='$cycle'>";

@@ -1,6 +1,6 @@
 <?php
 //require("all_function.php");
-$profile=$_SESSION["agence"];
+$profile=$_SESSION["profil"];
 $sqlstmcl="select distinct cycle  from categories";
 $reqcl=mysql_query($sqlstmcl);
 $sqlstm="select count(*)nb from categories where cycle ='SECONDAIRE'";

@@ -1,6 +1,6 @@
 <?php
 session_start();
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 //$_SESSION["classe"]=$_GET['num'];
 $titre=" Empoi du temp Professeur  >> Semestre en Cours" ;
 $pageint="forms/emploisprof.php";

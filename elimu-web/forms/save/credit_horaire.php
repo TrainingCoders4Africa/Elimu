@@ -1,12 +1,13 @@
 <?php
+//verifier si l'établissement est privé ou public
 $sqs="select count(*)nb from etablissements where status ='PRIVE'";
 $rs=mysql_query($sqs);
 $ls=mysql_fetch_array($rs);
 $ns=$ls['nb'];
-		$profile=$_SESSION["agence"];
-			 $table = 'etudes';
+		$profile=$_SESSION["profil"];
+			// $table = 'etudes';
 				 $lib = 'cycle';
-				
+				$table = 'disciplines';
 				if($profile=="Administrateur"){
  $selection = findBylib($table,$lib);
 }
@@ -32,7 +33,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 }
 </script>
 
-<form name="inscription_form" action="<?php echo 'credit_horaire.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<script language="Javascript">
@@ -82,7 +83,7 @@ function go(){
 	
 		sel = document.getElementById('cycle');
 		cycle = sel.options[sel.selectedIndex].value;
-		xhr.send("CLASSE_ID="+cycle);
+		xhr.send("CYCLE_ID="+cycle);
 }
 function go1(){
 	var xhr = getXhr();
@@ -113,7 +114,7 @@ function go1(){
 		//On sélectionne la value de la prof (cad : CLASSE_ID)
 		discipline = sel.options[sel.selectedIndex].value;		
 		//On met la sélection dans la variable que l'on va poster
-		xhr.send("PROF_ID="+cycle+ "&MAT=" +discipline);
+		xhr.send("CYCLE_ID="+cycle+ "&MAT=" +discipline);
 }
 
 </script>
@@ -121,8 +122,8 @@ function go1(){
 		<tbody><tr>
 
 <TR><TD class=petit>&nbsp;</TD></TR>
-<TR><TD>
-<B>&nbsp;Liste des cycles *</B><select name="cycle" id="cycle" onchange="go()" required>
+<TR><TD ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<B>&nbsp;Liste des cycles *</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="cycle" id="cycle" onchange="go()" required>
 <OPTION value=""></OPTION>
 <?php
 			
@@ -148,15 +149,17 @@ $nbart=addslashes($_POST['nbart']);
 if($nbart==0){
 echo'insertion impossible';
 }
-else{
+else{ 
 $uv=addslashes($_POST['uv']);
 for ($i=1; $i<=$nbart; $i++) {
 	   $niveau= addslashes($_POST['niveau'.$i.'']);
 	   $nbr= addslashes($_POST['nbre_classe'.$i.'']);	   
 	   $lesson= addslashes($_POST['nbre_lesson'.$i.'']);
+	   $typeuv= addslashes($_POST['typeuv'.$i.'']);
 	   $exereq=mysql_query("select * from credit_horaire where etude= '$niveau' and discipline='$uv'");
      if(mysql_num_rows($exereq)==0){
-  	$sql_ajout="INSERT INTO credit_horaire VALUES ( '','$uv','$nbr','$lesson','$niveau')";
+	 if( $nbr > 0){
+  	$sql_ajout="INSERT INTO credit_horaire VALUES ( '','$uv','$nbr','$lesson','$niveau','$typeuv')";
 
    $query_ajout=mysql_query($sql_ajout);
 			if($query_ajout){
@@ -165,7 +168,8 @@ for ($i=1; $i<=$nbart; $i++) {
 			else
 			{
 			echo"<div align=center class=imp>Echec!Veuillez reprendre</div>";
-     		}  
+     		} 
+}			
       }
 	  
      else{

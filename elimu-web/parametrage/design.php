@@ -20,8 +20,8 @@ include"../dao/connection.php";
    $titre="ELIMU >> Paramétrage Partie II";
 	$requete=("select logo from etablissements ");
 $resultat=mysql_query($requete);
-   $b=mysql_fetch_object($resultat);
-$a=$b->logo;
+ $ligne=mysql_fetch_array($resultat);
+$a=$ligne['logo'];
 $d=date("Y")-1;
 
 ?>
@@ -35,11 +35,12 @@ $d=date("Y")-1;
 		<table border=0 cellpadding=0 cellspacing=0 width=100%  height="90">
                    <tr  class="titr">  
 				   <td COLSPAN=2 align=center height="50"><b><big>Configuration  </big></b></td>
-					   <?
+					   <?php
                     	if($a <>""){
                     	?>
-					  <td> <img <? echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
-					  <?
+					  <td> <img <?php echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?>
+					  </td>
+					  <?php
 					}
 					
 					?>
@@ -48,7 +49,7 @@ $d=date("Y")-1;
          </table>
          <table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
 		            <tr class="legend">
-		              <td align="right" height="30"  ><b> <?echo $titre;?></b></td>
+		              <td align="right" height="30"  ><b> <?php echo $titre;?></b></td>
 		            </tr>
 
 		 </table>
@@ -56,19 +57,36 @@ $d=date("Y")-1;
 		      
  <tr>
 
-<td><b>	 CYCLES </b></td>
-<tr><td><b>
-<INPUT type="checkbox" name="choix[]" value="PRESCOLAIRE" checked > PRESCOLAIRE
-<INPUT type="checkbox" name="choix[]" value="ELEMENTAIRE"  > ELEMENTAIRE
-<INPUT type="checkbox" name="choix[]" value="MOYEN"  > MOYEN
-<INPUT type="checkbox" name="choix[]" value="SECONDAIRE"  > SECONDAIRE
-<INPUT type="checkbox" name="choix[]" value="PROFESSIONNEL"  > PROFESSIONNEL
+<td><b>	 CYCLES SCOLAIRES </b></td></tr><TR><TD class=petit>&nbsp;</TD></TR>
+<tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+<INPUT type="checkbox" name="choix[]" value="PRESCOLAIRE" checked >CYCLE PRESCOLAIRE
+</b></td>
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>Eléve agé de 2 ans à 5, 6 ans</TD>
+</tr><tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+<INPUT type="checkbox" name="choix[]" value="ELEMENTAIRE"  > CYCLE ELEMENTAIRE</b></td>
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>Eléve agé de 6,7 ans à 12, 14 ans</TD>
+</tr><tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+</tr>
+<tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+<INPUT type="checkbox" name="choix[]" value="MOYEN"  > CYCLE MOYEN</b></td>
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>Eléve ayant obtenu le Certificat de Fin d'Etude Elémentaire</TD>
+</tr><tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+</tr>
+<tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+<INPUT type="checkbox" name="choix[]" value="SECONDAIRE"  > CYCLE SECONDAIRE</b></td>
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>Eléve ayant le BFEM</TD>
+</tr><tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+</tr><tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+<INPUT type="checkbox" name="choix[]" value="PROFESSIONNEL"  > CYCLE PROFESSIONNEL</b></td>
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>Eléve ayant le Bac ou le niveau du Bac</TD>
+</tr><tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>
+</tr>
 
 </td></tr>
 		 </table>
 		              
 					   <table border=0 cellpadding=0 cellspacing=0 width=100% height=100>
-					   <tr>      <td>&nbsp;</td><td>
+					   <tr>      <td>&nbsp;</td><td align=right>
 					  <br><a href="config.php"><img src="img/prec.jpg" alt="" border="0"></a>
 		              &nbsp;&nbsp;<input type="image" src="img/suiv.jpg">
 					   </td>

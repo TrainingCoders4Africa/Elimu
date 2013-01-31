@@ -1,9 +1,13 @@
 <?php
 session_start();
+include 'all_function.php';
 $rechtab="eleves";
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 $_SESSION["classe"]=$_GET['num'];
-$classe=$_SESSION["classe"];
+$code=$_SESSION["classe"];
+$etag1 = findByValue('classes','idclasse',$code);
+						$cha1 = mysql_fetch_row($etag1);
+						$classe=$cha1[3];
 if (isset($_GET["sup"])) {
   $titre="  Liste des Eléves de la ".$classe." >> Suppression" ;
   $pageint="forms/delete/eleves.php";
@@ -16,13 +20,13 @@ elseif(isset($_GET["rech"])) {
    $titre="  Recherche des Eléves de la ".$classe." >> Recherche" ;
     $pageint="metier/recherche.php";
 }
-elseif(isset($_GET["vis"])) {
-$titre="  Liste des Eléves de la ".$classe." >> Consultation" ;
-      $pageint="forms/consulter/eleves.php";
+elseif(isset($_GET["ajout"])) {
+  $titre="  Inscription des Eléves de la ".$classe." >> Ajout" ;	 
+         $pageint="forms/save/eleves.php";
 }
 else {
-      $titre="  Inscription des Eléves de la ".$classe." >> Ajout" ;	 
-         $pageint="forms/save/eleves.php";
+    $titre="  Liste des Eléves de la ".$classe." >> Consultation" ;
+      $pageint="forms/consulter/eleves.php";
 		}
 
 $p="";

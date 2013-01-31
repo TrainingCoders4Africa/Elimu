@@ -1,4 +1,4 @@
-<?
+<?php
 function saisiedate($test){
     echo"<form name='frm' action='".$_SERVER['REQUEST_URI']."?j=sss&' onsubmit='return (conform(this));'  enctype='multipart/form-data'   method='POST'>";
     echo'<center>

@@ -7,8 +7,9 @@ if(isset($_POST["id"])){
 	$credit = addslashes($_POST['credit']);
 	$lesson=addslashes($_POST['lesson']);
 	$etude=addslashes($_POST['etude']);
+	$type=addslashes($_POST['type']);
 $uv=addslashes($_POST['uv']);
-$mise="update credit_horaire set credit_horaire='$credit',nbre_lesson='$lesson' where  idch='$id'";
+$mise="update credit_horaire set credit_horaire='$credit',nbre_lesson='$lesson',nature='$type' where  idch='$id'";
 	$req2=mysql_query($mise);
 if($req2){
 echo"<div align=center class=imp>Modification Enregistrée!</div>";
@@ -128,6 +129,19 @@ if(isset($_POST["eleve"])){
 	$email_eleve = addslashes($_POST['email_eleve']);
 	$tel_eleve = addslashes($_POST['tel_eleve']);
 	$redoublant = addslashes($_POST['redoublant']);
+	$lv1= addslashes($_POST['lv1']);
+	$lv2= addslashes($_POST['lv2']);
+	$lc= addslashes($_POST['lvc']);
+	$lgv1="";
+	$lgv2="";
+	$lgc="";
+	if($lv1<> 0)
+	$lgv1= addslashes($_POST['lgv1']);
+	if($lv2 <> 0)
+	$lgv2= addslashes($_POST['lgv2']);
+	if($lc <> 0)
+	$lgc= addslashes($_POST['lgc']);
+	
 	if($_FILES['photo']['name']<>""){
 		$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
 		$photo=$_FILES['photo']['name'];
@@ -164,7 +178,7 @@ $extension_upload = strtolower(  substr(  strrchr($photo, '.')  ,1)  );
 
 	$req2=mysql_query($mise);
 if($req2){
-$sql1_ajout="update inscription set  redoublant='$redoublant' where eleve='$matricule' and annee='$annee' and classe='".htmlentities($sclasse)."'";
+$sql1_ajout="update inscription set  redoublant='$redoublant',lv1='$lgv1',lv2='$lgv2',lc='$lgc' where eleve='$matricule' and annee='$annee' and classe='".htmlentities($sclasse)."'";
               $query_ajoutad=mysql_query($sql1_ajout) ;
 
 echo'<div align=center class=imp>Données modifiées</div>';
@@ -236,12 +250,12 @@ echo"<div align=center class=imp>Echec!Veuillez reprendre!</div>";
 }
 //update honneur
 function update_honneur(){
-if(isset($_POST["libelle"])){
+if(isset($_POST["id"])){
 
-	$libelle = addslashes($_POST['libelle']);
-	$debut=addslashes($_POST['debut']);
-	$fin=addslashes($_POST['fin']);
-		$mise="update honneurs set mini='$debut',maxi='$fin' where  libelle='$libelle'";
+	$id = addslashes($_POST['id']);
+	$debut=addslashes($_POST['mini']);
+	$fin=addslashes($_POST['maxi']);
+		$mise="update honneurs set mini='$debut',maxi='$fin' where  id='$id'";
 	$req2=mysql_query($mise);
 if($req2){
 
@@ -251,7 +265,7 @@ echo'<script Language="JavaScript">
 	echo'
 </SCRIPT>
 <SCRIPT LANGUAGE="JavaScript">
-location.href="honneurs.php"
+location.href="honneurs.php?vis=1"
 </SCRIPT>';
 }
 	else
@@ -261,19 +275,19 @@ location.href="honneurs.php"
  {alert ("Echec!Veuillez reprendre");
  }';
 		echo'<SCRIPT LANGUAGE="JavaScript">
-location.href="honneurs.php"
+location.href="honneurs.php?vis=1"
 </SCRIPT>';
 	}
 }
 }
 //update remarques
 function update_remarque(){
-if(isset($_POST["libelle"])){
+if(isset($_POST["id"])){
 
-	$libelle = addslashes($_POST['libelle']);
-	$debut=addslashes($_POST['debut']);
-	$fin=addslashes($_POST['fin']);
-		$mise="update remarques set mini='$debut',maxi='$fin' where  libelle='$libelle'";
+	$id = addslashes($_POST['id']);
+	$debut=addslashes($_POST['mini']);
+	$fin=addslashes($_POST['maxi']);
+		$mise="update remarques set mini='$debut',maxi='$fin' where  id='$id'";
 	$req2=mysql_query($mise);
 if($req2){
 
@@ -283,7 +297,7 @@ echo'<script Language="JavaScript">
 	echo'
 </SCRIPT>
 <SCRIPT LANGUAGE="JavaScript">
-location.href="remarques.php"
+location.href="remarques.php?mod=1"
 </SCRIPT>';
 }
 	else
@@ -293,7 +307,7 @@ location.href="remarques.php"
  {alert ("Echec!Veuillez reprendre");
  }';
 		echo'<SCRIPT LANGUAGE="JavaScript">
-location.href="remarques.php"
+location.href="remarques.php?mod=1"
 </SCRIPT>';
 	}
 	
@@ -335,13 +349,13 @@ location.href="appreciations.php"
 
 //update décision conseil
 function update_decision(){
-if(isset($_POST["libelle"])){
+if(isset($_POST["id"])){
 
-	$libelle = addslashes($_POST['libelle']);
-	$debut=addslashes($_POST['debut']);
-	$fin=addslashes($_POST['fin']);
+	$id = addslashes($_POST['id']);
+	$debut=addslashes($_POST['mini']);
+	$fin=addslashes($_POST['mini']);
 	$etude=addslashes($_POST['etude']);
-	$mise="update decisions set mini='$debut',maxi='$fin' where  libelle='$libelle' and etude='$etude'";
+	$mise="update decisions set mini='$debut',maxi='$fin' where  id='$id'";
 	$req2=mysql_query($mise);
 if($req2){
 
@@ -351,7 +365,7 @@ echo'<script Language="JavaScript">
 	echo'
 </SCRIPT>
 <SCRIPT LANGUAGE="JavaScript">
-location.href="decision.php"
+location.href="decision.php?mod=1"
 </SCRIPT>';
 }
 	else
@@ -361,7 +375,7 @@ location.href="decision.php"
  {alert ("Echec!Veuillez reprendre");
  }';
 		echo'<SCRIPT LANGUAGE="JavaScript">
-location.href="decision.php"
+location.href="decision.php?mod=1"
 </SCRIPT>';
 	}
 	

@@ -1,6 +1,6 @@
 <?php
 //$_SESSION['classe']=;
-$sclasse=$_GET['num'];
+$sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
 $type='';
@@ -14,6 +14,9 @@ while($lignee=mysql_fetch_array($req1e))
 	$ns=$lignee['ns'];
 	}
 
+$sql1="select distinct evaluation from notes where notes.eleve in(select eleve from inscription where  classe='$sclasse' and annee='$annee')and 
+evaluation in(select id from evaluations where annee='$annee' and classe='$sclasse' and 
+ personnel='$personnel' and annee='$annee') and note='0' order by evaluation desc";
 
 ?>
 <script language="Javascript">
@@ -34,7 +37,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 }
 </script>
 
-<form name="inscription_form" action="<?php echo 'modif_notes.php?ajout=1&num='.$sclasse;?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<script language="Javascript">
@@ -104,9 +107,8 @@ else{
 		<TR>
 <B>&nbsp;Evaluation &nbsp;*&nbsp;</B><SELECT NAME="evaluation" id="evaluation" required onchange="go()">
 <OPTION value=""></OPTION>
- <?
-$sql1="select distinct evaluation from notes where notes.eleve in(select eleve from inscription where  classe='".htmlentities($sclasse)."' and annee='$annee')and evaluation in(select id from evaluations where annee='$annee' and classe='".htmlentities($sclasse)."' and 
-evaluations.discipline in(select discipline from enseigner where personnel='$personnel' and annee='$annee' and classe='".htmlentities($sclasse)."' )) order by evaluation desc";
+ <?php
+
 $req1=mysql_query($sql1);
 while($ligne1=mysql_fetch_array($req1))
 {
@@ -126,8 +128,8 @@ $table = 'disciplines';
                             //echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			
 ?>
-  <OPTION value="<?echo $eva;?>"><?echo $type.' de '.$ro[1].' du '.$datep;?>
-  <?
+  <OPTION value="<?php echo $eva;?>"><?php echo $type.' de '.$ro[1].' du '.$datep;?>
+  <?php
 }
 ?>
  </OPTION></SELECT></TD></TR>
@@ -139,13 +141,10 @@ $table = 'disciplines';
 				  echo" <input name=an type=hidden value='$annee'>";
 				   echo" <input name=matricule type=hidden value='$personnel'>";
  ?>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=95%></TD></TR>
 
 
-	</tbody><table>
-<TR><TD class=petit>&nbsp;</TD>
-	<TR><TD><BUTTON TITLE="Confirmer Notes"name="enregistrer" TYPE="submit" id="flashit"><b>Noter</b></BUTTON>&nbsp;<BUTTON TITLE="Annuler " TYPE="reset"><b>&nbsp;Annuler&nbsp;</b></BUTTON></TD>
-	</table>
+	</tbody>
+
 </div>
 
 </form>
@@ -162,19 +161,20 @@ $nbart=addslashes($_POST['nbart']);
    		for ($i=1; $i<=$nbart; $i++) {
 	   $code= addslashes($_POST['code'.$i.'']);
 	   $note= addslashes($_POST['note'.$i.'']);
-if($note<=20){
+	    $absence= addslashes($_POST['absence'.$i.'']);
+if($note==0){
 	
-		           $sql="insert into notes values('$code','$note','$evaluation','')";
+		           $sql="update notes set note='$absence' where eleve='$code' and evaluation='$evaluation'";
 
 		            $exe=mysql_query($sql) or die(mysql_error());
 		            if (@$exe) {
 		             	echo'<script Language="JavaScript">
 							{
-							alert ("Notes Ajoutées");
+							alert ("Notes Modifiées");
 							}
 </SCRIPT>';
 			echo'<SCRIPT LANGUAGE="JavaScript">
-location.href="modif_notes.php?ajout=1&num='. $classe.'"
+location.href="notes_eleveabsent.php?ajout=1&num='. $classe.'"
 </SCRIPT>';
 					
 					}
@@ -185,20 +185,19 @@ location.href="modif_notes.php?ajout=1&num='. $classe.'"
 							}
 </SCRIPT>';
 			echo'<SCRIPT LANGUAGE="JavaScript">
-location.href="modif_notes.php?ajout=1&num='. $classe.'"
+location.href="notes_eleveabsent.php?ajout=1&num='. $classe.'"
 </SCRIPT>';
 			
 		            }
-		  		 //}
 	      }
 	      else{
 		  echo'<script Language="JavaScript">
 							{
-							alert ("la note doit être comprise entre 0 et 20");
+							alert ("Absence non justifiée");
 							}
 </SCRIPT>';
 			echo'<SCRIPT LANGUAGE="JavaScript">
-location.href="modif_notes.php?ajout=1&num='. $classe.'"
+location.href="notes_eleveabsent.php?ajout=1&num='. $classe.'"
 </SCRIPT>';
 		  }
 

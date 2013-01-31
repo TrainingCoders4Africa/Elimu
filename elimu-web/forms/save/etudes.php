@@ -1,16 +1,17 @@
 <?php
-
 $sqs="select count(*)nb from etablissements where status ='PRIVE'";
 $rs=mysql_query($sqs);
 $ls=mysql_fetch_array($rs);
 $ns=$ls['nb'];
-$profile=$_SESSION["agence"];
+$profile=$_SESSION["profil"];
 if($profile=="Administrateur"){
-$sqlstm2d="select  distinct cycle from categories  ORDER BY cycle";
+$req2d=findBylib("categories","cycle");
 }
 else{
-$sqlstm2d="select  distinct cycle from fonction where profile='$profile'  ORDER BY cycle";
+$req2d=findCBylib("fonction","cycle","profile",$profile);
 }
+  $req2=findBylib("series","libelle1");
+$req22=findByAll("filieres");
  ?>
 <script>
 function verif_nombre(champ)
@@ -29,19 +30,16 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'etudes.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien() ;?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<table border="0" cellpadding="3" cellspacing="0" width="600" >
 		<tbody>
 			<TR>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP width="200">&nbsp;Liste Des Cycles <SELECT NAME="libelle1" id="libelle1" required
-placeholder="Selectionner" autofocus/  onchange="submit();" >
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP width="200">&nbsp;Liste des Cycles <SELECT NAME="libelle1" id="libelle1" required
+placeholder="Selectionner un cyle" autofocus/  onchange="submit();" >
 <OPTION >Selectionner</OPTION>
  <?php
-//  $sqlstm2d="select  distinct cycle from categories  ORDER BY cycle";
-$req2d=mysql_query($sqlstm2d);
-
 while($ligne2d=mysql_fetch_array($req2d))
 {
 $slib2d=$ligne2d['cycle'];
@@ -61,69 +59,71 @@ $slib2d=$ligne2d['cycle'];
 ';
 
 if($discipline=='PRESCOLAIRE'){
-echo'<TR><td>
+echo'<TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="GARDERIE ENFANTS" checked> GARDERIE ENFANTS
-</td></TR><TR><td>
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="PETITE SECTION" > PETITE SECTION
 </td></TR>
-<TR><td>
+<TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="MOYENNE SECTION" > MOYENNE SECTION
-</td></TR><TR><td>
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="GRANDE SECTION" > GRANDE SECTION
 </td></TR>
 ';
 }
 elseif($discipline=='ELEMENTAIRE'){
-echo'<TR><td>
-<INPUT type="checkbox" name="choix[]" value="CI" checked> CI
-</td></TR><TR><td>
-<INPUT type="checkbox" name="choix[]" value="CP"> CP
-</td></TR><TR><td>
-<INPUT type="checkbox" name="choix[]" value="CE1" > CE1
-</td></TR><TR><td>
-<INPUT type="checkbox" name="choix[]" value="CE2" > CE2
-</td></TR><TR><td>
-<INPUT type="checkbox" name="choix[]" value="CM1" > CM1
-</td></TR><TR><td>
-<INPUT type="checkbox" name="choix[]" value="CM2" > CM2
+echo'<TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<INPUT type="checkbox" name="choix[]" value="CI" checked> CI</td>
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>Classe de Départ
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<INPUT type="checkbox" name="choix[]" value="CP"> CP</td>
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>Classe Supérieure de CI
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<INPUT type="checkbox" name="choix[]" value="CE1" > CE1</td>
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>Classe Supérieure de CP
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<INPUT type="checkbox" name="choix[]" value="CE2" > CE2</td>
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>Classe Supérieure de CE1
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<INPUT type="checkbox" name="choix[]" value="CM1" > CM1</td>
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>Classe Supérieure de CE2
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
+<INPUT type="checkbox" name="choix[]" value="CM2" > CM2</td>
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>Classe Supérieure de CM1
 </td></TR>
 ';
 }
 elseif($discipline=='MOYEN'){
 
-echo'<TR><td>
+echo'<TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="6iéme" checked> 6iéme
-</td></TR><TR><td>
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="5iéme" > 5iéme
-</td></TR><TR><td>
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="4iéme" > 4iéme
-</td></TR><TR><td>
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP>
 <INPUT type="checkbox" name="choix[]" value="3iéme" > 3iéme
 </td></TR>';
 }
 elseif($discipline=='SECONDAIRE'){
 echo'
-<TR><td><INPUT type="checkbox" name="choix[]" value="2nd" checked> 2nd
-</td></TR><TR><td><INPUT type="checkbox" name="choix[]" value="1er" > 1er
-</td></TR><TR><td><INPUT type="checkbox" name="choix[]" value="Tle"> Tle
+<TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP><INPUT type="checkbox" name="choix[]" value="2nd" checked> 2nd
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP><INPUT type="checkbox" name="choix[]" value="1er" > 1er
+</td></TR><TR><td ROWSPAN=1  ALIGN=LEFT NOWRAP><INPUT type="checkbox" name="choix[]" value="Tle"> Tle
 </td></TR>
 
 <TR>
 <TD width="70" ROWSPAN=1 ALIGN=LEFT NOWRAP SIZE="2">Série * <SELECT NAME="serie" required>
 <OPTION value=""></OPTION>';
   
-  $sqlstm2="select  libelle1 from series  ORDER BY LIBELLE1";
-$req2=mysql_query($sqlstm2);
+
 
 while($ligne2=mysql_fetch_array($req2))
 {
 $slib2=$ligne2['libelle1'];
-//$code=$ligne2['id'];
-//$stock2=$ligne2['qtestock'];
 echo'
   <OPTION value="'.$slib2.'">'.$slib2;
-  
-}
+  }
 echo'
 
  </OPTION>
@@ -152,13 +152,11 @@ echo'</TR><td>
 
 <OPTION  value=""></OPTION>';
 
-$sqlstm2="select  sigle1,libelle1 from filieres  ORDER BY LIBELLE1";
-$req2=mysql_query($sqlstm2);
 
-while($ligne2=mysql_fetch_array($req2))
+while($ligne2=mysql_fetch_array($req22))
 {
-$slib2=$ligne2['libelle1'];
-$code=$ligne2['sigle1'];
+$slib2=$ligne2[1];
+$code=$ligne2[0];
 //$stock2=$ligne2['qtestock'];
 echo'
   <OPTION value="'.$code.'">'.$slib2;

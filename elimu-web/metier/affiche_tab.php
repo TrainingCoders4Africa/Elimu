@@ -1,17 +1,4 @@
 <?php
-function annee_academique(){
- $aca="";
-$mois=date("n");
-        $annee=date("Y");
-		$annee1=date("Y")+1;
-		if( $mois>=10){
-		 $aca=$annee .'/'. $annee1;
-		}
-		else{
-		 $aca=date("Y")-1 .'/'.$annee;
-		}
-		return $aca;
-}
 function separation_tab($page,$id,$table,$champord,$long){
 	 if(@($_GET[$id])=="")
 	$compt=0;

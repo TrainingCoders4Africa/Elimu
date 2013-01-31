@@ -33,13 +33,13 @@ $d=date("Y")-1;
 		<table border=0 cellpadding=0 cellspacing=0 width=100%  height="90">
                    <tr bgcolor=#DD0000>
 		              <td COLSPAN=2 align=center height="50"><big>Configuration  </big></td>
-					  <td> <img <? echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
+					  <td> <img <?php echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
 		            </tr>
 
          </table>
          <table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
 		            <tr>
-		              <td align="right" height="30"> <?echo $titre;?></td>
+		              <td align="right" height="30"> <?phpecho $titre;?></td>
 		            </tr>
 
 		 </table>

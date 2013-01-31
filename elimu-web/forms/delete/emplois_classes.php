@@ -1,12 +1,11 @@
 <?php
-$_SESSION['classe']=$_GET['num'];
-$sclasse=$_GET['num'];
+$sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
-$jour=$_GET['j'];
-$debut=$_GET['hd'];
-$fin=$_GET['hf'];
-$semestre=$_GET['se'];
+$jour=securite_bdd($_GET['j']);
+$debut=securite_bdd($_GET['hd']);
+$fin=securite_bdd($_GET['hf']);
+$semestre=securite_bdd($_GET['se']);
 $sqlstm20="select  libelle from jours where id='$jour'";
 $req20=mysql_query($sqlstm20);
 
@@ -14,7 +13,7 @@ while($ligne20=mysql_fetch_array($req20))
 {
 $sjour=$ligne20['libelle'];
 }
-$sqlstm11000="select discipline,salle  from emploi_temps where jour='$jour' and debut='$debut' and fin='$fin' and classe='".htmlentities($sclasse)."' and semestre='$semestre' and annee='$annee'";
+$sqlstm11000="select discipline,salle  from emploi_temps where jour='$jour' and debut='$debut' and fin='$fin' and classe='$sclasse' and semestre='$semestre' and annee='$annee'";
 $req10mu141000=mysql_query($sqlstm11000);
 $ligne10u141000=mysql_fetch_array($req10mu141000);
 $discipline=$ligne10u141000['discipline'];
@@ -49,28 +48,23 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 <div class="formbox">
 
 
-	<table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
+	<table border="0" cellpadding="3" cellspacing="0" width="100%" align=left >
 		<tbody>
 
 		<TR><TD class=petit>&nbsp;</TD></TR>
 <TR><TD class=petit>&nbsp;</TD></TR>
 <TR>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Cose Semestre&nbsp;</B></TD>
-<TD SIZE="2" ALIGN=LEFT ROWSPAN=1 NOWRAP><INPUT TYPE="text" SIZE=20 MAXLENGTH="50" NAME="jr"   value="<? echo $semestre;?>" disabled></TD>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Jour&nbsp;</B></TD>
-<TD SIZE="2" ALIGN=LEFT ROWSPAN=1 NOWRAP><INPUT TYPE="text" SIZE=20 MAXLENGTH="50" NAME="jr"   value="<? echo $sjour;?>" disabled></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Code Semestre&nbsp;</B><INPUT TYPE="text" SIZE=20 MAXLENGTH="50" NAME="jr"   value="<?php echo $semestre;?>" disabled></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Jour&nbsp;</B><INPUT TYPE="text" SIZE=20 MAXLENGTH="50" NAME="jr"   value="<?php echo $sjour;?>" disabled></TD>
 
 </TR>
 
 <TR><TD class=petit>&nbsp;</TD></TR>
-<?// echo $sqlstm1="select libelle from article where article.codearticle not in (select stock.codearticle from remisestock where cdeetud='$snumero' and datejour='$sjournee' and agence='$agence' and heure='$sheure') and qtestock > 0 and agence='$agence'  ORDER BY LIBELLE";
-;?>
+
 <TR>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Début Cours&nbsp;</B></TD>
-<TD SIZE="2" ALIGN=LEFT ROWSPAN=1 NOWRAP><INPUT TYPE="text" SIZE=12 MAXLENGTH="50" NAME="debut"   value="<? echo $debut;?>" disabled></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Début Cours&nbsp;</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="50" NAME="debut"   value="<?php echo $debut;?>" disabled></TD>
  
- <TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Fin Cours&nbsp;</FONT></B></TD>
-<TD SIZE="2" ALIGN=LEFT ROWSPAN=1 NOWRAP><INPUT TYPE="text" SIZE=12 MAXLENGTH="50" NAME="fin"   value="<? echo $fin;?>" disabled></TD>
+ <TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Fin Cours&nbsp;</FONT></B><INPUT TYPE="text" SIZE=12 MAXLENGTH="50" NAME="fin"   value="<?php echo $fin;?>" disabled></TD>
  <TD class=petit>&nbsp;</TD><TD class=petit>&nbsp;</TD><TD class=petit>&nbsp;</TD>
 </TR>
 
@@ -78,11 +72,9 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 <TR>
 
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Discipline&nbsp;</FONT></B></TD>
-<TD SIZE="2" ALIGN=LEFT ROWSPAN=1 NOWRAP><INPUT TYPE="text" SIZE=30 MAXLENGTH="50" NAME="discipline"  value="<? echo $dis;?>" disabled ></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Discipline&nbsp;</FONT></B><INPUT TYPE="text" SIZE=30 MAXLENGTH="50" NAME="discipline"  value="<?php echo $dis;?>" disabled ></TD>
 
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Salle&nbsp;</FONT></B></TD>
-<TD SIZE="2" ALIGN=LEFT ROWSPAN=1 NOWRAP><INPUT TYPE="text" SIZE=20 MAXLENGTH="50" NAME="salle"   value="<? echo $sal;?>" disabled></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Salle&nbsp;</FONT></B><INPUT TYPE="text" SIZE=20 MAXLENGTH="50" NAME="salle"   value="<?php echo $sal;?>" disabled></TD>
 
 </TR>
 		<TR><TD class=petit>&nbsp;</TD></TR>
@@ -91,12 +83,12 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 </TR>
 
 <TR><td><BUTTON TITLE="Confirmer l'ajout de cet Distributeur" TYPE="submit" id="flashit" name="supprimer">Supprimer</BUTTON></TD></TR>
-	</table><TR><TD class=petit>&nbsp;<input type=hidden name="classe" value="<? echo $sclasse;?>"></TD></TR>
-	<TR><TD class=petit>&nbsp;<input type=hidden name="sem" value="<? echo $semestre;?>"></TD></TR>
-<TR><TD class=petit>&nbsp;<input type=hidden name="annee" value="<? echo $annee;?>"></TD></TR>
-<TR><TD class=petit>&nbsp;<input type=hidden name="jour" value="<? echo $jour;?>"></TD></TR>
-<TR><TD class=petit>&nbsp;<input type=hidden name="debut" value="<? echo $debut;?>"></TD></TR>
-<TR><TD class=petit>&nbsp;<input type=hidden name="fin" value="<? echo $fin;?>"></TD></TR>
+	</table><TR><TD class=petit>&nbsp;<input type=hidden name="classe" value="<?php echo $sclasse;?>"></TD></TR>
+	<TR><TD class=petit>&nbsp;<input type=hidden name="sem" value="<?php echo $semestre;?>"></TD></TR>
+<TR><TD class=petit>&nbsp;<input type=hidden name="annee" value="<?php echo $annee;?>"></TD></TR>
+<TR><TD class=petit>&nbsp;<input type=hidden name="jour" value="<?php echo $jour;?>"></TD></TR>
+<TR><TD class=petit>&nbsp;<input type=hidden name="debut" value="<?php echo $debut;?>"></TD></TR>
+<TR><TD class=petit>&nbsp;<input type=hidden name="fin" value="<?php echo $fin;?>"></TD></TR>
 </div>
 
 </form>

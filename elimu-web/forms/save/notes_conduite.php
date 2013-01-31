@@ -1,117 +1,119 @@
 <?php
-//$_SESSION['classe']=;
-$sclasse=$_GET['num'];
+$sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
-$val=str_replace(utf8_encode('é'), '&eacute;', $sclasse);
-$type='';
-$hd='';
-$hf='';
+$sql1="select distinct id,libelle from semestres where semestres.id  in
+(select  semestre from evaluations where evaluations.id in( select evaluation from notes where  notes.eleve in(select eleve from inscription where classe='$sclasse' and annee='$annee')) and annee='$annee' and type='COMPOSITION')
+ order by libelle";
 $datejour=date("Y")."-".date("m")."-".date("d");
-$sqlstm1e="SELECT count(*) ns FROM semestres WHERE annee ='$annee' and date_debut<='$datejour' and date_fin>='$datejour'";
-$req1e=mysql_query($sqlstm1e);
-while($lignee=mysql_fetch_array($req1e))
-{
-	$ns=$lignee['ns'];
-	}
-$sqlstm1="SELECT id,libelle,date_format(date_debut,'%d/%m/%Y') debut,date_format(date_fin,'%d/%m/%Y') fin FROM semestres WHERE annee ='$annee' and date_debut<='$datejour' and date_fin>='$datejour'";
-$req1=mysql_query($sqlstm1);
-while($lignes=mysql_fetch_array($req1))
-{
-	$codes=$lignes['id'];
-	$libelle=$lignes['libelle'];
-	$debut=$lignes['debut'];
-	$fin=$lignes['fin'];
-	}
-/*	echo	$sqlstm1pa = "select eleve from inscription where annee='$annee' and classe='$val')";
-$RSU1=mysql_query($sqlstm1pa);
-while($ligne=mysql_fetch_array($RSU1))
-{
-$nconduite=$ligne['nb'];
-}*/
 ?>
-<form name="inscription_form" action="<?php echo 'notes_conduite.php?ajout=1&num='.$sclasse;?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+	<script language="Javascript">
+function verif_nombre(champ)
+{
+var chiffres = new RegExp("[0-9/.]"); /* Modifier pour : var chiffres = new RegExp("[0-9]"); */
+var verif;
+var points = 0; /* Supprimer cette ligne */
+
+for(x = 0; x < champ.value.length; x++)
+{
+verif = chiffres.test(champ.value.charAt(x));
+if(champ.value.charAt(x) == "."){points++;}  /*Supprimer cette ligne */
+if(points > 1){verif = false; points = 1;} /* Supprimer cette ligne */
+if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+1,champ.value.length-x+1); x--;}
+}
+
+}
+</script>
+
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
+<script language="Javascript">
+//Fonction nécessaire : ne rien modifier ici...
+function getXhr(){
+    var xhr = null; 
+			
+	if(window.XMLHttpRequest) // Firefox et autres
+		xhr = new XMLHttpRequest(); 
+	else if(window.ActiveXObject)
+	{ // Internet Explorer 
+		try 
+		{
+			xhr = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+	}
+	else 
+	{ // XMLHttpRequest non supporté par le navigateur 
+		alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest..."); 
+		xhr = false; 
+	} 
+            
+	return xhr;
+}
+//Fonction de liste dynamique
+function go(){
+	var xhr = getXhr();
+			
+	// On défini ce qu'on va faire quand on aura la réponse
+	xhr.onreadystatechange = function()
+	{
+		// On ne fait quelque chose que si on a tout reçu et que le serveur est ok
+		if(xhr.readyState == 4 && xhr.status == 200){
+			leselect = xhr.responseText;
+			// On se sert de innerHTML pour rajouter les options a la liste des élèves
+			document.getElementById('notes').innerHTML = leselect;
+		}
+	}
+
+	// On poste la requête ajax vers le fichier de traitement
+	xhr.open("POST","conduitenote.php",true);
+	
+	// ne pas oublier ça pour le post
+	xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	sel1 = document.getElementById('classe');
+		classe = sel1.value;
+			sel2 = document.getElementById('matricule');
+		personnel = sel2.value;
+		sel = document.getElementById('semestre');
+		semestre = sel.options[sel.selectedIndex].value;
+		xhr.send("SEM_ID="+semestre+"&CLASSE_ID="+classe+"&PERSO_ID="+personnel);
+}
+
+</script>
+
 <table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
 		<tbody>
 		<TR><TD class=petit>&nbsp;</TD></TR>
-		<?php
-		if($ns==0){
-echo $datejour .' n\'est dans  aucun semestre donc impossible de faire un traitement  pour cette date';
-}
-/*elseif	($nconduite<>0) {
+					<TR>
+<B>&nbsp;Liste des Semestres &nbsp;*&nbsp;</B><SELECT NAME="semestre" id="semestre" required onchange="go()">
+<OPTION value=""></OPTION>
+ <?php
 
-}*/
-
-else{
+$req1=mysql_query($sql1);
+while($ligne1=mysql_fetch_array($req1))
+{
+$id=$ligne1['id'];
+$libsemestre=$ligne1['libelle'];
 ?>
+  <OPTION value="<?php echo $id;?>"><?php echo $libsemestre;?>
+  <?php
+}
+ echo" <input name='classe'  id='classe' type=hidden value='$sclasse'>
+  <input name='matricule'  id='matricule' type=hidden value='$personnel'>";
+?>
+ </OPTION></SELECT></TD></TR>
+
 <tr>
   <td style="padding-left:30px;" ALIGN=center>
-  <table cellpadding=2 cellspacing=1 border=2>
-	   	    <tr bgcolor=#033155 align=center >
-            <th width=100><b><font color="white">Matricule</th>
-            <th width=300><b><font color="white">Eleve</th>
-            <th width=300><b><font color="white">Date et lieu de Naissance</th>
-            <th width=100><b><font color="white">Conduite</th>
-                     </tr>
-                <?php
-                  //include"connect.php";
-                  $sql="select * from eleves where matricule in(  select eleve from inscription where classe='".htmlentities($sclasse)."' and annee='$annee')";
-                  $exec=mysql_query($sql) or die(mysql_error());
-                  $nb=mysql_num_rows($exec);
-                  $i=1;
-                 echo" <input name=nbart type=hidden value=$nb>";
-                  while($ligne=mysql_fetch_row($exec)){
-                               $code=$ligne['0'];
-							      $prenom=$ligne['1'];
-                               $nom=$ligne['2'];
-                               $mode=$ligne['3'];
-							   $date_n=$ligne['4'];
-                               $lieu=$ligne['5'];
-		              echo"<tr >
-			            <td align=center><b>$code</td>
-			            <td align=center><b>$prenom $nom</td>
-							<td align=center><b>$date_n à $lieu</td>
-							<td  align=center>
-			            		  <input size=9 name=note$i  type=text id='Note Eléve'  onkeyup='verif_nombre(this);' lang='bonfond:#FFFFFF;bontexte:#400040; erreurfond:#FF0000;bontexte:#0000FF;type:obligatoire2;erreur: CV obligatoire'>
-			            	 <script type=text/javascript>      //
-				                 			new SUC( document.frm.nbptotal$i );       //
-				             	      </script>
-			            		</td>
-			            		</td>
-							";
-						
-			                       echo" <input name=code$i type=hidden value='$code'>
-			        
-			          ";
-                     $i++;
-                  }
-				   echo" <input name=semestre type=hidden value='$codes'>";
-				  echo" <input name=cl type=hidden value='$sclasse'>";
-				  echo" <input name=an type=hidden value='$annee'>";
-				  echo" <input name=matricule type=hidden value='$personnel'>";
-
-				?>
-		</table>
-	</td>
-  </tr>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=95%></TD></TR>
-
-
-	</tbody>
-<TR><TD class=petit>&nbsp;</TD>
-
-</TR>
-	<TR><TD><BUTTON TITLE="Confirmer la note de conduite"name="enregistrer" TYPE="submit" id="flashit"><b>Noter</b></BUTTON>&nbsp;<BUTTON TITLE="Annuler " TYPE="reset"><b>&nbsp;Annuler&nbsp;</b></BUTTON></TD>
-	</table>
-</div>
-
+  <table cellpadding=2 cellspacing=1 border=2 id="notes">
+  </table></td></tr>
 </form>
 <?php
-if (isset($_POST["enregistrer"]) and isset($_POST["cl"]) ) {
-	if(isset($_POST["cl"])){
-$classe=addslashes($_POST['cl']);
+if (isset($_POST["enregistrer"]) and isset($_POST["semestre"]) ) {
+	if(isset($_POST["classe"])){
+$classe=addslashes($_POST['classe']);
 $annee=addslashes($_POST['an']);
 $matricule=addslashes($_POST['matricule']);
 $semestre=addslashes($_POST['semestre']);
@@ -123,7 +125,7 @@ $nbart=addslashes($_POST['nbart']);
 if($note>=0 and $note<=20){
  $exereq=mysql_query("select * from note_conduite where eleve='$code' and semestre='$semestre' and annee='$annee' and personnel='$matricule' ");
     if(mysql_num_rows($exereq)==0){
-		  echo $sql="insert into note_conduite values('$code','$note','$semestre','$annee','','$matricule')";
+		   $sql="insert into note_conduite values('$code','$note','$semestre','$annee','','$matricule')";
 		           
 		            $exe=mysql_query($sql) or die(mysql_error());
 		            if (@$exe) {
@@ -178,9 +180,8 @@ location.href="notes_conduite.php?ajout=1&num='.$classe.'"
 
 
  	}
- 
 	}
 }
-}
+//}
 
 ?>

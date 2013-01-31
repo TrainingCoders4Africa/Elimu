@@ -1,7 +1,7 @@
 <?php
 session_start();
 $rechtab="enseignant";
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 if (isset($_GET["sup"])) {
   $titre="  Professeurs >> Suppression" ;
   $pageint="forms/delete/professeurs.php";

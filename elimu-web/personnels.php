@@ -1,7 +1,7 @@
 <?php
 session_start();
 $rechtab="personnels";
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 if (isset($_GET["sup"])) {
   $titre="  Personnels >> Suppression" ;
   $pageint="forms/delete/personnels.php";

@@ -13,29 +13,7 @@ body {
 }
 -->
 </style>
-<script language="javascript">
-      function confirme(identifiant,page)
-      {
-        var confirmation = confirm( "Voulez vous vraiment Modifier cet enregistrement ?" ) ;
-	if( confirmation )
-	{
-	  document.location.href = page+".php?idm="+identifiant;
-	}
-      }
-    </script>
-<script language="javascript">top.resizeTo(window.screen.availWidth,
-      window.screen.availHeight);</script>
-<script language="javascript">
-      function confirme1(identifiant,page)
-      {
-        var confirmation = confirm( "Voulez vous vraiment supprimer cet enregistrement ?" ) ;
-	if( confirmation )
-	{
-	  document.location.href = page+".php?ids="+identifiant;
-	}
-      }
-    </script>
-    <script type="text/javascript" src="../css/conform.js"></script>
+<script type="text/javascript" src="../css/conform.js"></script>
  <STYLE>
 
   .input_text_rech
@@ -70,7 +48,7 @@ legend{
 .error  {font-family:Century Gothic;font-size:13;color:red;}
 .good  {font-family:Century Gothic;font-size:16;font-weight: 700;color:#940000}
 .tit{font-family:Century Gothic;font-size:16;font-weight: 700; color:#940000;}
-td{font-family:Century Gothic;font-weight: 500;font-size:14;color:black;}
+td{font-family:Century Gothic;font-weight:10;font-size:14;color:black;}
 .myc{font-family:Century Gothic;font-size:13;color:#b0d0FF;}
 th{font-family:Century Gothic;font-size:13;color:black;}
 p.kc{font-family:Century Gothic;font-size:13;color:black; background-color:#CADBE6;}
@@ -109,93 +87,4 @@ scrollbar-base-color: read;
 }
 
 </STYLE>
-<script        type="text/javascript"
-src="conform.js"></script>
- <script type="text/javascript"><!----------------
-//~~~~~~~~~~~~~~~~~~~~~~~~~~ #        #                             #
-function SUC(champ) //~~ initialisation ~~ Saisir Uniquement des Chiffres
-//~~~~~~~~~~~~~~~~~~~~~~~~~~ #        #                             #
-{
- this.champ=champ;
- var Lui=this;
- var ie = false; /*@cc_on ie = true; @*/
- if ( ie ) {
-     this.champ.onkeypress = Lui.IE;
-    }
- else  {
-     this.champ.onkeyup = function(e)
-      {
-       Lui.FF(this, e);
-      }
-    }
-}
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SUC.prototype.IE=function() //~~ pour Internet Explorer ~~
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-{
- if ( event.keyCode<0x30 || event.keyCode>0x39 )
- {
-  event.returnValue= false;
-   alert("Ce champ ne prend que des chiffres");
- }
-}
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SUC.prototype.FF=function(zone,evt) //~~ pour FireFox ~~
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-{
- if ( evt.which<0x30 || evt.which>0x39 )
- {
-  zone.value=zone.value.replace(/[^0-9]/g,"");
-  alert("Ce champ ne prend que des chiffres");
- }
-}
-// ---------------->
-function annule(){
-
-    var ddd=document.form_newsl.nom.value;
-    if(ddd=="Entrez votre nom") {
-      ddd="";
-      }
-      else if (ddd==""){
-      //document.form_newsl.mailnewsl.value="Entrez votre courriel";
-      }
-    }
- function annule1(){
-
-    var ddd=document.form_newsl.mailnewsl.value;
-    if(ddd=="Entrez votre courriel") {
-       ddd="";
-      }
-      else if (ddd==""){
-      //document.form_newsl.mailnewsl.value="Entrez votre courriel";
-      }
-    }
-</script>
-
 </head>
-<?php
-function verifemail($courriel){
-//$regex = #^[a-z0-9-+_](\.?[a-z0-9-+_])*@[a-z0-9-+_](\.?[a-z0-9-+_])*\.[a-z]{2,4}$#i
-
-$atom   = '[-a-z0-9!#$%&\'*+\\/=?^_`{|}~]';   // caractères autorisés avant l'arobase
-$domain = '([a-z0-9]([-a-z0-9]*[a-z0-9]+)?)'; // caractères autorisés après l'arobase (nom de domaine)
-$regex = '/^' . $atom . '+' .   // Une ou plusieurs fois les caractères autorisés avant l'arobase
-'(\.' . $atom . '+)*' .         // Suivis par zéro point ou plus
-                                // séparés par des caractères autorisés avant l'arobase
- '@' .                           // Suivis d'un arobase
- '(' . $domain . '{1,63}\.)+' .  // Suivis par 1 à 63 caractères autorisés pour le nom de domaine
-                              // séparés par des points
-$domain . '{2,63}$/i';
-
-            if (preg_match($regex,$courriel)) {
-               // echo "L'adresse $courriel est valide";
-                return 1;
-                }
-             else {
-               // echo "L'adresse $courriel n'est pas valide";
-                return 0;
-            }
-}
-
-?>
-<center>

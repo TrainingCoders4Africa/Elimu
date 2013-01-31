@@ -1,7 +1,7 @@
 <?php
 session_start();
 $rechtab="surveiller";
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 if (isset($_GET["sup"])) {
   $titre="  Surveillants >> Suppression" ;
   $pageint="forms/delete/surveillants.php";

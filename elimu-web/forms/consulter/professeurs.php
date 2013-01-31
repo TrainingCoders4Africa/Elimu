@@ -10,8 +10,7 @@ $annee=annee_academique();
 	 $sql="select * from $table    limit $compt,".($long);
 	else
 	 $sql="select * from $table   limit ".($long+$long*($compt-1)).",".($long);
-	//}
-	 //echo"<br>".$sql;
+	
     return $sql;
 
 }
@@ -30,19 +29,18 @@ $annee=annee_academique();
 
                    echo'</tr>';
 }
-function affiche_dossier(){
+function affiche_professeur(){
  $annee=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
   $j=1;
-  //$exe=mysql_query("select * from dossier limit $nbstart,$long");
    $exe=mysql_query(separationord("professeurs.php?vis=1&","compt","specialites",2));
   echo'<br><table border="0" cellpadding="0" cellspacing="5" width="800" BGcolore=yellow align=center>
        						';
 					    while($row1=mysql_fetch_row($exe)) { 
 						$b='';
-						$p1=$row1[1];
+						$matricule=$row1[1];
                           	$p2=$row1[2];
-						$perso = findByValue('personnels','matricule',$p1);
+						$perso = findByValue('personnels','matricule',$matricule);
 						$per = mysql_fetch_row($perso);
 						$p3=$per[1];
 						$prenom=$per[2]; 
@@ -50,18 +48,23 @@ $datejour=date("Y")."-".date("m")."-".date("d");
 						$etag = findByValue('titre5','id',$p3);
 						$cha = mysql_fetch_row($etag);
 						$titre=$cha[1];				
-						$etagiaire = findByValue('fonction','personnel',$p1);
+						$etagiaire = findByValue('fonction','personnel',$matricule);
 						$champ = mysql_fetch_row($etagiaire);
-						$p18=$champ[1];
+						$matricule8=$champ[1];
 						//specialité
 						$etagiai = findByValue('disciplines','iddis',$p2);
 						$cham = mysql_fetch_row($etagiai);
 						$uv=$cham[1];
-//classe enseigner
-$etage = findByNValuelib('enseigner','classe',"personnel='$p1' and discipline='$p2'");
+
+$etage = findByNValuelib('enseigner','classe',"personnel='$matricule' and discipline='$p2'");
 						while($chae = mysql_fetch_row($etage)){
 						$p=$chae[0];
-						$b=$b.' '.$p;
+						//liste des classes
+						$t_classe = findByValue('classes','idclasse',$p);
+						$chamcl = mysql_fetch_row($t_classe);
+						$cl=$chamcl[3];
+						
+						$b=$b.' '.$cl;
 						}
 						
                               if($j==1)
@@ -94,16 +97,12 @@ $etage = findByNValuelib('enseigner','classe',"personnel='$p1' and discipline='$
 
 
 					    }
-					   // closedir($dir); // fermeture du dossier
 					    echo"</tr>";
 		afficheseparationord("professeurs.php?vis=1&","compt","specialites",@$_GET["compt"],1,2);
 					    echo"
 						</table>";
 
 }
-@affiche_dossier(0,2);
+@affiche_professeur(0,2);
 ?>
-<!--</tr></tbody>
-</table>
-</div>-->
 

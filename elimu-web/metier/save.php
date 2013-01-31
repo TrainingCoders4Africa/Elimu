@@ -1,31 +1,5 @@
 <?php
-function accents($valeur){ 
-$val=str_replace(utf8_encode('Ç'), '&Ccedil;', $valeur);
-$val=str_replace(utf8_encode('É'), '&Eacute;', $val);
-$val=str_replace(utf8_encode('À'), '&Agrave;', $val);
-$val=str_replace(utf8_encode('Â'), '&Acirc;', $val);
-$val=str_replace(utf8_encode('Î'), '&Icirc;', $val);
-$val=str_replace(utf8_encode('È'), '&Egrave;', $val);
-$val=str_replace(utf8_encode('Ê'), '&Ecirc;', $val);
-$val=str_replace(utf8_encode('Ô'), '&Ocirc;', $val);
-$val=str_replace(utf8_encode('Û'), '&Ucirc;', $val);
-$val=str_replace(utf8_encode('Ù'), '&Ugrave', $val);
-$val=str_replace(utf8_encode('Ï'), '&Iuml;', $val);
-
-$val=str_replace(utf8_encode('ç'), '&ccedil;', $valeur);
-$val=str_replace(utf8_encode('é'), '&eacute;', $val);
-$val=str_replace(utf8_encode('à'), '&agrave;', $val);
-$val=str_replace(utf8_encode('â'), '&acirc;', $val);
-$val=str_replace(utf8_encode('î'), '&icirc;', $val);
-$val=str_replace(utf8_encode('è'), '&egrave;', $val);
-$val=str_replace(utf8_encode('ê'), '&Ecirc;', $val);
-$val=str_replace(utf8_encode('ô'), '&ocirc;', $val);
-$val=str_replace(utf8_encode('û'), '&ucirc;', $val);
-$val=str_replace(utf8_encode('ù'), '&ugrave', $val);
-$val=str_replace(utf8_encode('ï'), '&iuml;', $val);
-
-return $val;
-}
+//save profile
 function save_profile(){
 	if(isset($_POST["libelle1"])){
 
@@ -87,11 +61,11 @@ else{
 	
 	 while ($niveau = array_shift($choix)) 
 {
-echo $niveau;
+
  $exereq=mysql_query("select * from etudes where libelle='$niveau' ");
     if(mysql_num_rows($exereq)==0){
 
-echo$sql_ajout="INSERT INTO etudes(niveau,libelle,cycle) VALUES ('".htmlentities($niveau)."','".htmlentities($niveau)."','".htmlentities($cycle)."')";
+$sql_ajout="INSERT INTO etudes(idetude,niveau,libelle,cycle) VALUES ('','".($niveau)."','".($niveau)."','".($cycle)."')";
 $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 				//$sql_ajoutm="INSERT INTO mensualites VALUES ('', '$mensualite','$inscription', '$niveau')";
@@ -125,7 +99,7 @@ else{
 
  $exereq=mysql_query("select * from etudes where libelle=concat('$niveau','$serie') ");
     if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO etudes VALUES ('$niveau', '$serie', concat('$niveau','$serie'),'$cycle')";
+ 	$sql_ajout="INSERT INTO etudes VALUES ('','$niveau', '$serie', concat('$niveau','$serie'),'$cycle')";
 
     $query_ajout=mysql_query($sql_ajout) or die(mysql_error);
 			if($query_ajout){
@@ -152,11 +126,11 @@ else{
 echo 'la serie doit etre différent de S et de L';
 }
 else{
-$niv=htmlentities($niveau);
-$se=htmlentities($serie);
+$niv=($niveau);
+$se=($serie);
  $exereq=mysql_query("select * from etudes where libelle=concat('$niv','$se') ");
     if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO etudes VALUES ('$niv', '$se', concat('$niv','$se'),'$cycle')";
+ 	$sql_ajout="INSERT INTO etudes VALUES ('','$niv', '$se', concat('$niv','$se'),'$cycle')";
 
     $query_ajout=mysql_query($sql_ajout) or die(mysql_error);
 			if($query_ajout){
@@ -179,16 +153,17 @@ $se=htmlentities($serie);
     }
 }
  }
-  elseif(($niveau=='Tle')){
- if($serie=='S' || $serie=='L'){
+elseif(($niveau=='Tle')){
+ if($serie=='S' or $serie=='L'){
 echo 'la serie doit etre différent de S et de L';
 }
 else{
-$niv=htmlentities($niveau);
-$se=htmlentities($serie);
- $exereq=mysql_query("select * from etudes where libelle=concat('$niv','$se' ");
+$niv=($niveau);
+$se=($serie);
+//$libel=$niv.se
+ $exereq=mysql_query("select * from etudes where libelle=concat('$niv','$se') ");
     if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO etudes VALUES ('$niv', '$se', concat('$niv','$se'),'$cycle')";
+ 	$sql_ajout="INSERT INTO etudes VALUES ('','$niv', '$se', concat('$niv','$se'),'$cycle')";
 
     $query_ajout=mysql_query($sql_ajout) or die(mysql_error);
 			if($query_ajout){
@@ -218,12 +193,12 @@ $se=htmlentities($serie);
 	$serie = addslashes($_POST['filiere']);
 	 while ($niveau = array_shift($choix)) 
 {
-$niv=htmlentities($niveau);
-$se=htmlentities($serie);
+$niv=($niveau);
+$se=($serie);
  $exereq=mysql_query("select * from etudes where libelle=concat('$niv','$se')");
     if(mysql_num_rows($exereq)==0){
 
-$sql_ajout="INSERT INTO etudes VALUES ('$niv', '$se', concat('$niv','$se'),'$cycle')";
+$sql_ajout="INSERT INTO etudes VALUES ('','$niv', '$se', concat('$niv','$se'),'$cycle')";
 $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 			//	$sql_ajoutm="INSERT INTO mensualites VALUES ('', '$mensualite','$inscription', concat('$niveau','$serie'))";
@@ -260,9 +235,9 @@ function save_classe(){
 	$v="";
 	if(@$nbre==1){
 	//$v=""; 
-	$exereq=mysql_query("select * from classes where etude= '".htmlentities($niveau)."'");
+	$exereq=mysql_query("select * from classes where etude= '".($niveau)."'");
      if(mysql_num_rows($exereq)==0){
-  	$sql_ajout="INSERT INTO classes(etude,numero,libelle) VALUES ( '".htmlentities($niveau)."','','".htmlentities($niveau)."')";
+  	$sql_ajout="INSERT INTO classes(etude,numero,libelle) VALUES ( '".($niveau)."','','".($niveau)."')";
 
    $query_ajout=mysql_query($sql_ajout);
 			if($query_ajout){
@@ -305,11 +280,11 @@ $v='I';}
 elseif($i==10){
 $v='J';}
 //echo "classe ( ".$niveau.",".@$annee.",".$v." )";
-$niv=htmlentities($niveau);
+$niv=($niveau);
 
 $exereq=mysql_query("select * from classes where libelle= concat('$niv','$v') ");
      if(mysql_num_rows($exereq)==0){
-  	$sql_ajout="INSERT INTO classes(etude,numero,libelle) VALUES ( '".htmlentities($niveau)."','".$v."',concat('$niv','$v'))";
+  	$sql_ajout="INSERT INTO classes(etude,numero,libelle) VALUES ( '".($niveau)."','".$v."',concat('$niv','$v'))";
 
    $query_ajout=mysql_query($sql_ajout);
 			if($query_ajout){
@@ -332,12 +307,10 @@ $exereq=mysql_query("select * from classes where libelle= concat('$niv','$v') ")
 function save_discipline(){
 if(isset($_POST["libelle"])){
 	$nom = addslashes($_POST['libelle']);
-	$cycle = addslashes($_POST['cycle']);
-	$credit = addslashes($_POST['credit_horaire']);
- $choix=@$_POST["choix"];
+$choix=@$_POST["choix"];
  $ctrl=sizeof($choix);
 if($ctrl==0 ){
-echo"Attention vous n'avez pas cochez aucune classe !!";
+echo"Attention vous n'avez pas cochez aucun cycle !!";
 //exit;
 }
 else{
@@ -346,10 +319,10 @@ else{
 $ch= htmlspecialchars($monchoix, ENT_QUOTES);
 $uv= htmlspecialchars($nom, ENT_QUOTES);
             // ("select * from disciplines where libelle= '".$uv."' and etude='".$ch."'");
-			//  echo ("select * from disciplines where libelle= '".htmlentities($nom)."' and etude='".htmlentities($monchoix)."'");
-	   $exereq=mysql_query("select * from disciplines where libelle= '".htmlentities($nom)."' and etude='".htmlentities($monchoix)."'");
+			// echo ("select * from disciplines where libelle= '".($nom)."' and cycle='".($monchoix)."'");
+	    $exereq=mysql_query("select * from disciplines where libelle= '".($nom)."' and cycle='".($monchoix)."'");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO disciplines VALUES ( '','".htmlentities($nom)."','".$credit."','".htmlentities($monchoix)."')";
+ 	$sql_ajout="INSERT INTO disciplines VALUES ( '','".($nom)."','".($monchoix)."')";
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 			echo"<div align=center class=imp>enregistrement valide!</div>";
@@ -360,12 +333,42 @@ $uv= htmlspecialchars($nom, ENT_QUOTES);
      		}  
       	  }
      else{
-    	echo "<br>Discipline   ".htmlentities($nom)." déja enregistrée pour le niveaux d'etude ".htmlentities($monchoix);
+    	echo "<br>Discipline   ".($nom)." déja enregistrée pour le cycle ".($monchoix);
 		}
 	 }
 	 } 
 						}
 }
+// save sous discipline
+function save_sousdiscipline(){
+	if(isset($_POST["discipline"])){
+
+	$discipline = addslashes($_POST['discipline']);
+	$sousdiscipline = addslashes($_POST['libelle']);
+	$exereq=mysql_query("select * from sous_matiere where libelle= '".($sousdiscipline)."' and discipline='".$discipline."'");
+     if(mysql_num_rows($exereq)==0){
+ 	$sql_ajout="INSERT INTO sous_matiere VALUES ( '','".($sousdiscipline)."','".$discipline."')";
+
+
+   $query_ajout=mysql_query($sql_ajout) ;
+			if($query_ajout){
+						echo"<div align=center class=imp>enregistrement valide!</div>";
+			}
+			else
+			{
+				echo"<div align=center class=imp>Echec!Veuillez reprendre</div>";
+
+     		}  
+
+      }
+     else{
+    	echo "<b>".$sousdiscipline." existe déja";
+     }
+    }
+
+
+}
+
 //save personnel
 function save_personnel(){
 if(isset($_POST["matricule"])){
@@ -458,7 +461,7 @@ $extension_upload = strtolower(  substr(  strrchr($photo, '.')  ,1)  );
 				$sql1_ajout="INSERT INTO user VALUES ('$matricule','$login', '$password', '$profile')";
               $query_ajoutad=mysql_query($sql1_ajout) ;	
 			}
-	$CONFIG_KANNEL_HOST="localhost";
+$CONFIG_KANNEL_HOST="localhost";
 $CONFIG_KANNEL_PORT="8011";
 $in_phoneNumber="$tel";  
 
@@ -472,6 +475,7 @@ $in_msg = "Bienvenue à l'application Elimu de l'établissement ".$etablissement."
    $results = file('http://localhost:8011'.$url);
  }
  sendSmsMessage($in_phoneNumber, $in_msg);
+ 
 			echo"<div align=center class=imp>enregistrement valide!</div>";
 			}
 			else
@@ -536,6 +540,7 @@ else{
 
       }
      else{
+	 $newdebut="0000-00-00";
 	 $exereqs1=mysql_query("select date_debut from semestres where id= 'S2' and annee='$annee'");
 	while($ligne2s1=mysql_fetch_array($exereqs1))
 {
@@ -543,7 +548,8 @@ $newdebut=$ligne2s1['date_debut'];// mise a jour du premier semestre
 }
 //$finab = $dfin[2].$dfin[1].$dfin[0];
 	$finabnew = $dfin[0].'-'.$dfin[1].'-'.$dfin[2];
-	if($finabnew >=$newdebut){
+	if( ($newdebut<>'0000-00-00')and ($finabnew >=$newdebut)){
+	echo$finabnew .'>='.$newdebut;
 			echo"<div align=center class=imp>Le premier semestre ne pas etre inclu dans le second semestre, Changer le second semestre d'abord</div>";
 			}
 			else{
@@ -587,7 +593,7 @@ $dfins = explode("-", $fins1);
 	$fins = $dfins[0].$dfins[1].$dfins[2];//fin  semestre
 	$debutab = $ddebut[0].$ddebut[1].$ddebut[2];
 	$finab = $dfin[0].$dfin[1].$dfin[2];
-	if($pres >=$ddebut[2])
+	if($pres >=$ddebut[0])
 	echo"<div align=center class=imp>l'anneé debut du second semestre doit être >= à ".$pres."</div>";
 	elseif($ddebut[0]> $suiv )
 	echo"<div align=center class=imp>l'anneé debut du second semestre ne doit pas dépasser ".$suiv."</div>";
@@ -661,12 +667,16 @@ echo"Attention vous n'avez pas cochez aucun niveau d'étude !!";
 else{
  while ($monchoix = array_shift($choix)) 
 {
-	   $exereq=mysql_query("select * from coefficients where discipline= '".$discipline."' and etude='".htmlentities($monchoix)."' ");
+	   $exereq=mysql_query("select * from coefficients where discipline= '".$discipline."' and etude='".($monchoix)."' ");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO coefficients VALUES ('', '$coef','".$discipline."','".htmlentities($monchoix)."')";
+ 	$sql_ajout="INSERT INTO coefficients VALUES ('', '$coef','".$discipline."','".($monchoix)."')";
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
-			echo"<div align=center class=imp>enregistrement valide!</div>";
+			echo'<script Language="JavaScript">
+							{
+							alert ("enregistrement valide");
+							}
+					</SCRIPT>';
 			
 		
 			}
@@ -678,7 +688,7 @@ else{
 
       }
      else{
-    	echo "<br>Coéf déja attribué à ".$discipline." pour la".htmlentities($monchoix);
+    	echo "<br>Coéf déja attribué à ".$discipline." pour la".($monchoix);
      }
     }
 }
@@ -703,9 +713,9 @@ $miseu="delete from surveiller where personnel= '$matricule'  and annee='$annee'
 	
   while ($monchoix = array_shift($choix)) 
 {             
-	   $exereq=mysql_query("select * from surveiller where personnel= '$matricule' and classe='".htmlentities($monchoix)."' and annee='$annee' ");
+	   $exereq=mysql_query("select * from surveiller where personnel= '$matricule' and classe='".($monchoix)."' and annee='$annee' ");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO surveiller VALUES ( '$matricule','".htmlentities($monchoix)."','$annee')";
+ 	$sql_ajout="INSERT INTO surveiller VALUES ( '$matricule','".($monchoix)."','$annee')";
 
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
@@ -764,14 +774,14 @@ $exereq0=mysql_query("select * from specialites where professeur='$prof' and dis
 			if($query_ajout0){
   while ($monchoix = array_shift($choix)) 
 {         
-/*$sqlstm2d="select  iddis from disciplines where disciplines.etude=(select etude from classes where libelle='".htmlentities($monchoix)."') and libelle='".$discipline."'";
+/*$sqlstm2d="select  iddis from disciplines where disciplines.etude=(select etude from classes where libelle='".($monchoix)."') and libelle='".$discipline."'";
 $req2d=mysql_query($sqlstm2d);
 $ligne2d=mysql_fetch_array($req2d);
-$iddis=htmlentities($ligne2d['iddis']);*/
+$iddis=($ligne2d['iddis']);*/
    
-$exereq=mysql_query("select * from enseigner where classe= '".htmlentities($monchoix)."' and discipline='$discipline' and annee='$annee' ");
+$exereq=mysql_query("select * from enseigner where classe= '".($monchoix)."' and discipline='$discipline' and annee='$annee' ");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','".htmlentities($monchoix)."','$discipline','$annee')";
+ 	$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','".($monchoix)."','$discipline','$annee')";
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 			echo"<div align=center class=imp>enregistrement valide!</div>";
@@ -782,7 +792,7 @@ $exereq=mysql_query("select * from enseigner where classe= '".htmlentities($monc
      		}
 								}
      else{
-    	echo "<br>matiére déja attribuée à ".htmlentities($monchoix)." pour cette année académique ".$annee;
+    	echo "<br>matiére déja attribuée à ".($monchoix)." pour cette année académique ".$annee;
      }
 	 }
 }	 
@@ -792,14 +802,14 @@ $miseu="delete from enseigner where personnel= '$prof'  and annee='$annee' and d
 	$req2u=mysql_query($miseu);
   while ($monchoix = array_shift($choix)) 
 {         
-$sqlstm2d="select  iddis from disciplines where disciplines.etude=(select etude from classes where libelle='".htmlentities($monchoix)."') and libelle='".$discipline."'";
+$sqlstm2d="select  iddis from disciplines where disciplines.etude=(select etude from classes where libelle='".($monchoix)."') and libelle='".$discipline."'";
 $req2d=mysql_query($sqlstm2d);
 $ligne2d=mysql_fetch_array($req2d);
-$iddis=htmlentities($ligne2d['iddis']);
+$iddis=($ligne2d['iddis']);
    
-$exereq=mysql_query("select * from enseigner where classe= '".htmlentities($monchoix)."' and discipline='$iddis' and annee='$annee' ");
+$exereq=mysql_query("select * from enseigner where classe= '".($monchoix)."' and discipline='$iddis' and annee='$annee' ");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','".htmlentities($monchoix)."','$iddis','$annee')";
+ 	$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','".($monchoix)."','$iddis','$annee')";
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 			echo"<div align=center class=imp>enregistrement valide!</div>";
@@ -810,7 +820,7 @@ $exereq=mysql_query("select * from enseigner where classe= '".htmlentities($monc
      		}
 								}
      else{
-    	echo "<br>matiére déja attribuée à ".htmlentities($monchoix)." pour cette année académique ".$annee;
+    	echo "<br>matiére déja attribuée à ".($monchoix)." pour cette année académique ".$annee;
      }
 	 }
 }
@@ -826,7 +836,7 @@ $annee = addslashes($_POST['annee']);
 
 $miseu="delete from enseignant where personnel= '$matricule'  and annee='$annee'";
 	$req2u=mysql_query($miseu);
- 	$sql_ajout="INSERT INTO enseignant VALUES ( '$matricule','".htmlentities($classe)."','$annee')";
+ 	$sql_ajout="INSERT INTO enseignant VALUES ( '$matricule','".($classe)."','$annee')";
 
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
@@ -875,9 +885,9 @@ function save_serie(){
 	if(isset($_POST["libelle"])){
 
 	$nom = addslashes($_POST['libelle']);
-	$exereq=mysql_query("select * from series where libelle1= '".htmlentities($nom)."'");
+	$exereq=mysql_query("select * from series where libelle1= '".($nom)."'");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO series VALUES ( '','".htmlentities($nom)."')";
+ 	$sql_ajout="INSERT INTO series VALUES ( '','".($nom)."')";
 
 
    $query_ajout=mysql_query($sql_ajout) ;
@@ -903,9 +913,9 @@ function save_filiere(){
 	if(isset($_POST["sigle"])){
 	$sigle = addslashes($_POST['sigle']);
 	$nom = addslashes($_POST['libelle']);
-	$exereq=mysql_query("select * from filieres where sigle1= '".htmlentities($sigle)."'");
+	$exereq=mysql_query("select * from filieres where sigle1= '".($sigle)."'");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO filieres VALUES ( '".htmlentities($sigle)."','".htmlentities($nom)."')";
+ 	$sql_ajout="INSERT INTO filieres VALUES ( '".($sigle)."','".($nom)."')";
 
 
    $query_ajout=mysql_query($sql_ajout) ;
@@ -996,8 +1006,20 @@ if(isset($_POST["matricule"])){
 	$annee = annee_academique();
 	$sclasse = addslashes($_POST['classe']);
 	$datejour=date("Y")."-".date("m")."-".date("d");
-	$agent = addslashes($_POST["agent"]);
+	$agent = addslashes($_POST["agent"]);// personnel qui a enregistré l'inscription
 	$enable='true';
+	$lv1= addslashes($_POST['lv1']);
+	$lv2= addslashes($_POST['lv2']);
+	$lc= addslashes($_POST['lvc']);
+	$lgv1="";
+	$lgv2="";
+	$lgc="";
+	if($lv1<> 0)
+	$lgv1= addslashes($_POST['lgv1']);
+	if($lv2 <> 0)
+	$lgv2= addslashes($_POST['lgv2']);
+	if($lc <> 0)
+	$lgc= addslashes($_POST['lgc']);
 	
 	if($_FILES['photo']['name']<>""){
 		$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
@@ -1035,7 +1057,7 @@ $extension_upload = strtolower(  substr(  strrchr($photo, '.')  ,1)  );
     $query_ajout=mysql_query($sql_ajout);
 	$numero=mysql_insert_id();
 			if($query_ajout){
-				$sql1_ajout="INSERT INTO inscription VALUES ('$matricule','".htmlentities($sclasse)."', '$redoublant','$datejour','$annee','$agent')";
+				$sql1_ajout="INSERT INTO inscription VALUES ('$matricule','".($sclasse)."', '$redoublant','$datejour','$annee','$agent','$lgv1','$lgv2','$lgc')";
               $query_ajoutad=mysql_query($sql1_ajout) ;
 			 
 				echo"<div align=center class=imp>Inscription Validée!</div>";
@@ -1066,9 +1088,9 @@ function save_emploi(){
 	$discipline=$dannee[0];
 	$prof=$dannee[1];
 	$salle = addslashes($_POST['salle']);
-	$exereq=mysql_query("select * from emploi_temps where jour= '$jour' and debut= '$debut' and fin= '$fin' and classe= '".htmlentities($classe)."' and annee= '$annee' and semestre= '$semestre' ");
+	$exereq=mysql_query("select * from emploi_temps where jour= '$jour' and debut= '$debut' and fin= '$fin' and classe= '".($classe)."' and annee= '$annee' and semestre= '$semestre' ");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO emploi_temps VALUES ('','$jour', '$debut', '$fin','$discipline','$prof' ,'$annee', '$salle', '$semestre','".htmlentities($classe)."')";
+ 	$sql_ajout="INSERT INTO emploi_temps VALUES ('','$jour', '$debut', '$fin','$discipline','$prof' ,'$annee', '$salle', '$semestre','".($classe)."')";
  	
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
@@ -1092,29 +1114,34 @@ function save_evaluation(){
 
 	$type = addslashes($_POST['type']);
 	$dp = addslashes($_POST['date_p']);
-	/*$array_date=explode("/",$date_prevue);
-	$dp=$array_date[2]."-".$array_date[1]."-".$array_date[0];*/
-	
-	$discipline = addslashes($_POST['discipline']);
-	$debutc = addslashes($_POST['debut']);
-	$duree = addslashes($_POST['duree']);
-	$salle = addslashes($_POST['salle']);
-	$sclasse = addslashes($_POST['classe']);
-	$annee =annee_academique();
-	$semestre = addslashes($_POST['semestre']);
-$status=$_SESSION["agence"];
+	$nbsd=@addslashes($_POST['nbsd']);//nombre de sous discipline
+	$dis = addslashes($_POST['discipline']);
+if($nbsd<>0){
+$sousmat=@addslashes($_POST['sousmat']);
+$discipline=$dis.'D'.$sousmat;
+}
+else{
+$discipline=$dis.'D';
+}
+$debutc = addslashes($_POST['debut']);
+$duree = addslashes($_POST['duree']);
+$salle = addslashes($_POST['salle']);
+$sclasse = addslashes($_POST['classe']);
+$annee =annee_academique();
+$semestre = addslashes($_POST['semestre']);
+$status=$_SESSION["profil"];
 
 if($status=='PROFESSEUR')
 	$matricule = addslashes($_POST['matricule']);
 
 $finc=addslashes($_POST['fin']);
 if($type=='COMPOSITION'){
-	$ex=mysql_query("select * from evaluations where  discipline= '$discipline' and classe='".htmlentities($sclasse)."' and type='$type' and annee='$annee' and semestre='$semestre'");
+	$ex=mysql_query("select * from evaluations where  discipline= '$discipline' and classe='".($sclasse)."' and type='$type' and annee='$annee' and semestre='$semestre'");
      if(mysql_num_rows($ex)==0){
      
-	$exereq=mysql_query("select * from evaluations where date_prevue= '$dp' and discipline= '$discipline' and classe='".htmlentities($sclasse)."' and type='$type' and annee='$annee' and semestre='$semestre' ");
+	$exereq=mysql_query("select * from evaluations where date_prevue= '$dp' and discipline= '$discipline' and classe='".($sclasse)."' and type='$type' and annee='$annee' and semestre='$semestre' ");
      if(mysql_num_rows($exereq)==0){
- 	echo$sql_ajout="INSERT INTO evaluations VALUES ('','$dp', '$debutc', '$finc','$discipline', '".htmlentities($sclasse)."', '$type', '$semestre','$annee','$salle')";
+ 	$sql_ajout="INSERT INTO evaluations VALUES ('','$dp', '$debutc', '$finc','$discipline', '".($sclasse)."', '$type', '$semestre','$annee','$salle','$matricule')";
 
 
    $query_ajout=mysql_query($sql_ajout) ;
@@ -1124,9 +1151,9 @@ if($type=='COMPOSITION'){
 							alert ("enregistrement valide");
 							}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php?ajout=1"
-</SCRIPT>';	
+</SCRIPT>';*/	
 
 			}
 else{
@@ -1135,18 +1162,19 @@ else{
 							alert ("Echec!Veuillez reprendre");
 							}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php?ajout=1"
-</SCRIPT>';	
+</SCRIPT>';	*/
      		}
      }
     else{
 	echo'<script Language="JavaScript">	{
     	alert( "Evaluation déja enregistrée");
 		}</SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+		
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php?ajout=1"
-</SCRIPT>';	
+</SCRIPT>';	*/
 		
     }	 
 	}
@@ -1156,18 +1184,18 @@ else{
 							alert ("Une discipline ne peut pas avoir 2 notes de composition pour un meme semestre");
 							}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php?ajout=1"
-</SCRIPT>';
+</SCRIPT>';*/
 
 }
 	
 }
 else{
 	
-	$exereq=mysql_query("select * from evaluations where date_prevue= '$dp' and discipline= '$discipline' and classe='".htmlentities($sclasse)."' and type='$type' and annee='$annee' and semestre='$semestre'");
+	$exereq=mysql_query("select * from evaluations where date_prevue= '$dp' and discipline= '$discipline' and classe='".($sclasse)."' and type='$type' and annee='$annee' and semestre='$semestre'");
      if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO evaluations VALUES ('','$dp', '$debutc', '$finc','$discipline', '".htmlentities($sclasse)."', '$type', '$semestre','$annee','$salle')";
+ 	$sql_ajout="INSERT INTO evaluations VALUES ('','$dp', '$debutc', '$finc','$discipline', '".($sclasse)."', '$type', '$semestre','$annee','$salle','$matricule')";
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 						echo'<script Language="JavaScript">
@@ -1175,9 +1203,9 @@ else{
 							alert ("Evaluation Enregistrée");
 							}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php?ajout=1"
-</SCRIPT>';	
+</SCRIPT>';	*/
 
 			}
 			else
@@ -1187,9 +1215,9 @@ location.href="evaluationprof.php?ajout=1"
 							alert ("Echec!Veuillez reprendre");
 							}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php?ajout=1"
-</SCRIPT>';	
+</SCRIPT>';*/	
 
      		}
      }
@@ -1200,9 +1228,9 @@ location.href="evaluationprof.php?ajout=1"
     	alert( "Evaluation déja enregistrée");
 		}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php?ajout=1"
-</SCRIPT>';	
+</SCRIPT>';	*/
 		
     }
 	 
@@ -1341,7 +1369,7 @@ else{
 	    $exereq=mysql_query("select * from decisions where libelle='$libelle' and etude='$monchoix'");
      if(mysql_num_rows($exereq)==0){
  	
- 	$sql_ajout="INSERT INTO decisions VALUES (upper('$libelle'),'$minis','$maxi','$monchoix')";
+ 	$sql_ajout="INSERT INTO decisions VALUES ('',upper('$libelle'),'$minis','$maxi','$monchoix')";
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 				
@@ -1350,9 +1378,9 @@ else{
     	alert( "Décision Enregistrée");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="decision.php"
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else
 			{
@@ -1361,9 +1389,9 @@ location.href="decision.php"
     	alert( "Echec!Veuillez reprendre");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="ajdecision.php"
-</SCRIPT>';
+</SCRIPT>';*/
 				
 
      		}  
@@ -1379,9 +1407,9 @@ location.href="ajdecision.php"
     	alert( "Décision Modifiée");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="decision.php"
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else
 			{
@@ -1458,9 +1486,9 @@ if($type=='COMPOSITION'){
 							alert ("enregistrement valide");
 							}
 </SCRIPT>';
-			echo'<SCRIPT LANGUAGE="JavaScript">
+			/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php"
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else
 			{
@@ -1481,9 +1509,9 @@ location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule
     	alert( "Evaluation déja enregistrée");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule='.$matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
 		
     }
 	 
@@ -1494,9 +1522,9 @@ location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule
     	alert( "la date doit être une date incluse dans le semestre en cours");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule='.$matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
 		
 	 }
 	 
@@ -1508,9 +1536,9 @@ location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule
 							alert ("Une discipline ne peut pas avoir 2 notes de composition pour un meme semestre");
 							}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule='.$matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
 }
 	
 }
@@ -1531,9 +1559,9 @@ else{
 							alert ("enregistrement valide");
 							}
 </SCRIPT>';
-			echo'<SCRIPT LANGUAGE="JavaScript">
+			/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="evaluationprof.php"
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else
 			{
@@ -1542,9 +1570,9 @@ location.href="evaluationprof.php"
 							alert ("Echec!Veuillez reprendre");
 							}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule='.$matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
      		}
      }
 
@@ -1554,9 +1582,9 @@ location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule
     	alert( "Evaluation déja enregistrée");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule='.$matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
 		
     }
 	 
@@ -1568,9 +1596,9 @@ location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule
     	alert( "la date doit être une date incluse dans le semestre en cours1");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="ajevaluationprof.php?num='. $sclasse.'&annee='.$annee.'&matricule='.$matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
 		
 	//	echo $debuts.'<='.$dp .'and '.$dp.'<='.$fins;
 	 }
@@ -1599,11 +1627,11 @@ if($req2){
 echo'<script Language="JavaScript">
  {alert ("note Ajoutée");
  }';
-	echo'
+	/*echo'
 </SCRIPT>
 <SCRIPT LANGUAGE="JavaScript">
 location.href="el_notes.php?matricule='.$matricule.'&num='.$classe.'&annee='.$annee.'"
-</SCRIPT>';
+</SCRIPT>';*/
 }
 	else
 	{
@@ -1611,9 +1639,9 @@ location.href="el_notes.php?matricule='.$matricule.'&num='.$classe.'&annee='.$an
 		echo'<script Language="JavaScript">
  {alert ("Echec!Veuillez reprendre");
  }';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="el_notes.php?matricule='.$matricule.'&num='.$classe.'&annee='.$annee.'"
-</SCRIPT>';
+</SCRIPT>';*/
 	}
 }
 }
@@ -1663,14 +1691,14 @@ else{
               $query_ajoutadr=mysql_query($sql1_ajoutr) ;	
 			}
 			if($discipline=='PROFESSEUR'){
-			echo'<SCRIPT LANGUAGE="JavaScript">
+			/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="specialite.php?num='. $matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else{
-			echo'<SCRIPT LANGUAGE="JavaScript">
+			/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="fichepersonnel.php?num='. $matricule.'"
-</SCRIPT>';
+</SCRIPT>';*/
 }
 			}
 			else
@@ -1700,17 +1728,17 @@ if(isset($_POST["matricule"])){
 $annee=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
 
-		$mise="insert into cours values('".htmlentities($classe)."','$emploi','$datejour','$titre','$lesson','$annee','$semestre')";
+		$mise="insert into cours values('".($classe)."','$emploi','$datejour','$titre','$lesson','$annee','$semestre')";
 	$req2=mysql_query($mise);
 if($req2){
 
 echo'<script Language="JavaScript">
  {alert ("Cours Ajoutée");
  }</SCRIPT>';
-	echo'
+	/*echo'
 <SCRIPT LANGUAGE="JavaScript">
 location.href="cahiertexte.php?ajout=1&num='.$classe.'"
-</SCRIPT>';
+</SCRIPT>';*/
 }
 	else
 	{
@@ -1719,10 +1747,10 @@ location.href="cahiertexte.php?ajout=1&num='.$classe.'"
  {alert ("Echec!Veuillez reprendre");
  }
  </script>';
-		echo'
+		/*echo'
 <SCRIPT LANGUAGE="JavaScript">
 location.href="cahiertexte.php?ajout=1&num='.$classe.'"
-</SCRIPT>';
+</SCRIPT>';*/
 	}
 }
 }
@@ -1751,10 +1779,10 @@ function save_paiement(){
 			if($query_ajout){
 
 				
-				echo'<SCRIPT LANGUAGE="JavaScript">
+				/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="facture.php?num='.$classe.'&matricule='.$eleve.'&annee='.$annee.'"
 
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else
 			{
@@ -1764,10 +1792,10 @@ location.href="facture.php?num='.$classe.'&matricule='.$eleve.'&annee='.$annee.'
 				}
 </SCRIPT>';
 				
-				echo'<SCRIPT LANGUAGE="JavaScript">
+				/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="saisie_paiement.php?num='.$sclasse.'&matricule='.$eleve.'&annee='.$annee.'"
 
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 		}
 
@@ -1844,10 +1872,10 @@ if ($mois=='12')
 							}
 </SCRIPT>';
 
-							echo'<SCRIPT LANGUAGE="JavaScript">
+							/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="lidepenses.php"
 
-</SCRIPT>';
+</SCRIPT>';*/
 
 			}
 			else
@@ -1857,10 +1885,9 @@ location.href="lidepenses.php"
 				{alert ("Echec ! veuillez reprendre SVP");
 				}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="depensesj.php"
-
-</SCRIPT>';
+</SCRIPT>';*/
 			} 
 
 
@@ -1895,10 +1922,10 @@ function save_depensemensuel(){
 							}
 </SCRIPT>';
 
-							echo'<SCRIPT LANGUAGE="JavaScript">
+							/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="lidepens_mensuel.php"
 
-</SCRIPT>';
+</SCRIPT>';*/
 
 			}
 			else
@@ -1909,10 +1936,9 @@ location.href="lidepens_mensuel.php"
 				{alert ("Echec ! veuillez reprendre SVP");
 				}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="depensesm.php"
-
-</SCRIPT>';
+</SCRIPT>';*/
 			}  /* */
 	}
 }
@@ -1955,9 +1981,9 @@ $exereq=mysql_query("select * from versement_banque where bordereau= '$bordereau
 							}
 </SCRIPT>';
 
-				echo'<SCRIPT LANGUAGE="JavaScript">
+				/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="saisie_versementb.php"
-</SCRIPT>';
+</SCRIPT>';*/
 
 			}
 			else
@@ -2050,9 +2076,9 @@ $exereq=mysql_query("select * from retrait where num_cheque= '$cheque'");
 							}
 </SCRIPT>';
 
-				echo'<SCRIPT LANGUAGE="JavaScript">
+				/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="retrait.php"
-</SCRIPT>';
+</SCRIPT>';*/
 
 			}
 			else
@@ -2111,10 +2137,10 @@ function save_avance_sal(){
 							}
 </SCRIPT>';
 
-							echo'<SCRIPT LANGUAGE="JavaScript">
+							/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="avanace_salaire.php"
 
-</SCRIPT>';
+</SCRIPT>';*/
 
 			}
 			else
@@ -2125,10 +2151,10 @@ location.href="avanace_salaire.php"
 				{alert ("Echec ! veuillez reprendre SVP");
 				}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="avanace_salaire.php"
 
-</SCRIPT>';
+</SCRIPT>';*/
 			}  /* */
 	}
 }
@@ -2157,10 +2183,10 @@ function save_salaire(){
 							}
 </SCRIPT>';
 
-							echo'<SCRIPT LANGUAGE="JavaScript">
+							/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="salaire_mensuel.php"
 
-</SCRIPT>';
+</SCRIPT>';*/
 
 			}
 			else
@@ -2171,10 +2197,9 @@ location.href="salaire_mensuel.php"
 				{alert ("Echec ! veuillez reprendre SVP");
 				}
 </SCRIPT>';
-echo'<SCRIPT LANGUAGE="JavaScript">
+/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="salaire_mensuel.php"
-
-</SCRIPT>';
+</SCRIPT>';*/
 			}  /* */
 	}
 }
@@ -2213,9 +2238,9 @@ $array_date=explode("/",$jour);
     	alert( "Absence professeur Enregistrée");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="absencepersonnel.php"
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else
 			{
@@ -2224,9 +2249,9 @@ location.href="absencepersonnel.php"
     	alert( "Echec!Veuillez reprendre");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="saisie_absenceperso.php"
-</SCRIPT>';
+</SCRIPT>';*/
 				
 
      		}  
@@ -2238,9 +2263,9 @@ location.href="saisie_absenceperso.php"
     	alert( "Absence professeur Déja Enregistrée à cette date");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="absencepersonnel.php"
-</SCRIPT>';
+</SCRIPT>';*/
 
 			
      }
@@ -2274,9 +2299,9 @@ else{
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 			
-			echo'<SCRIPT LANGUAGE="JavaScript">
+			/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="personnels.php"
-</SCRIPT>';
+</SCRIPT>';*/
 
 			}
 			else
@@ -2329,9 +2354,9 @@ $array_date=explode("/",$jour);
     	alert( "Absence Eléve Enregistrée");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="absenceeleve.php?num='.$sclasse.'&annee='.$annee.'";
-</SCRIPT>';
+</SCRIPT>';*/
 			}
 			else
 			{
@@ -2340,9 +2365,9 @@ location.href="absenceeleve.php?num='.$sclasse.'&annee='.$annee.'";
     	alert( "Echec!Veuillez reprendre");
 		}
 </SCRIPT>';
-		echo'<SCRIPT LANGUAGE="JavaScript">
+		/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="absenceeleve.php?num='.$sclasse.'&annee='.$annee.'";
-</SCRIPT>';
+</SCRIPT>';*/
 				
 
      		}  
@@ -2354,9 +2379,9 @@ location.href="absenceeleve.php?num='.$sclasse.'&annee='.$annee.'";
     	alert( "Absence Eléve Déja Enregistrée à cette date");
 		}
 </SCRIPT>';
-	echo'<SCRIPT LANGUAGE="JavaScript">
+	/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="absenceeleve.php?num='.$sclasse.'&annee='.$annee.'";
-</SCRIPT>';
+</SCRIPT>';*/
 
 			
      }
@@ -2365,5 +2390,108 @@ location.href="absenceeleve.php?num='.$sclasse.'&annee='.$annee.'";
 }
 
 }
+// envoyer informations a tous les parents eléves ad'une classe
+function informer(){
+if(isset($_POST["outil"])){
+	$outil = addslashes($_POST['outil']);
+	$matricule=addslashes($_POST['matricule']);
+	$classe=addslashes($_POST['classe']);
+	$annee=addslashes($_POST['annee']);
+if($outil='MAIL'){
+	$objet=addslashes($_POST['objet']);
+	$message=addslashes($_POST['message']);
+	//$photo=addslashes($_POST['photo']);
+	/*	if($_FILES['photo']['name']<>""){
+		//$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
+		$photo=$_FILES['photo']['name'];
+$extension_upload = strtolower(  substr(  strrchr($photo, '.')  ,1)  );
+//if ( in_array($extension_upload,$extensions_valides) ){
+     //echo "Extension correcte";
+      $tab=explode(".",$photo);
+      $nb=0;
+      for($i=0;$i<strlen($photo);$i++){
+		  	if(isset($tab[$i])){
+		        $nb+=1;
+		  	}
 
+	   }
+	$stock=getcwd();
+	$dir=$stock."/pieces/";
+	$mynb=$nb-1;
+	$p=str_replace('/', '-', $matricule);
+	$logo ="eleve". $p.".".$tab[$mynb] ;
+	$chemin  =$logo;
+	if(file_exists($dir.$logo)){
+		 unlink($dir.$logo);
+		}
+	
+ 	move_uploaded_file($_FILES['photo']['tmp_name'], $dir.$_FILES['photo']['name']);
+ 	rename($dir.$photo,$dir.$logo);
+	}
+	else
+	$chemin="";*/
+//error_reporting(E_ALL);
+error_reporting(E_STRICT);
+
+date_default_timezone_set('America/Toronto');
+
+require_once('../class.phpmailer.php');
+//include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
+
+$mail = new PHPMailer();
+
+
+$mail->IsSMTP(); // telling the class to use SMTP
+$mail->Host       = "mail.yourdomain.com"; // SMTP server
+$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+                                           // 1 = errors and messages
+                                           // 2 = messages only
+$mail->SMTPAuth   = true;                  // enable SMTP authentication
+$mail->SMTPSecure = "ssl";                 // sets the prefix to the servier
+$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+$mail->Port       = 465;                   // set the SMTP port for the GMAIL server
+$mail->Username   = "elimuprojet@gmail.com";  // GMAIL username
+$mail->Password   = "passelimu";            // GMAIL password
+
+// creer un compte email pour elimu
+$mail->SetFrom('elimuprojet@gmail.com', 'TEST ELIMU');
+
+$mail->AddReplyTo("elimuprojet@gmail.com","TEST ELIMU");
+
+$mail->Subject    = $objet;
+
+$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+
+
+//$mail->MsgHTML($body);
+//corp du mail
+$mail->MsgHTML($message);
+/*if($chemin<>"")
+$mail->AddAttachment($chemin);   */   // attachment
+/*$sqletude=mysql_query("select email_tuteur8 from eleves where matricule in(select eleve from inscription where classe='$classe' and annee='$annee')
+	and email_tuteur8 <>''");
+while(	$lig=mysql_fetch_array($sqletude)){
+	$adrees=$lig['email_tuteur8'];
+
+*/		
+//$address = "mngdiouf@gmail.com";
+//$mail->AddAddress($address, "John Doe");
+$adresse="amprojet@gmail.com";
+$mail->AddAddress($adresse);
+//$mail->AddAddress();
+
+
+//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+
+if(!$mail->Send()) {
+  echo "Mailer Error: " . $mail->ErrorInfo;
+} else {
+  echo "Message sent!";
+}
+//}
+
+	
+}
+}
+}
 

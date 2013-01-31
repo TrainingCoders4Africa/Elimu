@@ -15,7 +15,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'enseignants.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data" >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data" >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 <script language="Javascript">
@@ -104,7 +104,6 @@ function go()
 <TR><TD class=petit>&nbsp;</TD>
 
 </TR>
-	<tr><td><input class=kc1 type="submit"  name="enregistrer" value="Valider" />&nbsp;&nbsp;<input class=kc1 type="reset" value="Annuler" />
 	</table>
 </div>
 

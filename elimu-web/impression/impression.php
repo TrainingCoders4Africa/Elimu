@@ -3,8 +3,8 @@
 	$pseudo="<html><head><title>Impression</title></head></html>";
 	//$zone=($_SESSION['zone']);
 	$classe=$_GET["id"];
-	$annee=$_GET["dates"];
-	$eleve=$_GET["eleve"];
+	$annee=$_GET["dates"];// ANNEE ACADEMIQUE
+	$eleve=@$_GET["eleve"];
   $page=$_GET["page"];
 
 if (empty($pseudo))
@@ -176,14 +176,16 @@ $redoublant=$ligne1['redoublant'];
  $tel=$row[7];
  $bp=$row[8]; $site=$row[9]; $faxe=$row[10];
  $mail=$row[11];
+ if($logo<>''){
  $ss="../parametrage/logos/".$logo;
 $pdf->Image($ss,10,5,20,20);
+}
  $pdf->SetFont('courier','',10);
   $pdf->setXY(0,0);
 $pdf->Cell(210,5,"IA :".$ia,0,1,'R');
  $pdf->SetFont('courier','B',8);
   $pdf->setXY(0,5);
-$pdf->Cell(210,3,"IDEN :". $iden,0,1,'R');
+$pdf->Cell(210,3,"IEF :". $iden,0,1,'R');
 $pdf->setXY(0,8);
 $pdf->Cell(210,3,"ETABLISSEMENT :". $ecole,0,1,'R');
   $pdf->setXY(0,11);
@@ -203,7 +205,29 @@ $pdf->Cell(210,5,"$ecole,le ".date("d m Y"),0,1,'l');*/
 //$pdf->SetFont('Arial','',14);
 //      affichage Phtot Membre
  $supp=0;
-if($page=='CARNET'){
+ //LISTE DES ELEVES
+ if($page=='ELEVE'){
+ //$tab=$_GET["tab"];
+ 	$pdf->SetFont('courier','BU',15);
+ $pdf->setXY(0,35);
+ $kc="Liste Alphabétique des éléves de la ".$classe;
+ $pdf->Cell(210,10,$kc,0,1,'C');
+
+   $header=array(" Prénom "," Nom ","Date et Lieu de naissance");
+   
+   }
+   //imprimer emploi du temps
+   elseif($page=='EMPLOIS'){
+ //$tab=$_GET["tab"];
+ 	$pdf->SetFont('courier','BU',15);
+ $pdf->setXY(0,35);
+ $kc="Liste Alphabétique des éléves de la ".$classe;
+ $pdf->Cell(210,10,$kc,0,1,'C');
+
+   $header=array("Horaire","Lundi "," Mardi ","Mercredi","Jeudi","Vendredi","Samedi");
+   
+   }
+elseif($page=='CARNET'){
  //$tab=$_GET["tab"];
  	$pdf->SetFont('courier','BU',15);
  $pdf->setXY(0,35);

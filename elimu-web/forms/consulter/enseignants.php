@@ -7,7 +7,7 @@
   				 	
                 </tr>
 				<tbody><tr>
-				<?
+				<?php
 				$annee=annee_academique();
 				 $table = 'enseignant';
 				 $lib = 'libelle';
@@ -20,7 +20,10 @@
 						
 						
 						$p2=$row1[1];
-						$b=$b.' '.$p2;
+						$etag1 = findByValue('classes','idclasse',$p2);
+						$cha1 = mysql_fetch_row($etag1);
+						$classe=$cha1[3];
+						$b=$b.' '.$classe;
 						$perso = findByValue('personnels','matricule',$p1);
 						$per = mysql_fetch_row($perso);
 						$p3=$per[1];
@@ -32,15 +35,7 @@
 						echo"<tr>
 							<td  align=center>".' '.$titre.' ' .$p4.' '.$p8."</td>
 							<td  align=center>$b</td>";
-						/*$etagiaire = findByValue('fonction','personnel',$p1);
-						$champ = mysql_fetch_row($etagiaire);
-						$p8=$champ[1];
-						//$p9=$champ[2];
-						//$p10=$champ[3];
-						//$p11=$champ[4];
-						echo"
-							<td  align=center>$p8</td>
-							<td  align=center>$ans</td></tr>";*/
+						
         			}
   				 ?>
 </tr></tbody>

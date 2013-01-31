@@ -83,6 +83,11 @@ $note=$ligne4['note'];
 				  echo" <input name=evaluation type=hidden value='$codee'>";
 				
 
+echo'
 
+<table>
+<TR><TD class=petit>&nbsp;</TD>
+	<TR><TD><BUTTON TITLE="Confirmer Notes"name="enregistrer" TYPE="submit" id="flashit"><b>Noter</b></BUTTON>&nbsp;<BUTTON TITLE="Annuler " TYPE="reset"><b>&nbsp;Annuler&nbsp;</b></BUTTON></TD>
+	</table>';
 }
 ?>

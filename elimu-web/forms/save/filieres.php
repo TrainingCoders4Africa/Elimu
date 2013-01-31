@@ -1,5 +1,5 @@
 <center>
-<form name="inscription_form" action="<?php echo 'filieres.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien()';?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 

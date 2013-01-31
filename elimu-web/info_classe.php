@@ -1,8 +1,13 @@
 <?php
 session_start();
-$menu=$_SESSION["menu"];
+include 'all_function.php';
+@$menu=$_SESSION["menu"];
 $_SESSION["classe"]=$_GET['num'];
-$titre="  Classe ".$_SESSION["classe"]." >> INFOS CLASSE" ;
+$code=$_SESSION["classe"];
+$etag1 = findByValue('classes','idclasse',$code);
+						$cha1 = mysql_fetch_row($etag1);
+						$classe=$cha1[3];
+$titre="  Classe ".$classe." >> INFOS CLASSE" ;
 $pageint="forms/info_classe.php";
 $p="";
 $uno=0;

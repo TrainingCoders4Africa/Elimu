@@ -1,6 +1,6 @@
 <?php
 session_start();
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 if (isset($_GET["sup"])) {
   $titre="  Grille des Honneurs >> Suppression" ;
   $pageint="forms/delete/honneurs.php";

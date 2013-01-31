@@ -64,7 +64,7 @@ topmargin="0" leftmargin="0" onLoad="chgFocus()">
    <option value=>Choisir votre profile</option>
 	                     <option value='Administrateur' >Administrateur</option>
 						 
-						  <?
+						  <?php
   $sqlstm1="select distinct profile5 from user where cdeetud in (select distinct matricule from personnels where enable8='1') ORDER BY profile5 asc";
   $req1=mysql_query($sqlstm1);
 
@@ -74,8 +74,8 @@ topmargin="0" leftmargin="0" onLoad="chgFocus()">
 
   ?>
 
-	                     <option  value="<?echo $slib;?>" ><?echo $slib;?>
-  <?
+	                     <option  value="<?php echo $slib;?>" ><?php echo $slib;?>
+  <?php
 }
 ?>
  </option>

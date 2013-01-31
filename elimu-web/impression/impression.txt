@@ -1,18 +1,5 @@
-08H 00 - 10H 00;Histo-G&eacute;o<br/>SALLE1
-08H 00 - 10H 00;<br/>
-08H 00 - 10H 00;Arabe<br/>SALLE1
-08H 00 - 10H 00;<br/>
-08H 00 - 10H 00;math&eacute;matiques<br/>SALLE1
-08H 00 - 10H 00;<br/>
-10H 00 - 12H 00;<br/>
-10H 00 - 12H 00;<br/>
-10H 00 - 12H 00;<br/>
-10H 00 - 12H 00;math&eacute;matiques<br/>SALLE1
-10H 00 - 12H 00;<br/>
-10H 00 - 12H 00;<br/>
-15H 00 - 17H 00;<br/>
-15H 00 - 17H 00;<br/>
-15H 00 - 17H 00;Histo-G&eacute;o<br/>SALLE1
-15H 00 - 17H 00;<br/>
-15H 00 - 17H 00;<br/>
-15H 00 - 17H 00;<br/>
+BABACAR;COLY;1997-01-03 à YEUMBEUL;
+IBRAHIMA;MBENGUE;1997-01-25 à GUÉOUL;
+YACINE;MBENGUE;1997-04-09 à GUEOUL;
+MAGUETTE;FALL;1996-04-01 à COKI;
+FATOU;DIOP;1997-12-10 à FATICK;

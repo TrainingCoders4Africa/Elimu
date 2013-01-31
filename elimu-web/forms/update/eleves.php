@@ -1,10 +1,22 @@
 <?php
-$eleve=$_GET['eleve'];
-$sclasse=$_GET['num'];
+$eleve=securite_bdd($_GET['eleve']);
+$sclasse=securite_bdd($_GET['num']);
 $annee=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
 //$matricule=$_SESSION["matricule"];
-$etagiaire = findByNValue('eleves',"matricule in (select eleve from inscription where annee='$annee' and classe='".htmlentities($sclasse)."')");
+// vérifier s'il ya des uv pour le lv1
+$reqlv1=findByNValue("credit_horaire","credit_horaire.etude in (select etude from classes where idclasse='$sclasse') 
+				 and nature=(select idnature from nature where nature='Langue vivante I')");
+					$lv1=mysql_num_rows($reqlv1);
+					// vérifier s'il ya des uv pour le lv2
+$reqlv2=findByNValue("credit_horaire","credit_horaire.etude in (select etude from classes where idclasse='$sclasse') 
+				 and nature=(select idnature from nature where nature='Langue vivante II')");
+					$lv2=mysql_num_rows($reqlv2);
+					// vérifier s'il ya des uv pour les langues classique
+$reqlvc=findByNValue("credit_horaire","credit_horaire.etude in (select etude from classes where idclasse='$sclasse') 
+				 and nature=(select idnature from nature where nature='Langue classique')");
+					$lvc=mysql_num_rows($reqlvc);
+$etagiaire = findByNValue('eleves',"matricule in (select eleve from inscription where annee='$annee' and classe='$sclasse')");
 						$row = mysql_fetch_row($etagiaire);
                        //$matricule=$row[0];
                            $matricule=$row[0];
@@ -26,11 +38,23 @@ $etagiaire = findByNValue('eleves',"matricule in (select eleve from inscription 
 						 $se = findByValue('sexe5','id',$sexe);
 						$sex = mysql_fetch_row($se);
 						$sx=$sex[1];
-						//matrimonial en cours
-						 $incription = findByNValue('inscription',"eleve='$eleve' and annee='$annee' and classe='".htmlentities($sclasse)."'");
+						//Insformaion sur son choix lv1,lv2,lc et sil é redoublant ou pas
+						
+						 $incription = findByNValue('inscription',"eleve='$eleve' and annee='$annee' and classe='$sclasse'");
 						$incript = mysql_fetch_row($incription);
 						$transport=$incript[2];
-						  
+						$lgv1=$incript[6];
+						$lgv2=$incript[7];
+						$lgc=$incript[8];
+// avoir la liste des autres uv de lv1
+$selectionlv1 =  findByNValue('credit_horaire',"credit_horaire.etude in (select etude from classes where idclasse='$sclasse') 
+		 and nature=(select idnature from nature where nature='Langue vivante I') and idch <>'$lgv1'");
+ //avoir les autre lv2
+$selectionlv2 =  findByNValue('credit_horaire',"credit_horaire.etude in (select etude from classes where idclasse='$sclasse') 
+				 and nature=(select idnature from nature where nature='Langue vivante II') and idch <>'$lgv2'");
+// lister les autre uv de langue classique
+$selectionlc =  findByNValue('credit_horaire',"credit_horaire.etude in (select etude from classes where idclasse='$sclasse') 
+				 and nature=(select idnature from nature where nature='Langue classique') and idch <>'$lgc'");						  
 ?>
 <script language="Javascript">
 function verif_nombre(champ)
@@ -49,7 +73,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'eleves.php?mod=1&num='.$sclasse.'&eleve='.$eleve;?> "method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?> "method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 
@@ -62,11 +86,11 @@ echo'<img src="photos/'.$photo.'" align=center width="250" height="400">';
 ?>
 </b></B><INPUT TYPE="file"  NAME="photo">
 </td> 
-    <td><B>&nbsp;Matricule :&nbsp;&nbsp;&nbsp;</B><?php echo $matricule;?>
+<td><B>&nbsp;Matricule :&nbsp;&nbsp;&nbsp;</B><?php echo $matricule;?>
 <B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Eléve Redoublant :*</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <SELECT NAME="redoublant">
-<OPTION SELECTED><? echo $transport;?></OPTION>
-<?
+<OPTION SELECTED><?php echo $transport;?></OPTION>
+<?php
 if ($transport=="OUI"){
 
 	echo "<OPTION>NON</OPTION>";
@@ -81,18 +105,18 @@ echo "<OPTION>OUI</OPTION>";
 </SELECT></TD>
 </TD></td> 
   
-<tr><td><B>&nbsp;Prénom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT type="text" SIZE=30 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $prenom?>" required>
+<tr><td><B>&nbsp;Prénom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT type="text" SIZE=30 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $prenom;?>" required>
 </td></tr>
 <tr><td><B>&nbsp;Nom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $nom?>" required></td>    </tr>
 <tr><td><B>&nbsp;Date Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
-<INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required value="<?php echo $date_nais?>"> <b>&nbsp;&nbsp;&nbsp;Age :&nbsp;&nbsp;&nbsp;<?php echo $age.' ans'?></b></td></tr>
+<INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required value="<?php echo $date_nais;?>"> <b>&nbsp;&nbsp;&nbsp;Age :&nbsp;&nbsp;&nbsp;<?php echo $age.' ans';?></b></td></tr>
 <tr><td>
 <B>&nbsp;Lieu Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
-<INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $lieu_nais?>" required>
+<INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $lieu_nais;?>" required>
 </td></tr>
 <tr><td><B>&nbsp;Sexe :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
 <SELECT NAME="sexe" id="Sexe" required><OPTION value="<?php echo $sexe?>"><?php echo $sx?></OPTION>
-<?
+<?php
 $table = 'sexe5';
 				 $selection = findNByValue('sexe5','id',$sexe);
 				while($ro=mysql_fetch_row($selection)){
@@ -121,11 +145,77 @@ $table = 'sexe5';
 <tr><td></td>    </tr>
 <tr><td><B>&nbsp;Adresse :*&nbsp;</B>
 <INPUT TYPE="text" SIZE=60 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required value="<?php echo $adresse?>"></td>    </tr>
+</td></tr>
+<?php
+if($lv1<>0){
+?>
+<tr><td>
+<B>&nbsp;Langue Vivante I :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
+<SELECT NAME="lgv1" id="Sexe" required><OPTION value="<?php echo $lgv1 ;?>"><?php echo disciplinecredit($lgv1) ;?></OPTION>
+<?php
 
+		while($rolv1=mysql_fetch_row($selectionlv1))
+			{
+				//libelle discipline
+					$t_discipline = findByValue('disciplines','iddis',$rolv1[1]);
+					$champ = mysql_fetch_row($t_discipline);
+					$discipline=accents($champ[1]);
+					echo"<option value='".$rolv1[0]."'>".accents($discipline)."</option>";
+    		}
+				?>			
+					</select>
+</td></tr>
+</td></tr>
+<?php
+}
+if($lv2<>0){
+?>
+<tr><td>
+<B>&nbsp;Langue Vivante II :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
+<SELECT NAME="lgv2" id="Sexe" ><OPTION value="<?php echo $lgv2 ;?>"><?php echo disciplinecredit($lgv2) ;?></OPTION>
+<?php
+	
+				while($rolv2=mysql_fetch_row($selectionlv2)){
+				//libelle discipline
+						$t_discipline2 = findByValue('disciplines','iddis',$rolv2[1]);
+						$champ2 = mysql_fetch_row($t_discipline2);
+						$discipline2=accents($champ2[1]);
+				
+                            echo"<option value='".$rolv2[0]."'>".accents($discipline2)."</option>";
+    			}
+				?>			
+					</select>
+</td></tr>
+</td></tr>
+<?php
+}
+if($lvc<>0){
+?>
+<tr><td>
+<B>&nbsp;Langue Classique :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
+<SELECT NAME="lgc" id="Sexe" ><OPTION value="<?php echo $lgc?>"><?php echo disciplinecredit($lgc)?></OPTION>
+<?php
 
-<tr><td><input type="hidden" name="eleve" value="<? echo $eleve;?>"></td>
-<td><input type="hidden" name="classe" value="<? echo $sclasse;?>"></td>
-<td><input type="hidden" name="lien" value="<? echo $photo;?>"></td>
+				while($rolc=mysql_fetch_row($selectionlc)){
+				//libelle discipline
+						$t_discipline = findByValue('disciplines','iddis',$rolc[1]);
+						$champ = mysql_fetch_row($t_discipline);
+						$discipline=accents($champ[1]);
+				
+                            echo"<option value='".$rolc[0]."'>".accents($discipline)."</option>";
+    			}
+				?>			
+					</select>
+</td></tr>
+<?php
+}
+?>
+<tr><td><input type="hidden" name="eleve" value="<?php echo $eleve;?>"></td>
+<td><input type="hidden" name="classe" value="<?php echo $sclasse;?>"></td>
+<td><input type="hidden" name="lien" value="<?php echo $photo;?>"></td>
+<TD class=petit>&nbsp;<input type=hidden name="lv1" value="<?php echo $lv1;?>"></TD>
+<TD class=petit>&nbsp;<input type=hidden name="lv2" value="<?php echo $lv2;?>"></TD>
+<TD class=petit>&nbsp;<input type=hidden name="lvc" value="<?php echo $lvc;?>"></TD>
 	</tbody>
 <TR><TD class=petit>&nbsp;</TD></TR>
 	<tr><td><BUTTON TITLE="Confirmer la Modification de vos Données" TYPE="submit" id="flashit" name="modif">Modifier</BUTTON>

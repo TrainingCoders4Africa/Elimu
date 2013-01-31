@@ -1,15 +1,15 @@
 <?php
-include 'all_function.php';
+//include 'all_function.php';
+include '/dao/connection.php';
+include '/dao/select.php';
 //include "metier/stats.php";
 if(isset($_POST['PROF_ID']) and isset($_POST['SEMESTRE_ID']) )
 {
-$code=$_POST['SEMESTRE_ID'];
-$sclasse=accents($_POST['PROF_ID']);
+$code=securite_bdd($_POST['SEMESTRE_ID']);
+$sclasse=securite_bdd(accents($_POST['PROF_ID']));
 $annee=annee_academique();
 $nb=0;
-$nomfichier="impression/impression.txt";
-      					touch($nomfichier);
-        				$fichier = fopen($nomfichier, 'wb+');
+
 echo'
    <table border="1" cellspacing="0" bordercolor="#033155" cellpadding="2" bgcolor="#EFF2FB" width=100 ALIGN=LEFT>
 <TR>
@@ -49,13 +49,14 @@ echo'
 <td align=center ROWSPAN=1 NOWRAP>&nbsp;'.$d.' - '.$fi.'&nbsp;</B></FONT></TD>';
 
 $horaire=$d.' - '.$fi;
- $sqlstm1gaz100="select id from jours  order by id";
-$req10mu14gaz100=mysql_query($sqlstm1gaz100);
+// $sqlstm1gaz100="select id from jours  order by id";
+//choisir les jours
+$req10mu14gaz100=findBylib("jours","id");
 while($ligne10u14gaz100=mysql_fetch_array($req10mu14gaz100))
 {
 $jour=$ligne10u14gaz100['id'];
-$sqlstm11000="select discipline,salle  from emploi_temps where jour='$jour' and debut='$debut' and fin='$fin' and classe='$sclasse' and semestre='$code' and annee='$annee'";
-$req10mu141000=mysql_query($sqlstm11000);
+//selectionner le planning prévu suivant le jour choisi
+$req10mu141000=findByNValue("emploi_temps","jour='$jour' and debut='$debut' and fin='$fin' and classe='$sclasse' and semestre='$code' and annee='$annee'");
 $ligne10u141000=mysql_fetch_array($req10mu141000);
 $dis=$ligne10u141000['discipline'];
 $sal=$ligne10u141000['salle'];
@@ -64,18 +65,18 @@ $sal=$ligne10u141000['salle'];
 						$salle=$entitee[1];
  $nature = findByValue('disciplines','iddis',$dis);
 						$entite = mysql_fetch_row($nature);
-						$discipline=htmlentities($entite[1]);
-$cours= $discipline.'<br/>'.$salle;
+						$discipline=accents($entite[1]);
+
 if(mysql_num_rows($req10mu141000)==0){
 echo'<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP >-</TD>';
+$cours="-";
 }
 else{
+$cours= $discipline.'<br/>'.$salle;
 echo'
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP ><A HREF="emplois_classes.php?sup=1'.'&j='. $jour.'&hd='. $debut.'&hf='.$fin.'&num='. $sclasse.'&se='. $code.'"><FONT color= "black" >&nbsp;'. $discipline.'<br/>'.$salle.'&nbsp;</TD>';
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP ><A HREF="emplois_classes.php?sup=1'.'&j='. $jour.'&hd='. $debut.'&hf='.$fin.'&num='. $sclasse.'&se='. $code.'"><FONT color= "black" >&nbsp;'. utf8_encode($discipline).'<br/>'.$salle.'&nbsp;</TD>';
 }
- $b="$horaire;$cours\r\n";
-		                    fwrite($fichier,$b);
-							
+					
 }
 
 echo"</tr>";
@@ -84,7 +85,7 @@ echo"</tr>";
 echo'</table>';
 ?>
 <div>          
-<a href="impression/impression.php?id=<?echo $sclasse;?>&dates=<?echo $annee;?>&page=<?echo 'BILANMENSUEL';?>" target="_blank" class=imp>Apper&ccedil;u</a>
+<a href="forms/imprimer/js1.php?classe=<?php echo $sclasse;?>&semestre=<?php echo $code;?>" target="_blank" class=imp>Aper&ccedil;u</a>
 </div>
 <?php
 }

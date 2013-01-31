@@ -85,7 +85,7 @@ location.href="emplois_classes.php?ajout=1&num='.$classe.'"
 function delete_evaluation(){
 if(isset($_POST["code"])){
 
-		$status=$_SESSION["agence"];
+		$status=$_SESSION["profil"];
 $code = addslashes($_POST['code']);
 
 	$classe = addslashes($_POST['classe']);

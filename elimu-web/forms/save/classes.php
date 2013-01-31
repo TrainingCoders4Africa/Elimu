@@ -3,13 +3,15 @@ $sqs="select count(*)nb from etablissements where status ='PRIVE'";
 $rs=mysql_query($sqs);
 $ls=mysql_fetch_array($rs);
 $ns=$ls['nb'];
-$profile=$_SESSION["agence"];
+$profile=$_SESSION["profil"];
 if($profile=="Administrateur"){
-$sqlstm2d="select  distinct cycle from categories  ORDER BY cycle";
+$req2d=findBylib("etudes","cycle");
 }
 else{
-$sqlstm2d="select  distinct cycle from fonction where profile='$profile'  ORDER BY cycle";
+$req2d=findCBylib("fonction","cycle","profile",$profile);
 }
+
+
  ?>
 <script>
 function verif_nombre(champ)
@@ -28,19 +30,16 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'classes.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<table border="0" cellpadding="3" cellspacing="0" width="100%" >
 		<tbody><tr>
 			
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP width="200"><B>&nbsp;Liste Des Cycles <SELECT NAME="libelle1" id="libelle1" required
-placeholder="Selectionner" autofocus/  onchange="submit();" >
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP width="200"><B>&nbsp;Liste des Cycles <SELECT NAME="libelle1" id="libelle1" required
+placeholder="Selectionner un cycle" autofocus/  onchange="submit();" >
 <OPTION >Selectionner</OPTION>
  <?php
- // $sqlstm2d="select  distinct cycle from etudes  ORDER BY cycle";
-$req2d=mysql_query($sqlstm2d);
-
 while($ligne2d=mysql_fetch_array($req2d))
 {
 $slib2d=$ligne2d['cycle'];
@@ -48,12 +47,12 @@ $slib2d=$ligne2d['cycle'];
  }
  echo'</OPTION>';
   if(@$_POST["libelle1"]<>"") {
- $discipline=$_POST["libelle1"];
+ $cycle=$_POST["libelle1"];
  
   echo'
   <TR><TD class=petit>&nbsp;</TD></TR>
   <tr>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP>&nbsp;<B>Cycle *&nbsp;<INPUT id="Le Stock de Départ" name="stock"   value="'.$discipline.' " SIZE="50" MAXLENGTH="100" disabled="disabled" ></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP>&nbsp;<B>Cycle *&nbsp;<INPUT id="Le Stock de Départ" name="stock"   value="'.$cycle.' " SIZE="50" MAXLENGTH="100" disabled="disabled" ></TD>
 </TR>';
 ?>
   <TR><TD class=petit>&nbsp;</TD></TR>
@@ -61,34 +60,35 @@ $slib2d=$ligne2d['cycle'];
   <td style="padding-left:30px;" ALIGN=center>
   <table cellpadding=2 cellspacing=1>
 	   	    <tr bgcolor=white align=center >
-			<th width=100>Niveau Etude</th>
+			<th width=200>Niveau Etude</th>
             <th width=200>Nombre de classe</th>
             
                      </tr>
-<?
+<?php
+$req4=findByValue("etudes","cycle",$cycle);
 
-
-$sqlstm4="select distinct libelle from etudes where cycle='$discipline'";
-$req4=mysql_query($sqlstm4);
 $nb=mysql_num_rows($req4);
                   $i=1;
 while($ligne4=mysql_fetch_array($req4))
 {
 $niveau=$ligne4['libelle'];
+$idetude=$ligne4['idetude'];
 $niv=htmlentities($niveau);
   echo" <input name=nbart type=hidden value=$nb>";
 
       echo"<tr>
 			            <td align=center>$niveau</td>
 							<td  align=center>
-			            		  <input size=9 name=nbre_classe$i type=number min=1 max=26 required  onkeyup='verif_nombre(this);'>
+			            		  <input size=9 name=nbre_classe$i type=number min=0 max=26 required  onkeyup='verif_nombre(this);'>
 			            	 <script type=text/javascript>      //
 				                 			new SUC( document.frm.nbptotal$i );       //
 				             	      </script>
 			            		</td>
 			            		</td>
 							"; 
- echo" <input name=niveau$i type=hidden value='$niv'>";
+ echo" <input name=niveau$i type=hidden value='$idetude'>
+ 
+ <input name=etude$i type=hidden value='$niv'>";
 
 
 
@@ -96,7 +96,7 @@ $niv=htmlentities($niveau);
                      $i++;
 }
 echo"
-<input type=hidden name=cycle value='$discipline'>";
+<input type=hidden name=cycle value='$cycle'>";
 ?>
 
   <TR><TD class=petit>&nbsp;</TD></TR>
@@ -107,7 +107,7 @@ echo"
 </table>
 
 
-<?
+<?php
 
 }
 ?>
@@ -129,7 +129,8 @@ if (isset($_POST["enregistrer"]) and isset($_POST["cycle"]) ) {
 $nbart=addslashes($_POST['nbart']);
 
    		for ($i=1; $i<=$nbart; $i++) {
-	   $niveau= addslashes($_POST['niveau'.$i.'']);
+	   $niveau= addslashes($_POST['niveau'.$i.'']);//idetude
+	   $etude= addslashes($_POST['etude'.$i.'']);// libelle du niveau d'étude
 	   $nbr= addslashes($_POST['nbre_classe'.$i.'']);
 	   $sqlstm1="select count(*) nb from classes where etude='$niveau'";
 		$req1=mysql_query($sqlstm1);
@@ -150,9 +151,9 @@ $mise="delete from classes where etude='$niveau'";
 	   $v='';
 if($nbre==1){
 	//$v=""; 
-	$exereq=mysql_query("select * from classes where libelle= '$niveau'");
+	$exereq=mysql_query("select * from classes where libelle= '$etude'");
      if(mysql_num_rows($exereq)==0){
-  	$sql_ajout="INSERT INTO classes VALUES ( '$niveau','','$niveau')";
+  	$sql_ajout="INSERT INTO classes VALUES ( '','$niveau','','$etude')";
 
    $query_ajout=mysql_query($sql_ajout);
 			if($query_ajout){
@@ -226,9 +227,9 @@ $v='Y';}
 elseif($j==26){
 $v='Z';}
 //echo "classe ( ".$niveau.",".@$annee.",".$v." )";
-$exereq=mysql_query("select * from classes where libelle= concat('$niveau','$v') ");
+$exereq=mysql_query("select * from classes where libelle= concat('$etude','$v') ");
      if(mysql_num_rows($exereq)==0){
-  	$sql_ajout="INSERT INTO classes VALUES ( '$niveau','$v',concat('$niveau','$v'))";
+  	$sql_ajout="INSERT INTO classes VALUES ( '','$niveau','$v',concat('$etude','$v'))";
 
    $query_ajout=mysql_query($sql_ajout);
 			if($query_ajout){

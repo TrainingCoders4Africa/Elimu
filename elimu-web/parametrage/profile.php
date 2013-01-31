@@ -20,10 +20,14 @@ include"../dao/connection.php";
    $titre="ELIMU >> Paramétrage Partie III";
 		$requete=("select logo from etablissements ");
 $resultat=mysql_query($requete);
-   $b=mysql_fetch_object($resultat);
-$a=$b->logo;
+ $ligne=mysql_fetch_array($resultat);
+$a=$ligne['logo'];
 $d=date("Y")-1;
-
+// vérifier si l'Etablissement a un cycle moyen
+ $exess1=mysql_query("select count(*)nb from categories where cycle='MOYEN'");
+                 while ($roi1=mysql_fetch_array($exess1)) {
+				 $nb=$roi1["nb"];
+				 }
 $query=mysql_query("select * from formules");
  //$result = mysql_query ($query)or die ("Query failed");
 $rw=mysql_fetch_row($query);
@@ -38,11 +42,11 @@ $rw=mysql_fetch_row($query);
 		<table border=0 cellpadding=0 cellspacing=0 width=100%  height="90">
                    <tr  class="titr">  
 				   <td COLSPAN=2 align=center height="50"><b><big>Configuration  </big></b></td>
-					   <?
+					   <?php
                     	if($a <>""){
                     	?>
-					  <td> <img <? echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
-					  <?
+					  <td> <img <?php echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
+					  <?php
 					}
 					
 					?>
@@ -51,7 +55,7 @@ $rw=mysql_fetch_row($query);
          </table>
          <table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
 		            <tr class="legend">
-		              <td align="right" height="30"  ><b> <?echo $titre;?></b></td>
+		              <td align="right" height="30"  ><b> <?phpecho $titre;?></b></td>
 		            </tr>
 
 		 </table>
@@ -61,7 +65,7 @@ $rw=mysql_fetch_row($query);
 
 <td><b>Formule Moyenne Annuelle *:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <SELECT NAME="formule" id="Formule Moyenne Annuelle" required autofocus>
-<?
+<?php
 	echo "<OPTION></OPTION>";
 
 	echo "<OPTION>(MoySem1 + MoySem2*2)/3</OPTION>";
@@ -70,26 +74,21 @@ $rw=mysql_fetch_row($query);
 ?>
 </SELECT>
 </td></tr>
-				   <?
-				   $exess1=mysql_query("select count(*)nb from categories where cycle='MOYEN'");
-                 while ($roi1=mysql_fetch_array($exess1)) {
-				 $nb=$roi1["nb"];
-				 }
+				   <?php
+				  
 				   if($nb <> 0) {
 				   ?>
 				   
 <tr><td><b>Note Conduite Pour le cycle Moyen *:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <SELECT NAME="conduite" id="Note conduite" required>
-<?
+<?php
 	echo "<OPTION></OPTION>";
-
 	echo "<OPTION>OUI</OPTION>";
 	echo "<OPTION>NON</OPTION>";
-
 ?>
 </SELECT>
 </td></tr>
-					<?
+<?php
 					}
 					?>
 
@@ -97,7 +96,7 @@ $rw=mysql_fetch_row($query);
 		    </table>
 		              
 					   <table border=0 cellpadding=0 cellspacing=0 width=100% height=100>
-					   <tr>      <td>&nbsp;</td><td>
+					   <tr>      <td>&nbsp;</td><td align=right>
 					  <br><a href="design.php"><img src="img/prec.jpg" alt="" border="0"></a>
 		              &nbsp;&nbsp;<input type="image" src="img/suiv.jpg">
 					   </td>

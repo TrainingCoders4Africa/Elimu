@@ -1,40 +1,24 @@
 <?php
 
-  function separation_dos($page,$id,$table,$champord,$long){
+function separation_dos($page,$id,$table,$champord,$long){
 	 if(@($_GET[$id])==""){
 	$compt=0;
 	}
 	else {
 	$compt=$_GET[$id] ;
 	}
-	/*if($compt==0)
-	 $sql="select * from $table order by $champord DESC limit $compt,".($long);
-	else
-	 $sql="select * from $table order by $champord DESC limit ".($long+$long*($compt-1)).",".($long);
-	 //echo"<br>".$sql;
-	 */
-
-	if(isset($_SESSION["zone"])){
-      if($compt==0){
-	 $sql="select * from $table where departement5=".$_SESSION["zone"]." order by $champord DESC limit $compt,".($long);
-	 }
-	else{
-	 $sql="select * from $table where departement5=".$_SESSION["zone"]." order by $champord DESC limit ".($long+$long*($compt-1)).",".($long);
-	 }
-	}
-	else{
 	if($compt==0){
 	 $sql="select * from $table order by $champord DESC limit $compt,".($long);
 	 }
 	else{
 	 $sql="select * from $table order by $champord DESC limit ".($long+$long*($compt-1)).",".($long);
 	 }
-	}
+	//}
    // echo $sql;
     return $sql;
 
 	}
-	function afficheseparation_dos($page,$id,$table,$champord,$compt,$cols,$long){
+function afficheseparation_dos($page,$id,$table,$champord,$compt,$cols,$long){
 	    $sql1="select * from $table order by $champord DESC ";
 		$exe1=mysql_query($sql1) or die(mysql_error());
 		$nb=mysql_num_rows($exe1);
@@ -50,7 +34,7 @@
 
 	                   echo'</tr>';
 	}
-    function affichedos($table,$titre,$champ,$page,$long,$lien){
+function affichedos($table,$titre,$champ,$page,$long,$lien){
 
     if(@($_GET["compt"])==""){
 	$compt=0;
@@ -184,23 +168,36 @@
                    $rws=mysql_fetch_array(mysql_query("select * from disciplines where iddis='".$ligne[$i]."'"));
                    $ligne[$i]=$rws[1];
 		           }
+				   if (($i==4) and ($table=='credit_horaire')) {
+                   $rwse=mysql_fetch_array(mysql_query("select * from etudes where idetude='".$ligne[$i]."'"));
+                   $ligne[$i]=$rwse[1];
+		           }
+				   if (($i==5) and ($table=='credit_horaire')) {
+                   $rwse=mysql_fetch_array(mysql_query("select * from nature where idnature='".$ligne[$i]."'"));
+                   $ligne[$i]=$rwse[1];
+		           }
 				 if (($i==2) and ($table=='coefficients')) {
-                 
-				 $rws=mysql_fetch_array(mysql_query("select * from disciplines where iddis='".$ligne[$i]."'"));
-                   $ligne[$i]=$rws[1];
+                 $dis = explode("D", $ligne[$i]);
+			$iddis = $dis[0];
+			$idsm=$dis[1];
+				$titres = findByValue('disciplines','iddis',$iddis);
+						$tit = mysql_fetch_row($titres);
+						$discipline=accents($tit[1]);
+							//libelle sous discipline
+					 $smat = findByValue('sous_matiere','idsm',$idsm);
+						$sousmat = mysql_fetch_row($smat);
+						$sousd=accents($sousmat[1]);
+						if($sousd<>"")
+						$affi=$discipline.' : '.$sousd;
+						else
+						$affi=$discipline;
+						
+                   $ligne[$i]=$affi;
 		           }
-    	   	 	  /* if (($i==2) and ($table=='coefficients')) {
-                   $rws=mysql_fetch_array(mysql_query("select * from disciplines where iddis='".$ligne[$i]."'"));
-                   $ligne[$i]=$rws[1];
+    	   	 	   if (($i==3) and ($table=='coefficients')) {
+                   $rwse=mysql_fetch_array(mysql_query("select * from etudes where idetude='".$ligne[$i]."'"));
+                   $ligne[$i]=$rwse[1];
 		           }
-    	   	 	   if ($i==7) {
-                   $rws=mysql_fetch_array(mysql_query("select * from classeur where idCl='".$ligne[$i]."'"));
-                   $ligne[$i]=$rws[2];
-		           }
-		           elseif ($i==8) {
-                   $rws=mysql_fetch_array(mysql_query("select * from gestionnaire where idGest='".$ligne[$i]."'"));
-                   $ligne[$i]=$rws[1].' - '.$rws[2];
-		           }*/
 
     	   	 	echo"<td  class='kc2'>  $ligne[$i]</td>";
     	   	 }
@@ -222,11 +219,12 @@
     }
     elseif(@$_GET["del"]<>""){
     //echo"touba";
-    affiche_doss($table,$champ,$_GET["del"],"sup");
+	   affiche_doss($table,$champ,$_GET["upd"],"mod");
+    //affiche_doss($table,$champ,$_GET["del"],"sup");
     }
     echo"</table>";
 }
-    function affiche_doss($table,$champ,$code,$mod){
+function affiche_doss($table,$champ,$code,$mod){
 
     if($mod!="")
     echo"<form name='frm' action='".$_SERVER['REQUEST_URI']."&id=0' onsubmit='return (conform(this));'   enctype='multipart/form-data'  method='POST'>";

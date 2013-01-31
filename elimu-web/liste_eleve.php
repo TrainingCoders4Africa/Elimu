@@ -32,14 +32,14 @@ BUTTON {color:white; background-color:#0000A0; font-size: 11pt}
 H2.rouge {font-family:Brush; color:white; background-color:#0000A0; font-size: 16pt}
 </STYLE>
 <FONT COLOR="#000000" FACE="Verdana,Arial" SIZE=1>
-<H4 class="rouge" ALIGN="center">Liste Alphabétique des éléves de la classe de <b> <?echo $classe;?></b></font></H4>
+<H4 class="rouge" ALIGN="center">Liste Alphabétique des éléves de la classe de <b> <?phpecho $classe;?></b></font></H4>
 <table border="1" cellspacing="0" bordercolor="#AEBFE2" cellpadding="2" width=100 ALIGN=CENTER>
 <TR>
 <TH align=center ROWSPAN=1 NOWRAP><FONT COLOR="#5773AD"><B>&nbsp;Prénom&nbsp;</B></FONT></TH>
 <TH align=center ROWSPAN=1 NOWRAP><FONT COLOR="#5773AD"><B>&nbsp;Nom&nbsp;</B></FONT></TH>
 <TH align=center ROWSPAN=1 NOWRAP><FONT COLOR="#5773AD"><B>&nbsp;Date et Lieu de Naissance&nbsp;</B></FONT></TH>
 </TR>
-<?
+<?php
 $selection =  findByNValue("eleves","matricule in(select eleve from inscription where classe='".htmlentities($classe)."' and annee='$annee')");
               		while($ligne = mysql_fetch_row($selection))
 {
@@ -57,13 +57,13 @@ $matricule=$ligne[0];
 
 
 <TR>
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?echo $prenom;?>&nbsp;</A></TD>
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?echo $nom;?>&nbsp;</TD>
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?echo $date_nais.' à '.$lieu;?>&nbsp;</TD>
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?phpecho $prenom;?>&nbsp;</A></TD>
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?phpecho $nom;?>&nbsp;</TD>
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP>&nbsp;<?phpecho $date_nais.' à '.$lieu;?>&nbsp;</TD>
 </TR>
 
 
-<?
+<?php
 
 }
 ?>

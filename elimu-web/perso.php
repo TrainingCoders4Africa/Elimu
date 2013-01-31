@@ -1,6 +1,6 @@
 <?php
 session_start();
-$menu='';
+@$menu='';
 $pageint="forms/perso.php";
 $p="";
 $uno=0;

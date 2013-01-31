@@ -15,7 +15,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'honneurs.php?ajout=1';?>" method="post"onsubmit='return (conform(this));' >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' >
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 	<table border="0" cellpadding="3" cellspacing="0" width="600" >
@@ -25,8 +25,8 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 <TD width="30" ROWSPAN=1 ALIGN=LEFT NOWRAP SIZE="1"><SELECT NAME="libelle" id="libelle1" required
 placeholder="Selectionner" autofocus/ >
 <OPTION value=>Selectionner</OPTION>
-<OPTION  value="FELICITATION">FELICITATION</OPTION>
-<OPTION value="ENCOURAGEMENT">ENCOURAGEMENT</OPTION>
+<OPTION  value="FELICITATIONS">FELICITATIONS</OPTION>
+<OPTION value="ENCOURAGEMENTS">ENCOURAGEMENTS</OPTION>
 <OPTION value="TABLEAU D'HONNEUR">TABLEAU D'HONNEUR</OPTION>
 <OPTION value="AVERTISSEMENT">AVERTISSEMENT</OPTION>
 <OPTION value="BLAME">BLAME</OPTION>

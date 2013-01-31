@@ -1,6 +1,6 @@
 <?php
 //$_SESSION['classe']=;
-$sclasse=$_GET['num'];
+$sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
 $type='';
@@ -31,7 +31,7 @@ $hd=$ligne['hd'];
 $hf=$ligne['hf'];
 }
 ?>
-<form name="inscription_form" action="<?php echo 'cahierabsence.php?ajout=1&num='.$sclasse;?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 <table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
@@ -45,13 +45,13 @@ else{
 	$jour = array("Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi");
 				 $datefr = $jour[date("w")];
 				 	 if($type=='HORAIRE')
-$sqlst="select id,debut,fin,discipline from emploi_temps where annee='$annee' and semestre='$codes'and classe='".htmlentities($sclasse)."' and professeur='$personnel'
+$sqlst="select id,debut,fin,discipline from emploi_temps where annee='$annee' and semestre='$codes'and classe='$sclasse' and professeur='$personnel'
  and jour=(select id from jours where libelle='$datefr') and id not in
- (select emploi from cours where annee='$annee' and cours.classe='".htmlentities($sclasse)."') and ((debut <'$hd' and fin<='$hf') or ( debut < '$hd' and fin< '$hf') or(debut >='$hf' and fin>='$hf') or ( debut < '$hd' and fin> '$hf')) ";
+ (select emploi from cours where annee='$annee' and cours.classe='$sclasse') and ((debut <'$hd' and fin<='$hf') or ( debut < '$hd' and fin< '$hf') or(debut >='$hf' and fin>='$hf') or ( debut < '$hd' and fin> '$hf')) ";
  else
- $sqlst="select id,debut,fin,discipline from emploi_temps where annee='$annee' and semestre='$codes'and classe='".htmlentities($sclasse)."' and professeur='$personnel'
+ echo$sqlst="select id,debut,fin,discipline from emploi_temps where annee='$annee' and semestre='$codes'and classe='$sclasse' and professeur='$personnel'
  and jour=(select id from jours where libelle='$datefr') and id not in
- (select emploi from cours where annee='$annee' and cours.classe='".htmlentities($sclasse)."')";
+ (select emploi from cours where annee='$annee' and cours.classe='$sclasse')";
  if($type=='JOURNEE'){
 ECHO'Impossible de remplir le cahier de texte car vous être absent aujourdhui';
 }
@@ -60,7 +60,7 @@ else{
 		<TR>
 <B>&nbsp;Cours &nbsp;*&nbsp;</B><SELECT NAME="cours" id="cours" required>
 <OPTION value=""></OPTION>
- <?
+ <?php
 $req=mysql_query($sqlst);
 while($lig=mysql_fetch_array($req))
 {
@@ -74,8 +74,8 @@ $table = 'disciplines';
                             //echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			
 ?>
-  <OPTION value="<?echo $id;?>"><?echo $ro[1].' de '.$datep.' à '.$discipline;?>
-  <?
+  <OPTION value="<?php echo $id;?>"><?php echo $ro[1].' de '.$datep.' à '.$discipline;?>
+  <?php
 }
 ?>
  </OPTION></SELECT></TD></TR>
@@ -90,7 +90,7 @@ $table = 'disciplines';
                      </tr>
                 <?php
                   //include"connect.php";
-                  $sql="select * from eleves where matricule in(  select eleve from inscription where classe='".htmlentities($sclasse)."' and annee='$annee')";
+                  $sql="select * from eleves where matricule in(  select eleve from inscription where classe='$sclasse' and annee='$annee')";
                   $exec=mysql_query($sql) or die(mysql_error());
                   $nb=mysql_num_rows($exec);
                   $i=1;
@@ -151,7 +151,7 @@ $annee=addslashes($_POST['an']);
 $matricule=addslashes($_POST['matricule']);
 $datejour=date("Y")."-".date("m")."-".date("d");
 // $choix=@$_POST["choix"];
-
+$nature='COURS';// si l'éleve est absent en cours ou durant une évaluation
 $nbart=addslashes($_POST['nbart']);
 
 
@@ -163,7 +163,7 @@ $nbart=addslashes($_POST['nbart']);
 	
 	$exereq=mysql_query("select * from cahier_absence where eleve= '$code' and annee='$annee' and emploi='$emploi' and datejour='$datejour'");
 		if(mysql_num_rows($exereq)==0){
-		   $sql="insert into cahier_absence values('$code','$datejour','$emploi','$annee','$semestre')";
+		   $sql="insert into cahier_absence values('$code','$datejour','$emploi','$annee','$semestre','$nature')";
 		           
 		            $exe=mysql_query($sql) or die(mysql_error());
 		            if (@$exe) {

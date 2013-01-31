@@ -1,6 +1,6 @@
 <?php
 session_start();
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 /*if (isset($_GET["vis"])) {
   $titre=" Série >> Consultation" ;
   $pageint="consulter/serie.php";

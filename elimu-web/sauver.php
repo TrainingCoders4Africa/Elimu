@@ -1,6 +1,6 @@
 <?php
 session_start();
-$menu=$_SESSION["menu"];
+@$menu=$_SESSION["menu"];
 $pageint="forms/sauver.php";
 $p="";
 $uno=0;

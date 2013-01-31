@@ -1,7 +1,19 @@
 <?php
 //$_SESSION['classe']=;
-$classe=$_GET['num'];
+$classe=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
+// vérifier s'il ya des uv pour le lv1
+$reqlv1=findByNValue("credit_horaire","credit_horaire.etude in (select etude from classes where idclasse='$classe') 
+				 and nature=(select idnature from nature where nature='Langue vivante I')");
+					$lv1=mysql_num_rows($reqlv1);
+					// vérifier s'il ya des uv pour le lv2
+$reqlv2=findByNValue("credit_horaire","credit_horaire.etude in (select etude from classes where idclasse='$classe') 
+				 and nature=(select idnature from nature where nature='Langue vivante II')");
+					$lv2=mysql_num_rows($reqlv2);
+					// vérifier s'il ya des uv pour les langues classique
+$reqlvc=findByNValue("credit_horaire","credit_horaire.etude in (select etude from classes where idclasse='$classe') 
+				 and nature=(select idnature from nature where nature='Langue classique')");
+					$lvc=mysql_num_rows($reqlvc);
 ?>
 <script language="Javascript">
 function verif_nombre(champ)
@@ -20,7 +32,7 @@ if(verif == false){champ.value = champ.value.substr(0,x) + champ.value.substr(x+
 
 }
 </script>
-<form name="inscription_form" action="<?php echo 'eleves.php?ajout=1&num='.$classe;?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data">
 <input name="action" value="submit" type="hidden">
 <div class="formbox">
 <script language="Javascript">
@@ -84,54 +96,55 @@ function go()
 
 	<table border="0" cellpadding="3" cellspacing="0" width="100%" align=letf >
 		<tbody>
-		<TR><TD class=petit>&nbsp;</TD></TR>
+		<TR><TD width="21%" class=petit>&nbsp;</TD>
+		</TR>
 		<TR>
-<TD><B>&nbsp;Matricule &nbsp;*&nbsp;</B><INPUT TYPE="text" SIZE=13 MAXLENGTH="13" NAME="matricule" ONCHANGE="this.value=this.value.toUpperCase()" autofocus required>&nbsp;&nbsp;&nbsp;&nbsp;
-<B>&nbsp;Prénom &nbsp;*&nbsp;</B><INPUT type="text" SIZE=25 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" required>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<B>&nbsp;Nom *&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Matricule &nbsp;*</B><INPUT TYPE="text" SIZE=13 MAXLENGTH="13" NAME="matricule" ONCHANGE="this.value=this.value.toUpperCase()" autofocus required>
+</TD><td width="21%" ROWSPAN=1 ALIGN=LEFT NOWRAP>
+<B> &nbsp;Prénom *&nbsp;</B>
+<INPUT type="text" SIZE=25 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" required></td><td width="16%" ROWSPAN=1 ALIGN=LEFT NOWRAP>
+<B>&nbsp;Nom *&nbsp;</B>
+<INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
 </TR>
 <TR><TD class=petit>&nbsp;</TD></TR>
 <tr>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Date Naissance &nbsp;*&nbsp;</B><INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required>
-<B>&nbsp;Lieu Naissance &nbsp;*&nbsp;</B><INPUT  type="text" SIZE=20 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" required>
-<B>&nbsp;Sexe &nbsp;*&nbsp;</B><SELECT NAME="sexe" id="Sexe" required>
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Date Naissance &nbsp;*&nbsp;</B><INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required></TD>
+<td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp;Lieu Naissance &nbsp;*&nbsp;</B><INPUT  type="text" SIZE=20 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" required></td>
+<td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp; Sexe &nbsp;*&nbsp;</B>
+<SELECT NAME="sexe" id="Sexe" required>
 <OPTION value=""></OPTION>
-<?
+<?php
 
 				 $table = 'sexe5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
+                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
     			}
 				?>			
 					</select>
 
 </TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=90%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+<TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
 <TR>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Photo&nbsp;</B><INPUT TYPE="file"  NAME="photo">
-<B>&nbsp;Teléphone &nbsp;</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="12" NAME="tel_eleve" id="téléphone" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<B>&nbsp;E-mail&nbsp;</B><INPUT TYPE="email" SIZE=25 MAXLENGTH="55" NAME="email_eleve" id="mail" >
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Photo</B><INPUT TYPE="file"  NAME="photo"></TD><td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp;Teléphone &nbsp;</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="12" NAME="tel_eleve" id="téléphone" ></td><td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp;E-mail&nbsp;</B><INPUT TYPE="email" SIZE=30 MAXLENGTH="55" NAME="email_eleve" id="mail" >
 </TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=90%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+<TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
 <TR>
-<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Tuteur &nbsp;*&nbsp;</B><INPUT type="text" SIZE=50 MAXLENGTH="100" NAME="tuteur" ONCHANGE="this.value=this.value.toUpperCase()" required>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+<TD ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp;Tuteur &nbsp;*&nbsp;</B><INPUT type="text" SIZE=40 MAXLENGTH="100" NAME="tuteur" ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
+<td ALIGN=LEFT ROWSPAN=1 NOWRAP>
 <B>&nbsp;Adresse *</B><INPUT TYPE="text" SIZE=40 MAXLENGTH="100" NAME="adresse" id="adresse" ONCHANGE="this.value=this.value.toUpperCase()" required></TD>
 </TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=90%></TD></TR>
-<TR><TD class=petit>&nbsp;</TD></TR>
+<TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
 <tr>
-<td>
-<B>&nbsp;Téléphone Tuteur &nbsp;*&nbsp;</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="12" NAME="tel_tuteur" id="téléphone" required>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<B>&nbsp;E-mail Tuteur&nbsp;</B><INPUT TYPE="email" SIZE=25 MAXLENGTH="55" NAME="email_tuteur" id="mail_tuteur" >
+<td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp;Téléphone Tuteur &nbsp;*</B><INPUT TYPE="text" SIZE=12 MAXLENGTH="12" NAME="tel_tuteur" id="téléphone" required></td><td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp;E-mail Tuteur&nbsp;</B><INPUT TYPE="email" SIZE=30 MAXLENGTH="55" NAME="email_tuteur" id="mail_tuteur" ></td><td ALIGN=LEFT ROWSPAN=1 NOWRAP>
 <B>&nbsp;Eléve Redoublant &nbsp;*&nbsp;</B><SELECT NAME="redoublant" id="redoublant?" required>
 <OPTION value=""></OPTION>
 <OPTION value="OUI">OUI</OPTION>
@@ -139,19 +152,94 @@ function go()
 					</select>
 
 </TD>
+
 </TR>
 </td></tr>
+<TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
+<TR>
+<?php 
+if($lv1<>0){
+?>
 
-<TR><TD class=petit>&nbsp;</TD></TR>
-<TR><TD ROWSPAN=1 COLSPAN=4><HR width=90%></TD></TR>
+<td ALIGN=LEFT ROWSPAN=1 NOWRAP><B>&nbsp; Langue Vivante I &nbsp;*&nbsp;</B>
+<SELECT NAME="lgv1" id="LV1" required>
+<?php
 
+		 $selection =  findByNValue('credit_horaire',"credit_horaire.etude in (select etude from classes where idclasse='$classe') 
+		 and nature=(select idnature from nature where nature='Langue vivante I')");
+		while($ro=mysql_fetch_row($selection))
+			{
+				//libelle discipline
+					$t_discipline = findByValue('disciplines','iddis',$ro[1]);
+					$champ = mysql_fetch_row($t_discipline);
+					$discipline=accents($champ[1]);
+					echo"<option value='".$ro[0]."'>".accents($discipline)."</option>";
+    		}
+				?>			
+</select>
 
+</TD>
+<?php
+}
+if($lv2<>0){
+?>
+<td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp; Langue Vivante II &nbsp;*&nbsp;</B>
+<SELECT NAME="lgv2" id="Sexe">
+
+<?php
+
+				 $selection =  findByNValue('credit_horaire',"credit_horaire.etude in (select etude from classes where idclasse='$classe') 
+				 and nature=(select idnature from nature where nature='Langue vivante II')");
+				while($ro=mysql_fetch_row($selection)){
+				//libelle discipline
+						$t_discipline = findByValue('disciplines','iddis',$ro[1]);
+						$champ = mysql_fetch_row($t_discipline);
+						$discipline=accents($champ[1]);
+				
+                            echo"<option value='".$ro[0]."'>".accents($discipline)."</option>";
+    			}
+				?>			
+					</select>
+
+</TD>
+<?php
+}
+if($lvc<>0){
+?>
+<td ALIGN=LEFT ROWSPAN=1 NOWRAP>
+<B>&nbsp; Langue Classique &nbsp;*&nbsp;</B>
+<SELECT NAME="lgc" id="Sexe">
+
+<?php
+
+				 $selection =  findByNValue('credit_horaire',"credit_horaire.etude in (select etude from classes where idclasse='$classe') 
+				 and nature=(select idnature from nature where nature='Langue classique')");
+				while($ro=mysql_fetch_row($selection)){
+				//libelle discipline
+						$t_discipline = findByValue('disciplines','iddis',$ro[1]);
+						$champ = mysql_fetch_row($t_discipline);
+						$discipline=accents($champ[1]);
+				
+                            echo"<option value='".$ro[0]."'>".accents($discipline)."</option>";
+    			}
+				?>			
+					</select>
+
+</TD>
+<?php
+}
+?>
+</TR>
+<TR><TD ROWSPAN=1 COLSPAN=4><HR width=100%></TD></TR>
 	</tbody>
-<TR><TD class=petit>&nbsp;</TD>
 
-<TD class=petit>&nbsp;<input type=hidden name="classe" value="<? echo $classe;?>"></TD>
+<TD class=petit>&nbsp;<input type=hidden name="classe" value="<?php echo $classe;?>"></TD>
 
-<TD class=petit>&nbsp;<input type=hidden name="agent" value="<? echo $personnel;?>"></TD>
+<TD class=petit>&nbsp;<input type=hidden name="agent" value="<?php echo $personnel;?>"></TD>
+<TD class=petit>&nbsp;<input type=hidden name="lv1" value="<?php echo $lv1;?>"></TD>
+<TD class=petit>&nbsp;<input type=hidden name="lv2" value="<?php echo $lv2;?>"></TD>
+<TD class=petit>&nbsp;<input type=hidden name="lvc" value="<?php echo $lvc;?>"></TD>
 </TR>
 	<TR><TD><BUTTON TITLE="Confirmer "name="enregistrer" TYPE="submit" id="flashit"><b>Inscrire</b></BUTTON>&nbsp;<BUTTON TITLE="Annuler " TYPE="reset"><b>&nbsp;Annuler&nbsp;</b></BUTTON></TD>
 	</table>

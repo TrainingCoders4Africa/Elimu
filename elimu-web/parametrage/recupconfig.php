@@ -1,5 +1,6 @@
 <?php
 include"../dao/connection.php";
+include"../dao/select.php";
 //base("gescosen");
 function copilogo(){
 if(@$_FILES["logo"]['name']!="")
@@ -8,12 +9,13 @@ copy($_FILES['logo']['tmp_name'],"logos/".$_FILES['logo']['name']);
 }
 }
 if (isset($_POST["libelle"])) {
-   $libelle=$_POST["libelle"];
-    $ia=$_POST["ia"];
-     $iden=$_POST["iden"];
-   $slogan=$_POST["slogan"];
+   $libelle=str_replace("'","\'",$_POST["libelle"]);
+    $ia=str_replace("'","\'",$_POST["ia"]);
+     $iden=str_replace("'","\'",$_POST["iden"]);
+   
+  $slogan= str_replace("'","\'",$_POST["slogan"]);
    $ouverture=$_POST["ouverture"];
-   $adresse=$_POST["adresse"];
+   $adresse=str_replace("'","\'",$_POST["adresse"]);
    $tel=$_POST["tel"];
    $bp=$_POST["bp"];
     $site=$_POST["site"];

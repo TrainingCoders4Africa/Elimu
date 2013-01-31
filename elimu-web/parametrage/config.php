@@ -18,13 +18,6 @@ ChangeTitle("ELIMU: GESTION SCOLAIRE & COLLABOTION PARENTS ET ADMINISTRATION VIA
 include"../dao/connection.php";
  include "style.php";
    $titre="ELIMU >> Paramétrage Partie I";
-   
-   
-   $requete=("select logo from etablissements ");
-$resultat=mysql_query($requete);
-   $b=mysql_fetch_object($resultat);
-$a=$b->logo;
-
 $query = "SELECT * FROM etablissements";
    $result = mysql_query ($query)or die (mysql_error());
    $ligne=mysql_fetch_row($result);
@@ -41,11 +34,11 @@ $query = "SELECT * FROM etablissements";
 		<table border=0 cellpadding=0 cellspacing=0 width=100%  height="50">
                    <tr class="titr">
 		              <td COLSPAN=2 align=center height="90"><b><big>Configuration</big><b> </td>
-		              <?
-                    	if($a <>""){
+		              <?php
+                    	if($ligne[3] <>""){
                     	?>
-					  <td> <img <? echo" <img src='logos/". $a."' align='right'  height='100%' width='30%' >";?></td>
-					  <?
+					  <td> <img <?php echo" <img src='logos/". $ligne[3]."' align='right'  height='100%' width='30%' >";?></td>
+					  <?php
 					}
 					
 					?>
@@ -54,20 +47,19 @@ $query = "SELECT * FROM etablissements";
 			
 		<table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
 		            <tr>
-		              <td align="right" height="30"><b><?echo $titre;?></td>
+		              <td align="right" height="30"><b><?php echo $titre;?></td>
 		            </tr>
 		 </table>
 		 <table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
 		 	 <tr>
-		              <td>&nbsp;<b>IA : *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br><input name="ia" type="text" id="IA"size="30" value="<? echo @$ligne[0];?>" ONCHANGE="this.value=this.value.toUpperCase()" placeholder="IA de dakar par exemple" required autofocus>
-					  </td>  <td>&nbsp;<b>IDEN : *</br><input name="iden" type="text" id="IDEN"size="40" ONCHANGE="this.value=this.value.toUpperCase()" value="<? echo $ligne[1];?>" placeholder="IDEN de Pikine par exemple" required></td>
+		              <td ROWSPAN=1  ALIGN=LEFT NOWRAP>&nbsp;<b>IA :*&nbsp;<b><input name="ia" type="text" id="Inspection Académique"size="30" value="<?php echo @$ligne[0];?>" ONCHANGE="this.value=this.value.toUpperCase()" placeholder="Inspecton Académique" required >
+					  </td>  <td ROWSPAN=1  ALIGN=LEFT NOWRAP>&nbsp;<b>IEF :*&nbsp;</b><input name="iden" type="text" id="Inspection de l'Education et de la Formation"size="40" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $ligne[1];?>" placeholder="IEF de Pikine par exemple" required></td>
 </tr>
 <TR><TD class=petit>&nbsp;</TD></TR>
-
 	 <tr>
-<td>&nbsp;<b>Etablissement</b> :*</br><input name="libelle" type="text" id="Etablissement"size="50" ONCHANGE="this.value=this.value.toUpperCase()" value="<? echo $ligne[2];?>" placeholder="Nom Etablissement"required></td>
-<TD>&nbsp;<b>Statut: *</br><SELECT NAME="status"><OPTION SELECTED><? echo $ligne[12];?></OPTION>
-<?
+<td ROWSPAN=1  ALIGN=LEFT NOWRAP>&nbsp;<b>Etablissement :*&nbsp;</b><input name="libelle" type="text" id="Etablissement"size="50" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $ligne[2];?>" placeholder="Nom Etablissement"required></td>
+<TD ROWSPAN=1  ALIGN=LEFT NOWRAP>&nbsp;<b>Statut :*&nbsp;</b><SELECT NAME="status" required><OPTION><?php echo $ligne[12];?></OPTION>
+<?php
 if ($ligne[12]=="PUBLIC"){
 
 	echo "<OPTION>PRIVE</OPTION>";
@@ -83,48 +75,40 @@ else{
 	echo "<OPTION>PRIVE</OPTION>";
 }
 ?>
-</td>
-		            </tr>
+</td> </tr>
 					<tr><td><TD class=petit>&nbsp; </td></tr>
-					<tr><td><b>Logo :</b></br>
-					<? if( $ligne[3]==""){?>
-
-
+<tr><td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Logo :&nbsp;</b>
+					<?php if( $ligne[3]==""){?>
 <input name="logo" id="logo"type="file" >
-<?
+<?php
 }
 else{
 ?>
-<input name="chemin" type="text" value="<? echo $ligne[3];?>" readonly>
+<input name="chemin" type="text" value="<?php echo $ligne[3];?>" readonly>
 <input name="logo" id="logo"type="file" >
-<?
+<?php
 }
 ?></td>
-   <td><b>Date Ouverture :*</b></BR><input name="ouverture" id="Date Ouverture" type="date" size="20"  value="<? echo @$ligne[5];?>" placeholder="<?echo date("Y")."-".date("m")."-".date("d");?>" required lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:date;erreur:champ Obligatoire'></td>
+   <td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Date Ouverture :*&nbsp;</b></BR><input name="ouverture" id="Date Ouverture" type="date" size="20"  value="<?php echo @$ligne[5];?>" placeholder="<?php echo date("Y")."-".date("m")."-".date("d");?>" required lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:date;erreur:champ Obligatoire'></td>
+    </tr>
+	<TR><TD class=petit>&nbsp;</TD></TR>
+		        <tr>
+		              <td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Slogan :&nbsp;</b><input name="slogan" type="text" size="40" value="<?php echo $ligne[4];?>" placeholder="Travail,Discipline, Reussite" ></td>
 		           
-
-</tr>
-		</table>
-         <table border=0 cellpadding=0 cellspacing=0 width=100% height="90">
-		             <tr>
-		              <td><b>Slogan :</b><BR><input name="slogan" type="text" size="40" value="<? echo $ligne[4];?>" placeholder="Travail,Discipline, Reussite" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		           
-		              <td><b>Adresse **</b><br><input name="adresse" id="Adresse" type="text" size="50" value="<? echo $ligne[6];?>" placeholder="Adresse Etablissement"  required></td>
+		              <td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Adresse :*&nbsp;</b><input name="adresse" id="Adresse" type="text" size="50" value="<?php echo $ligne[6];?>" placeholder="Adresse Etablissement"  required></td>
 		            </tr>
-         </table>
-         <table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
-		            <tr>
+					<TR><TD class=petit>&nbsp;</TD></TR>
+         <tr>
 
-		  		     <td><b>Téléphone :*</b><br>  <input name="tel" id="t&eacute;l&eacute;phone" type="text" size="20" value="<? echo $ligne[7];?>" placeholder="Numéro Téléphone" required></td>
-					    <td><b>BP</b> :<br> <input name="bp" id="Boite Postale" type="text" size="20"  value="<? echo $ligne[8];?>" placeholder="Boite Postale" ></td>
- <td><b>Fax :</b><br> <input name="fax" type="text" size="20" value="<? echo $ligne[9];?>"  ></td>
+		  		     <td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Téléphone :*&nbsp;</b> <input name="tel" id="t&eacute;l&eacute;phone Etablissement" type="text" size="20" value="<?php echo $ligne[7];?>" placeholder="Numéro Téléphone" required></td>
+					    <td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;BP :&nbsp; </b> <input name="bp" id="Boite Postale" type="text" size="20"  value="<?php echo $ligne[8];?>" placeholder="Boite Postale" ></td>
+ <td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Fax :&nbsp;</b><br> <input name="fax" type="text" size="20" value="<?php echo $ligne[10];?>"  ></td>
 		             
 		            </tr>
-		 </table>
-		 <table border=0 cellpadding=0 cellspacing=0 width=100%  height="30">
-		            <tr>
-					<td><b>Site :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><br> <input name="site" type="text" size="30" value="<? echo $ligne[9];?>" placeholder="http://www.coders4africa.org" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		              <td><b>Email :*</b><br> <input name="email" id="email" type="email" size="40"  value="<? echo @$ligne[11];?>" required  placeholder="votre@dresse.fr"  lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:mail;'></td>
+					<TR><TD class=petit>&nbsp;</TD></TR>
+		 <tr>
+					<td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Site :&nbsp;</b> <input name="site" type="text" size="50" value="<?php echo $ligne[9];?>" placeholder="http://www.coders4africa.org" ></td>
+		              <td ROWSPAN=1  ALIGN=LEFT NOWRAP><b>&nbsp;Email :*&nbsp;</b> <input name="email" id="email" type="email" size="40"  value="<?php echo @$ligne[11];?>" required  placeholder="votre@dresse.fr"  lang='bonfond:#FFFFFF;bontexte:#400040;erreurfond:#FF0000;bontexte:#0000FF; type:mail;'></td>
 
 		             </tr>
 		 </table>
@@ -132,7 +116,7 @@ else{
 		             <tr>
 		              <td width=100>&nbsp;</td>
 		              <td align=right>
-		              <?
+		              <?php
 		              
                           echo'<input type="image" src="img/suiv.jpg" >';
 		               
@@ -141,6 +125,18 @@ else{
 		              </td>
 		            </tr>
 		 </table>
+		 <table>
+<tr><td><big><b><U>NB:</td></tr>
+<tr>
+<td><b> * </b>: Champs Obligatoite</td>
+</tr>
+<tr>
+<td><b> IA </b>: Inspection Académique</td>
+</tr>
+<tr>
+<td><b> IEF </b>: Inspection de l'Education et de la Formation, remplace IDEN</td>
+</tr>
+</table>
           <table border=0 cellpadding=0 cellspacing=0 width=100%  height="20">
 		             <tr>
 		              <td COLSPAN=2 align=right height="25">&reg;&trade;

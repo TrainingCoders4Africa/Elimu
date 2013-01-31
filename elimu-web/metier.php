@@ -1,4 +1,4 @@
-<?
+<?php
 function smenu1($page,$vis,$ajout,$mod,$sup,$rech,$imp){
  if($vis==1)
    $vis="<a href='?vis=1'><img src='menu/imgsmenu/vis1.jpg' border='0' alt=''/></a> ";
@@ -425,5 +425,24 @@ function listerfichier($chemin,$idaf){
 
   // return $rapport;
 }
-//include"metier2.php";
+//somme de deux heures
+ function add_heures($heure1,$heure2){	
+$secondes1=heure_to_secondes($heure1);
+	$secondes2=heure_to_secondes($heure2);
+	$somme=$secondes1+$secondes2;
+	//transfo en h:i:s
+	$s=$somme % 60; //reste de la division en minutes => secondes
+	$m1=($somme-$s) / 60; //minutes totales
+	$m=$m1 % 60;//reste de la division en heures => minutes
+	$h=($m1-$m) / 60; //heures
+	//$resultat=$h."H ".$m."mn ".$s."s";
+	$resultat=$h.":".$m;
+	return $resultat;
+}
+//cinversion heure to seconde
+function heure_to_secondes($heure){
+	$array_heure=explode(":",$heure);
+	$secondes=3600*$array_heure[0]+60*$array_heure[1];
+	return $secondes;
+}
 ?>

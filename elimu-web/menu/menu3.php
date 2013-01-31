@@ -1,10 +1,10 @@
-<?
+<?php
 require("dao/connection.php");
 //$snumero=$_GET['num'];
 $login1=$_SESSION["login1"];
 //$_SESSION["login1"]
-		//$_SESSION["agence"]=$snomagence
-$profile=$_SESSION["agence"];
+		//$_SESSION["profil"]=$snomagence
+$profile=$_SESSION["profil"];
 
 $datejour=date("Y")."-".date("m")."-".date("d");
 $mois=date("m");
@@ -143,13 +143,16 @@ function mnh(vl,pb,dg){
 <div id='m'class="element4" style='overflow:hidden;position:relative;top:0px; left:0px; width:200px; height:50px; z-Index:0'>
 
     <img src='menu/images/classes.jpg' ONCLICK='controle=1;mnh("e",250,"m")'><br/>
-	<?
+	<?php
 	while($lignecl=mysql_fetch_array($reqcl))
 {
 $code=$lignecl['classe'];
+$etag1 = findByValue('classes','idclasse',$code);
+						$cha1 = mysql_fetch_row($etag1);
+						$classe=$cha1[3];
 ?>
-		<a href="sclasse.php?num=<?echo $code;?>& annee=<?echo $aca;?>" class="smenu">Gestion de la  <?echo $code;?></a><BR>
-	<?
+		<a href="sclasse.php?num=<?php echo $code;?>& annee=<?php echo $aca;?>" class="smenu">Gestion de la  <?php echo $classe;?></a><BR>
+	<?php
 }
 
 }

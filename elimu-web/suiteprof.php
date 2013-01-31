@@ -2,12 +2,12 @@
 include 'all_function.php';
 if(isset($_POST['DEBUT_ID']) and isset($_POST['CL_ID'])and isset($_POST['DURE']) and isset($_POST['DP']))
 {
-$dp =$_POST['DP'];
-$debut=$_POST['DEBUT_ID'];
-$duree =$_POST['DURE'];
+$dp =securite_bdd($_POST['DP']);
+$debut=securite_bdd($_POST['DEBUT_ID']);
+$duree =securite_bdd($_POST['DURE']);
 $fin=@add_heures($debut,$duree);
-$sclasse=accents($_POST['CL_ID']);
-
+$sclasse=securite_bdd($_POST['CL_ID']);
+if($duree<>""){
 $annee=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
 $sqlstm1="SELECT id,libelle,date_debut debut,date_fin fin FROM semestres WHERE annee ='$annee' and date_debut<='$datejour' and date_fin>='$datejour'";
@@ -26,23 +26,23 @@ $RSU1=mysql_query($stk);
 
 
 if($sclasse=="" and $dp=="" and $debut==""){
-echo" Renseignez les champs classes,date prévue, heure debut evaluation";}
+echo" Renseignez les champs classes,date pr&eacute;vue, heure debut &eacute;valuation";}
 elseif($sclasse=="" and $dp<>"" and $debut<>""){echo" choisissez le classe";}
-elseif($sclasse=="" and $dp=="" and $debut<>""){echo" Renseignez les champs classe,date évaluation";}
+elseif($sclasse=="" and $dp=="" and $debut<>""){echo" Renseignez les champs classe,date &eacute;valuation";}
 elseif($sclasse=="" and $dp<>"" and $debut==""){echo"  Renseignez les champs classe,debut de cours";}
 
-elseif($dp=="" and $sclasse<>"" and $debut<>""){echo"Renseigner date évaluation SVP !!!";}
-elseif($dp=="" and $sclasse<>"" and $debut==""){echo" Renseignez les champs date évaluation ,heure de debut ";}
+elseif($dp=="" and $sclasse<>"" and $debut<>""){echo"Renseigner date &eacute;valuation SVP !!!";}
+elseif($dp=="" and $sclasse<>"" and $debut==""){echo" Renseignez les champs date &eacute;valuation ,heure de debut ";}
 elseif($debut=="" and $sclasse<>"" and $dp<>""){echo"Choisissez l'heure de debut  SVP !!!";}
 elseif(mysql_num_rows($RSU1)<>0){
-echo'Planning déja enregistré';
+echo'Planning d&eacute;ja enregistr&eacute;';
 }
 elseif($semdebut>$dp or $semfin<$dp){
 
-echo'Planning doit être dans le semestre en cours';			
+echo'Planning doit &Ecirc;tre dans le semestre en cours';			
 }
 elseif(mysql_num_rows($rq45)<>0){
-echo'Planning Impossible car la classe  a une évaluation a cette période';
+echo'Planning Impossible car la classe  a une &eacute;valuation a cette p&eacute;riode';
 }
 elseif($duree<>''){
 echo'<tr>
@@ -74,6 +74,7 @@ echo'</SELECT></TD>
 ';
 
 
+}
 }
 }
 ?>
