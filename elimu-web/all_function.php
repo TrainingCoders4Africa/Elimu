@@ -18,5 +18,6 @@ include"metier/save.php";
 include"metier/update.php";
 include"metier/delete.php";
 include"metier/modification.php";
+include"class.phpmailer.php";
   /* */
 ?>

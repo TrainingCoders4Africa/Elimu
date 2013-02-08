@@ -1,2 +1,1 @@
 connexion réussie
-body

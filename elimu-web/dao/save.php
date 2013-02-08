@@ -344,17 +344,17 @@ function save_migration(){
 
 	if(isset($_POST["valider"])){
 
-	$dossier = addslashes($_POST['idDos']);
+	$bajoutsier = addslashes($_POST['idDos']);
 	$destination = addslashes($_POST['Classeur_dest']);
 	$origine=addslashes($_POST['Classeur_orig']);
 	$dateMig = date("d/m/Y");
 	$motif = addslashes($_POST['motif']);
 
-    $exereq=mysql_query("select * from migration where idDos='$dossier' and destination='$destination' and origine='$origine' and dateMig='$dateMig' and motif='$motif'");
+    $exereq=mysql_query("select * from migration where idDos='$bajoutsier' and destination='$destination' and origine='$origine' and dateMig='$dateMig' and motif='$motif'");
     if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO migration VALUES ('', '$dossier', '$destination','$origine', '$dateMig', '$motif')";
+ 	$sql_ajout="INSERT INTO migration VALUES ('', '$bajoutsier', '$destination','$origine', '$dateMig', '$motif')";
     $exe_req=MYSQL_query("update dossier set idCl=".$destination."
-    			where idDos=".$dossier."");
+    			where idDos=".$bajoutsier."");
     //echo "<br> requete : ".$sql_ajout;
 
     $query_ajout=mysql_query($sql_ajout) or die( mysql_error());

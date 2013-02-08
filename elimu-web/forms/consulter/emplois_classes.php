@@ -72,7 +72,7 @@ function go1(){
 <TR><TD><B>&nbsp;Semestre :*</B>&nbsp;&nbsp;&nbsp;&nbsp;<SELECT NAME="semestre" id="semestre" required onchange="go1()" >
  <OPTION  value=""></OPTION>
  <?php
- $sqa="SELECT id,libelle FROM semestres where annee='$annee'";
+ $sqa="SELECT id,libelle FROM semestres where annee='$annee' and id in(select semestre from emploi_temps where classe='$classe' and annee='$annee')";
 $rea=mysql_query($sqa);
 while($ligna=mysql_fetch_array($rea))
 {

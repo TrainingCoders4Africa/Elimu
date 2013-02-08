@@ -6,7 +6,7 @@ include '/dao/select.php';
 if(isset($_POST['CLASSE_ID']) and isset($_POST['SEM_ID'])and isset($_POST['PERSO_ID']) )
 {
 
-$classe=securite_bdd(accents($_POST['CLASSE_ID']));
+$classe=securite_bdd($_POST['CLASSE_ID']);
 $semestre=securite_bdd($_POST['SEM_ID']);
 $personnel=securite_bdd($_POST['PERSO_ID']);
 $annee=annee_academique();

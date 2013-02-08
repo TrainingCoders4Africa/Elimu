@@ -100,30 +100,30 @@ echo'<img src="photos/personull.png" align=center width="250" height="400">';
 				?>
 </SELECT ></td>    </tr>  
 <tr><td ><B>&nbsp;Prénom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
-<INPUT type="text" SIZE=30 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo accents($prenom) ;?>" required>
+<INPUT type="text" SIZE=30 MAXLENGTH="50" NAME="prenom" ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo $prenom ;?>" required>
 </td></tr>
-<tr><td><B>&nbsp;Nom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo accents($nom);?>" required></td>    </tr>
+<tr><td><B>&nbsp;Nom :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="nom"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo ($nom);?>" required></td>    </tr>
 <tr><td><B>&nbsp;Date Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B>
 <INPUT type="date" SIZE=10 MAXLENGTH="20" NAME="date_nais"  required value="<?php echo $date_nais?>"></td>    </tr>
 <tr><td>
-<B>&nbsp;Lieu Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo accents($lieu_nais) ;?>" required></td>    </tr>
+<B>&nbsp;Lieu Naissance :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><INPUT  type="text" SIZE=30 MAXLENGTH="50" NAME="lieu_nais"  ONCHANGE="this.value=this.value.toUpperCase()" value="<?php echo ($lieu_nais) ;?>" required></td>    </tr>
 <tr><td><B>&nbsp;Sexe :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><SELECT NAME="sexe" id="Sexe" required>
-<OPTION value="<?php echo $sexe?>"><?php echo accents($sx) ;?></OPTION>
+<OPTION value="<?php echo $sexe?>"><?php echo $sx ;?></OPTION>
 <?php
 
 				 $table = 'sexe5';
 				 $selection = findNByValue('sexe5','id',$sexe);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}
 				?>			
 					</select></td></tr>
 					<tr><td><B>&nbsp;Situation Matrimoniale :*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B><SELECT NAME="matrimonial" id="Situation Matrimoniale" required>
-<OPTION value="<?php echo $matrimonial?>"><?php echo accents($ma) ;?></OPTION>
+<OPTION value="<?php echo $matrimonial?>"><?php echo $ma ;?></OPTION>
 			<?php
 				 $selection = findNByValue('matrimonial5','id',$matrimonial);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
 			
 					</select></td>    </tr>

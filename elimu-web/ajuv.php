@@ -6,7 +6,6 @@ $discipline =securite_bdd($_POST['MAT']);
 $matricule =securite_bdd($_POST['PROF_ID']);
 $cycle=securite_bdd($_POST['CYCLE_ID']);
 $annee=annee_academique();
-//  echo'discipline '.accents($discipline);
 echo'	<tr>
 	 <TD width="150" ROWSPAN=1 ALIGN=LEFT NOWRAP SIZE="2"><B>Classes *&nbsp; </B></TD>
 	 <table border=0 cellpadding=0 cellspacing=10 >

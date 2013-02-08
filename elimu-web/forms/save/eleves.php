@@ -120,7 +120,7 @@ function go()
 				 $table = 'sexe5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}
 				?>			
 					</select>
@@ -172,8 +172,8 @@ if($lv1<>0){
 				//libelle discipline
 					$t_discipline = findByValue('disciplines','iddis',$ro[1]);
 					$champ = mysql_fetch_row($t_discipline);
-					$discipline=accents($champ[1]);
-					echo"<option value='".$ro[0]."'>".accents($discipline)."</option>";
+					$discipline=$champ[1];
+					echo"<option value='".$ro[0]."'>".$discipline."</option>";
     		}
 				?>			
 </select>
@@ -195,9 +195,9 @@ if($lv2<>0){
 				//libelle discipline
 						$t_discipline = findByValue('disciplines','iddis',$ro[1]);
 						$champ = mysql_fetch_row($t_discipline);
-						$discipline=accents($champ[1]);
+						$discipline=$champ[1];
 				
-                            echo"<option value='".$ro[0]."'>".accents($discipline)."</option>";
+                            echo"<option value='".$ro[0]."'>".$discipline."</option>";
     			}
 				?>			
 					</select>
@@ -219,9 +219,9 @@ if($lvc<>0){
 				//libelle discipline
 						$t_discipline = findByValue('disciplines','iddis',$ro[1]);
 						$champ = mysql_fetch_row($t_discipline);
-						$discipline=accents($champ[1]);
+						$discipline=$champ[1];
 				
-                            echo"<option value='".$ro[0]."'>".accents($discipline)."</option>";
+                            echo"<option value='".$ro[0]."'>".$discipline."</option>";
     			}
 				?>			
 					</select>

@@ -2,11 +2,10 @@
 include 'all_function.php';
 if(isset($_POST['PROF_ID']) and isset($_POST['MAT']) and isset($_POST['CL']) )
 {
-$discipline =$_POST['MAT'];
-$semestre =$_POST['PROF_ID'];
-$classe =accents($_POST['CL']);
+$discipline =securite_bdd($_POST['MAT']);
+$semestre =securite_bdd($_POST['PROF_ID']);
+$classe =securite_bdd($_POST['CL']);
 $annee=annee_academique();
-// echo'discipline '.accents($discipline);
 if($discipline<>""){
 echo'
   <TR><TD class=petit>&nbsp;</TD></TR>

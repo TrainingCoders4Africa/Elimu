@@ -28,7 +28,7 @@ $mati=$ligne['discipline'];
 
  $uvs = findByValue('disciplines','iddis',$mati);
 						$mat = mysql_fetch_row($uvs);
-						$uv=accents($mat[1]);
+						$uv=$mat[1];
 
 
 $sqlstm3="select titre8,prenom,nom from personnels where matricule='$prof'";

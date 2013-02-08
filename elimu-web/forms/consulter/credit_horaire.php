@@ -23,7 +23,7 @@ else{
 						//libelle discipline
 						$t_discipline = findByValue('disciplines','iddis',$iddis);
 						$champ = mysql_fetch_row($t_discipline);
-						$discipline=accents($champ[1]);
+						$discipline=$champ[1];
 						$idnature=$row1[5];
 						// libelle type
 						$idetude=$row1[4];

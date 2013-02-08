@@ -3,8 +3,14 @@ $sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
+//vérifier sil ya des absents to day
+$abs =findByNbreValue('cahier_retard',"cahier_retard.eleve in(select eleve from inscription where classe='$sclasse' and annee='$annee') and datejour='$datejour'");
+$elabs = mysql_fetch_row($abs);
+$nbabs=$elabs[0];
 $selection = findByNValue('cahier_retard',"cahier_retard.eleve in(select eleve from inscription where classe='$sclasse' and annee='$annee') and datejour='$datejour'");
-
+if($nbabs==0)
+echo'pas de reatrds pour aujourd\'hui';
+else{
 ?>
 <center>
 <table border="1" cellpadding="2" bordercolor="black" cellspacing="0" align="center">
@@ -66,15 +72,9 @@ $selection = findByNValue('cahier_retard',"cahier_retard.eleve in(select eleve f
 							<td  align=center>$cours</td>
 							<td  align=center>$arrivee</td>
 							<td  align=center>$tuteur</td>";
-						/*$etagiaire = findByValue('rayon','idRa',$idetude);
-						$champ = mysql_fetch_row($etagiaire);
-						$p8=$champ[1];
-						//$p9=$champ[2];
-						//$iddis0=$champ[3];
-						//$iddis1=$champ[4];
-						echo"
-							<td  align=center>$p8</td></tr>";*/
+
         			}
+					}
   				 ?>
 </tr></tbody>
 </table>

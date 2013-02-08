@@ -1,9 +1,16 @@
 <?php
 $matricule=$_SESSION['matricule'];
+if($matricule==""){
+  header('Location:index.php');
+  exit();}
+  else{
+
 $classe=securite_bdd($_GET['num']);
 $annee=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
+$nbre_eleve=effectif_classe($classe,$annee);
 ?>
+ <script src="ckeditor/ckeditor.js"></script>
 <script>
   function limiteur()
     {
@@ -18,7 +25,7 @@ $datejour=date("Y")."-".date("m")."-".date("d");
     }
 </script>
 
-<form name="inscription_form" action="metier/tester.php" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data" >
+<form name="inscription_form" action="<?php echo lien();?>" method="post"onsubmit='return (conform(this));' enctype="multipart/form-data" >
 <div class="formbox">
 	<script language="Javascript">
 //Fonction nécessaire : ne rien modifier ici...
@@ -78,6 +85,11 @@ function go(){
 		<TR><TD class=petit>&nbsp;</TD>
 		<TD class=petit>&nbsp;<input type=hidden name="matricule" id="matricule" value="<?php echo $matricule;?>"></TD>
 		</TR>
+<?php
+if($nbre_eleve==0)
+echo'pas d\'inscrit dans cette classe pour l\'année académique '.$annee;
+else{
+?>
 <TR>
 <TR><TD>
 <B>&nbsp;Outils Information*</B><select name="outil" id="outil" onchange="go()" required>
@@ -101,3 +113,11 @@ function go(){
 <tr><TD class=petit>&nbsp;<input type=hidden name="annee" value="<?php echo $annee;?>"></TD></tr>
 
 </table>
+<?php
+if (isset($_POST["enregistrer"])){
+informer();
+}
+}
+}
+?>
+

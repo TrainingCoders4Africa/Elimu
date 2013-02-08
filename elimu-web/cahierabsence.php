@@ -1,5 +1,6 @@
 <?php
 session_start();
+if(isset($_SESSION["login1"])){
 $rechtab="cahierabsence";
 @$menu=$_SESSION["menu"];
 $_SESSION["classe"]=$_GET['num'];
@@ -28,13 +29,18 @@ else {
       $titre=" Le Cahier d'Absence de la ".$classe." >> Ajout" ;	 
          $pageint="forms/save/cahierabsence.php";
 		}
-
-$p="";
-$uno=1;
-$dos=1;
-$trois=0;
-$quatre=0;
-$cinq=0;
-$six=0;
+//les infos bulle des boutons du formulaire
+$titreaj="Ajouter absence élève ";$titrevis="lister les absents";$titrerech="";$titresup="";$titremod="";$titreimp="";
+//les boutons visibles sont a 1 et ceux de 0 sont masqués
+$bvis=1;//bouton visualiser les données
+$bajout=1;//bunton insert into database 
+$bmod=0;// bouton update données
+$bsup=0;//bouton delete données
+$brech=0;//bouton recherhe données
+$bimp=0;// bouton imprimer des données
 require_once 'include.php';
+}
+else{
+header("location: index.php");
+}
 ?>

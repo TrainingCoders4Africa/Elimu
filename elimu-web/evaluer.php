@@ -26,7 +26,6 @@ if(isset($_POST['EVA_ID'])  )
 $codee =$_POST['EVA_ID'];
 //$cycle =$_POST['PROF_ID'];
 $annee=annee_academique();
-//  echo'discipline '.accents($discipline);
 echo'
   <TR><TD class=petit>&nbsp;</TD></TR>
 <tr>
@@ -60,7 +59,7 @@ $note=$ligne4['note'];
 		              echo"<tr bgcolor=#CCFFFF>
 			            <td align=center>$code</td>
 			            <td align=center>$prenom $nom</td>
-							<td align=center>$date_n &agrave; ".htmlentities($lieu)."</td>
+							<td align=center>$date_n &agrave; ".$lieu."</td>
 							<td  align=center>
 			            		  <input size=9 name=note$i type=text id='Note Eléve' value='$note'  onkeyup='verif_nombre(this);' lang='bonfond:#FFFFFF;bontexte:#400040; erreurfond:#FF0000;bontexte:#0000FF;type:obligatoire2;erreur: CV obligatoire'>
 			            	 <script type=text/javascript>      //

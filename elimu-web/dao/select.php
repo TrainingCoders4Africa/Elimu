@@ -1,4 +1,20 @@
 <?php
+/*
+<?php
+  header('Location:index.php');
+  exit();
+?>
+
+<?php
+ echo 'Vous allez être redirigé dans 5 secondes';
+ sleep(5);
+ header('Location: http://www.monsite.com/page.php';
+ ?>
+ 
+ <?php
+ header("Refresh: 3; URL=redirection.php");
+ ?>
+*/
 // récupération du  lien des fichiers
 function lien(){
  $url = $_SERVER['REQUEST_URI'];
@@ -331,4 +347,20 @@ $selection =  findByNValue('disciplines',"iddis =(select discipline from credit_
 				$discipline=accents($ro[1]);
 				return $discipline;
 }
-	?>
+//effectif de la classe pour l'année en cours
+function effectif_classe($classe,$annee){
+//$annee=annee_academique();
+$selection =findByNbreValue("inscription","classe='$classe' and annee='$annee'");
+$el = mysql_fetch_row($selection);
+$nbre_eleve=$el[0];
+return $nbre_eleve;
+}
+//conversion de dates
+function dateUS2FR($date)
+{
+  $date = explode('-', $date);
+  $date = array_reverse($date);
+  $date = implode('/', $date);
+  return $date;
+}
+?>

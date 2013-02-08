@@ -1,9 +1,8 @@
 <?php 
 $sclasse=securite_bdd($_GET['num']);
 $annee=annee_academique();
-$selection =findByNbreValue("inscription","classe='$sclasse' and annee='$annee'");
-$el = mysql_fetch_row($selection);
-$nbre_eleve=$el[0];
+
+$nbre_eleve=effectif_classe($sclasse,$annee);
 	$nomfichier="impression/impression.txt";
 					touch($nomfichier);
         				$fichier = fopen($nomfichier, 'wb+');
@@ -11,10 +10,14 @@ $nbre_eleve=$el[0];
 <center>
 <table border="1" cellpadding="2" bordercolor="black" cellspacing="0" align="center">
 <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-
+<?php 
+if($nbre_eleve==0)
+echo'pas d\'inscrit dans cette classe pour l\'année académique '.$annee;
+else{
+?>
 
 <div align=left><B>&nbsp;Effectif de la classe : <?php echo @$nbre_eleve;?>&nbsp;</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="impression/impression.php?id=<?php echo $sclasse;?>&dates=<?php echo $annee;?>&page=<?php echo 'ELEVE';?>" target="_blank" > Liste Alphabétique des Eléves</a>
+<a href="impression/impression.php?id=<?php echo $sclasse;?>&dates=<?php echo $annee;?>&page=<?php echo 'ELEVE';?>" target="_blank" > Exporter la liste des Elèves</a>
 </div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 
   				 <tr bgcolor="white">
@@ -43,16 +46,21 @@ $nbre_eleve=$el[0];
 						$adresse=$row1[11];
 						//$eleve=$prenom.' '.$nom;
 						$dlnais=$date_nais.' à '.$lieu_nais;
+						// vérifer sil ya connexion internet
+						if(($email_t<>"") and $sock = @fsockopen('www.google.fr', 80, $num, $error, 5))
+						$ls='<a href="emailtuteur.php?classe='. $sclasse.'&eleve='.$p1.'&adresse='.$email_t.'"  title="Envoyer un Email au tuteur">';
+						else
+						$ls='';
 						
 						echo"<tr>
-							<td  align=center><a HREF='el_notes.php?matricule=".$p1."&num=".$sclasse."'>$p1</a></td>
+							<td  align=center><a HREF='el_notes.php?matricule=".$p1."&num=".$sclasse."' title='Consulter les notes'>$p1</a></td>
 							<td  align=center>".$prenom.' '.$nom."</td>
 							<td  align=center>".$date_nais.' à '. $lieu_nais."</td>
 							";
 										
 						echo'
 							<td  align=center>'.$tuteur.'</td>
-							<td  align=left>Adresse :'.$adresse.'</br> Tél :<a href="smstuteur.php?classe='. $sclasse.'&eleve='.$p1.'&tel='.$tel_t.'" title="Envoyer un SMS">'.$tel_t.'</a></br>E-mail :<a href="emailtuteur.php?classe='. $sclasse.'&eleve='.$p1.'&adresse='.$email_t.'"  title="Envoyer un Email au tuteur">'.$email_t.'</td>
+							<td  align=left>Adresse :'.$adresse.'</br> Tél :<a href="smstuteur.php?classe='. $sclasse.'&eleve='.$p1.'&tel='.$tel_t.'" title="Envoyer un SMS">'.$tel_t.'</a></br>E-mail :'.$ls.$email_t.'</td>
 							<td  align=center>'.$tel_e.'</td>
 							
 							</tr>';/**/
@@ -60,6 +68,7 @@ $nbre_eleve=$el[0];
               				 fwrite($fichier,$b);
 }
   fclose($fichier);
+  }
   				 ?>
 </tr></tbody>
 </table>

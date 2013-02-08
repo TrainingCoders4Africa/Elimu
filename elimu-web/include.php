@@ -82,6 +82,7 @@ plecran=window.open("pleinecran3.htm", "plecran", "height="+window.screen.availH
 
 </head>
 <?php
+include("fckeditor.php") ;
 require_once 'all_function.php';
 $requete=("select libelle,logo,slogan from etablissements ");
 $resultat=mysql_query($requete);
@@ -192,13 +193,13 @@ var initSlider = function() {
   <tr>
    <td colspan="3" background="images/include_r2_c1.jpg" width="1350" height="42" border="0" id="include_r2_c1" alt="" style="background-repeat:no-repeat" valign='top' align="left"  />
     Bienvenue : <?php echo'<b>'.@$_SESSION["login1"].' Dans l\'espace '.@$_SESSION["profil"].'<b/>'?> - <a href="accueil.php?id=deconx">Sortir</a></br>
-	 <marquee><?phpphp echo @$affi;?>
+	 <marquee><?php echo @$affi;?>
    </td>
    <td><img src="images/spacer.gif" width="1" height="42" border="0" alt="" /></td>
   </tr>
   <tr>
    <td colspan="3" background="images/include_r3_c1.jpg" width="1350" height="42" border="0" id="include_r3_c1" alt=""  valign='top' align="right" />
-   <?php echo smenu($p,$uno,$dos,$trois,$quatre,$cinq,$six) ;?>
+   <?php echo smenu($bvis,$bajout,$bmod,$bsup,$brech,$bimp,$titreaj,$titrevis,$titremod,$titrerech,$titreimp,$titresup) ;?>
    </td>
    <td><img src="images/spacer.gif" width="1" height="42" border="0" alt="" /></td>
   </tr>

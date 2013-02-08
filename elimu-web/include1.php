@@ -249,7 +249,7 @@ var initSlider = function() {
   </tr>
   <tr><!-- row 3 -->
    <td colspan="3" background="images/include_r3_c1.jpg" width="1150" height="42" border="0" id="include_r3_c1" alt="" style="background-repeat:no-repeat" valign='top'align='right'/>
-    <?php echo smenu($p,$uno,$dos,$trois,$quatre,$cinq,$six) ;?>
+    <?php echo smenu($p,$bvis,$bajout,$bmod,$bsup,$brech,$bimp) ;?>
    </td>
    <td><img src="images/spacer.gif" width="1" height="42" border="0" alt="" /></td>
   </tr>

@@ -7,7 +7,7 @@ $matricule=addslashes($_POST['matricule']);
 	$eleve=addslashes($_POST['eleve']);
 	$adresse=addslashes($_POST['adresse']);
 	$objets=addslashes($_POST['objet']);
-	$message=addslashes($_POST['message']);
+	$message=$_POST['FCKeditor1'];
 	if($_FILES['photo']['name']<>""){
 	$photo=$_FILES['photo']['name'];
     $dir="../pieces/";
@@ -23,11 +23,11 @@ $matricule=addslashes($_POST['matricule']);
 //error_reporting(E_ALL);
 error_reporting(E_STRICT);
 date_default_timezone_set('America/Toronto');
-require_once('../class.phpmailer.php');
+//require_once('../class.phpmailer.php');
 $mail             = new PHPMailer();
 $mail->IsSMTP(); // telling the class to use SMTP
 $mail->Host       = "mail.yourdomain.com"; // SMTP server
-$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
                                            // 1 = errors and messages
                                            // 2 = messages only
 $mail->SMTPAuth   = true;                  // enable SMTP authentication

@@ -153,7 +153,7 @@ $re=mysql_query($sq);
 while($lign=mysql_fetch_array($re))
 {
 $ids=$lign['id'];
-$slib=accents($lign['libelle']);
+$slib=$lign['libelle'];
 
 ?>
   <OPTION value="<?php echo $ids;?>"><?php echo $slib;?>

@@ -1,9 +1,14 @@
 <?php
 $sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
+//prenon du personnel
+//libelle etudes
+						$t_personnel = findByValue('personnels','matricule',$personnel);
+						$champ_personnel = mysql_fetch_row($t_personnel );
+						$prof=$champ_personnel[2].' '.$champ_personnel[3];
 $annee=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
-$selection = findByNValue('cahier_retard',"cahier_retard.eleve in(select eleve from inscription where classe='$sclasse' and annee='$annee') and datejour='$datejour'");
+$selection = findByNValue('cahier_absence',"cahier_absence.eleve in(select eleve from inscription where classe='$sclasse' and annee='$annee') and datejour='$datejour'");
 
 ?>
 <center>
@@ -14,7 +19,7 @@ $selection = findByNValue('cahier_retard',"cahier_retard.eleve in(select eleve f
   				 	<th width="150">Datejour</th>
   				 	<th width="150">Discipline</th>
   				 	<th width="150">Cours</th>
-  				 	<th width="100">Arrivée</th>
+  				 	<th width="100">Prof</th>
   				 	<th width="100">Tuteur</th>
                 </tr>
 				<tbody><tr>
@@ -24,9 +29,9 @@ $selection = findByNValue('cahier_retard',"cahier_retard.eleve in(select eleve f
 				 	{
                        	$ideleve=$row1[0];
 						$datejour=$row1[1];
-						$arrivee=$row1[2];//heure d'arrivée a l'école
-						$idemploi=$row1[3];
-						$semestre=$row1[5];
+						$idemploi=$row1[2];//heure d'arrivée a l'école
+						$nature=$row1[5];
+						$semestre=$row1[4];
 						// infos sur les éléves
 						$t_eleves =  findByNValue("eleves","matricule='$ideleve'");
               		$row = mysql_fetch_row($t_eleves);
@@ -64,7 +69,7 @@ $selection = findByNValue('cahier_retard',"cahier_retard.eleve in(select eleve f
 							<td  align=center>$datejour</td>	
 							<td  align=center>$libelle_dis</td>							
 							<td  align=center>$cours</td>
-							<td  align=center>$arrivee</td>
+							<td  align=center>$prof</td>
 							<td  align=center>$tuteur</td>";
 						/*$etagiaire = findByValue('rayon','idRa',$idetude);
 						$champ = mysql_fetch_row($etagiaire);

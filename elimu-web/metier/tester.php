@@ -2,11 +2,15 @@
 require_once('../all_function.php');
 	$outil = addslashes($_POST['outil']);// l'option message email ou sms
 	$matricule=addslashes($_POST['matricule']);
+	
 	$classe=addslashes($_POST['classe']);// code de la classe 
 $annee=annee_academique();
 switch ($outil)
 {
 	case 'MAIL':
+	//print_r($_POST);
+	$message=$_POST['FCKeditor1'];
+//	break;
 //if($outil='MAIL'){
 //require_once('../class.phpmailer.php');
 	$host="smtp.gmail.com";
@@ -23,7 +27,7 @@ switch ($outil)
 	$reponse="elimuprojet@gmail.com";
 	$nom="ELIMU";
 	$objet=$_POST['objet'];
-	$message=$_POST['message'];//
+	//$message=$_POST['message'];//
 	//$fichier=$_POST['fichier'];
 		if($_FILES['fichier']['name']<>""){
 	$fichier=$_FILES['fichier']['name'];
@@ -60,7 +64,7 @@ switch ($outil)
 			$mail             = new PHPMailer();
 			$mail->IsSMTP(); // telling the class to use SMTP
 			
-			$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+		//	$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
 													   // 1 = errors and messages
 													   // 2 = messages only
 			$mail->SMTPAuth   = true;                  // enable SMTP authentication
@@ -72,6 +76,7 @@ switch ($outil)
 			$mail->SetFrom($expediteur, $nom);
 			$mail->AddReplyTo($expediteur, $nom);
 			$mail->Subject    = $objet;
+			//
 			$mail->MsgHTML($message);
 			if($fichier<>"")
 			$mail->AddAttachment("../pieces/".$fichier);     
@@ -90,9 +95,10 @@ switch ($outil)
 			  echo "Message sent!";
 				}
 	}
-	
-	envoiMail($host,$port,$username,$password,$expediteur,$reponse,$nom,$objet,$message,$classe,$annee,$fichiers);
-		
+
+envoiMail($host,$port,$username,$password,$expediteur,$reponse,$nom,$objet,$message,$classe,$annee,$fichiers);
+
+			
 	break;
 	//sms au tuteurs de la classe choisi
 case 'SMS':

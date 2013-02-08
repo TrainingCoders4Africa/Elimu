@@ -1068,7 +1068,7 @@ if (!class_exists('TCPDF', false)) {
 		protected $spot_colors = array();
 
 		/**
-		 * Symbol used for HTML unordered list items
+		 * Symbol used for HTML bvisrdered list items
 		 * @access protected
 		 * @since 4.0.028 (2008-09-26)
 		 */
@@ -10099,7 +10099,7 @@ if (!class_exists('TCPDF', false)) {
 			// Current Embedding Level
 			$cel = $pel;
 			// directional override status
-			$dos = 'N';
+			$bajout = 'N';
 			$remember = array();
 			// start-of-level-run
 			$sor = $pel % 2 ? 'R' : 'L';
@@ -10117,9 +10117,9 @@ if (!class_exists('TCPDF', false)) {
 					//	b. If the new level would not be valid, then this code is invalid. Do not change the current level or override status.
 					$next_level = $cel + ($cel % 2) + 1;
 					if ($next_level < 62) {
-						$remember[] = array('num' => K_RLE, 'cel' => $cel, 'dos' => $dos);
+						$remember[] = array('num' => K_RLE, 'cel' => $cel, 'dos' => $bajout);
 						$cel = $next_level;
-						$dos = 'N';
+						$bajout = 'N';
 						$sor = $eor;
 						$eor = $cel % 2 ? 'R' : 'L';
 					}
@@ -10129,9 +10129,9 @@ if (!class_exists('TCPDF', false)) {
 					//	b. If the new level would not be valid, then this code is invalid. Do not change the current level or override status.
 					$next_level = $cel + 2 - ($cel % 2);
 					if ( $next_level < 62 ) {
-						$remember[] = array('num' => K_LRE, 'cel' => $cel, 'dos' => $dos);
+						$remember[] = array('num' => K_LRE, 'cel' => $cel, 'dos' => $bajout);
 						$cel = $next_level;
-						$dos = 'N';
+						$bajout = 'N';
 						$sor = $eor;
 						$eor = $cel % 2 ? 'R' : 'L';
 					}
@@ -10141,9 +10141,9 @@ if (!class_exists('TCPDF', false)) {
 					//	b. If the new level would not be valid, then this code is invalid. Do not change the current level or override status.
 					$next_level = $cel + ($cel % 2) + 1;
 					if ($next_level < 62) {
-						$remember[] = array('num' => K_RLO, 'cel' => $cel, 'dos' => $dos);
+						$remember[] = array('num' => K_RLO, 'cel' => $cel, 'dos' => $bajout);
 						$cel = $next_level;
-						$dos = 'R';
+						$bajout = 'R';
 						$sor = $eor;
 						$eor = $cel % 2 ? 'R' : 'L';
 					}
@@ -10153,9 +10153,9 @@ if (!class_exists('TCPDF', false)) {
 					//	b. If the new level would not be valid, then this code is invalid. Do not change the current level or override status.
 					$next_level = $cel + 2 - ($cel % 2);
 					if ( $next_level < 62 ) {
-						$remember[] = array('num' => K_LRO, 'cel' => $cel, 'dos' => $dos);
+						$remember[] = array('num' => K_LRO, 'cel' => $cel, 'dos' => $bajout);
 						$cel = $next_level;
-						$dos = 'L';
+						$bajout = 'L';
 						$sor = $eor;
 						$eor = $cel % 2 ? 'R' : 'L';
 					}
@@ -10169,7 +10169,7 @@ if (!class_exists('TCPDF', false)) {
 							($remember[$last]['num'] == K_LRO)) {
 							$match = array_pop($remember);
 							$cel = $match['cel'];
-							$dos = $match['dos'];
+							$bajout = $match['dos'];
 							$sor = $eor;
 							$eor = ($cel > $match['cel'] ? $cel : $match['cel']) % 2 ? 'R' : 'L';
 						}
@@ -10182,8 +10182,8 @@ if (!class_exists('TCPDF', false)) {
 					// X6. For all types besides RLE, LRE, RLO, LRO, and PDF:
 					//	a. Set the level of the current character to the current embedding level.
 					//	b. Whenever the directional override status is not neutral, reset the current character type to the directional override status.
-					if ($dos != 'N') {
-						$chardir = $dos;
+					if ($bajout != 'N') {
+						$chardir = $bajout;
 					} else {
 						if (isset($unicode[$ta[$i]])) {
 							$chardir = $unicode[$ta[$i]];
@@ -15771,7 +15771,7 @@ if (!class_exists('TCPDF', false)) {
 							$this->listcount[$this->listnum] = intval($tag['attribute']['value']);
 						}
 					} else {
-						// unordered item
+						// bvisrdered item
 						if (isset($parent['attribute']['type']) AND !$this->empty_string($parent['attribute']['type'])) {
 							$this->lispacer = $parent['attribute']['type'];
 						} elseif (isset($parent['listtype']) AND !$this->empty_string($parent['listtype'])) {
@@ -16764,7 +16764,7 @@ if (!class_exists('TCPDF', false)) {
 			$tmpx = $this->x;
 			$lspace = $this->GetStringWidth('  ');
 			if ($listtype == '!') {
-				// set default list type for unordered list
+				// set default list type for bvisrdered list
 				$deftypes = array('disc', 'circle', 'square');
 				$listtype = $deftypes[($listdepth - 1) % 3];
 			} elseif ($listtype == '#') {
@@ -16772,7 +16772,7 @@ if (!class_exists('TCPDF', false)) {
 				$listtype = 'decimal';
 			}
         	switch ($listtype) {
-        		// unordered types
+        		// bvisrdered types
 				case 'none': {
 					break;
 				}

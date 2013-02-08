@@ -22,8 +22,8 @@ else{
 				 	{
 					$b=''; //liste des sous disciplines
 												$iddis=$row1[0];
-				 		                    	$libelle=accents($row1[1]);
-												$cycle=accents($row1[2]);
+				 		                    	$libelle=$row1[1];
+												$cycle=$row1[2];
 												// les sous disciplines
 						$dis = findByValue('sous_matiere','discipline',$iddis);
 						while($Champdis = mysql_fetch_row($dis)){

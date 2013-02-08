@@ -1,5 +1,4 @@
 <?php
-//$_SESSION['classe']=;
 $sclasse=securite_bdd($_GET['num']);
 $personnel=$_SESSION['matricule'];
 $annee=annee_academique();
@@ -12,7 +11,7 @@ $req1e=mysql_query($sqlstm1e);
 while($lignee=mysql_fetch_array($req1e))
 {
 	$ns=$lignee['ns'];
-	}
+}
 $sqlstm1="SELECT id,libelle,date_format(date_debut,'%d/%m/%Y') debut,date_format(date_fin,'%d/%m/%Y') fin FROM semestres WHERE annee ='$annee' and date_debut<='$datejour' and date_fin>='$datejour'";
 $req1=mysql_query($sqlstm1);
 while($lignes=mysql_fetch_array($req1))
@@ -22,7 +21,7 @@ while($lignes=mysql_fetch_array($req1))
 	$debut=$lignes['debut'];
 	$fin=$lignes['fin'];
 	}
-		$sqlstm1pa = "select type,horaire_debut hd,horaire_fin hf from absence_personnel where annee='$annee' and personnel='$personnel' and date_debut<='$datejour' and date_fin>='$datejour'";
+$sqlstm1pa = "select type,horaire_debut hd,horaire_fin hf from absence_personnel where annee='$annee' and personnel='$personnel' and date_debut<='$datejour' and date_fin>='$datejour'";
 $RSU1=mysql_query($sqlstm1pa);
 while($ligne=mysql_fetch_array($RSU1))
 {
@@ -49,7 +48,7 @@ $sqlst="select id,debut,fin,discipline from emploi_temps where annee='$annee' an
  and jour=(select id from jours where libelle='$datefr') and id not in
  (select emploi from cours where annee='$annee' and cours.classe='$sclasse') and ((debut <'$hd' and fin<='$hf') or ( debut < '$hd' and fin< '$hf') or(debut >='$hf' and fin>='$hf') or ( debut < '$hd' and fin> '$hf')) ";
  else
- echo$sqlst="select id,debut,fin,discipline from emploi_temps where annee='$annee' and semestre='$codes'and classe='$sclasse' and professeur='$personnel'
+ $sqlst="select id,debut,fin,discipline from emploi_temps where annee='$annee' and semestre='$codes'and classe='$sclasse' and professeur='$personnel'
  and jour=(select id from jours where libelle='$datefr') and id not in
  (select emploi from cours where annee='$annee' and cours.classe='$sclasse')";
  if($type=='JOURNEE'){

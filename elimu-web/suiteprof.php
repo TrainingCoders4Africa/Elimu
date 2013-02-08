@@ -19,8 +19,14 @@ while($ligne=mysql_fetch_array($req1))
 	$semdebut=$ligne['debut'];
 	$semfin=$ligne['fin'];
 	}
-$sq45="select * from evaluations WHERE ((heure_debut  <='$debut'  and heure_fin >='$fin') or(heure_debut  >='$debut'  and heure_fin <='$fin')  or heure_debut >='$fin' or (heure_debut  <='$debut'  and heure_fin <='$fin' and heure_fin >'$debut'))  and date_prevue='$dp' and annee='$annee' and semestre='$code' and classe='$sclasse' ";
+$sq45="select * from evaluations WHERE ((heure_debut  <='$debut'  and heure_fin >='$fin') or(heure_debut  >='$debut'  and heure_fin <='$fin')  or heure_debut >='$fin' or (heure_debut  <='$debut'  and heure_fin <='$fin' and heure_fin >'$debut')) 
+ and date_prevue='$dp' and annee='$annee' and semestre='$code' and classe='$sclasse' ";
 $rq45=mysql_query($sq45);
+
+$stkhd = "select * from evaluations where  ((heure_debut  >='$debut'  and heure_fin >='$fin' and heure_debut<'$fin') 
+ or (heure_debut  <='$debut'  and heure_fin <='$fin' and heure_fin >'$debut') or (heure_debut  >='$debut'  and heure_fin <='$fin'))  
+and date_prevue='$dp' and annee='$annee' and semestre='$code' and classe='$sclasse' ";
+$hdp=mysql_query($stkhd);
 $stk = "select * from evaluations where date_prevue='$dp' and heure_debut='$debut' and heure_fin='$fin' and annee='$annee' and semestre='$code' and classe='$sclasse'  ";
 $RSU1=mysql_query($stk);
 
@@ -41,7 +47,7 @@ elseif($semdebut>$dp or $semfin<$dp){
 
 echo'Planning doit &Ecirc;tre dans le semestre en cours';			
 }
-elseif(mysql_num_rows($rq45)<>0){
+elseif(mysql_num_rows($hdp)<>0){
 echo'Planning Impossible car la classe  a une &eacute;valuation a cette p&eacute;riode';
 }
 elseif($duree<>''){

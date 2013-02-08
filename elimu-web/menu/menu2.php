@@ -144,12 +144,12 @@ function mnh(vl,pb,dg){
 </head>
 <body bgcolor='white'>
 
-<div id='m' style='overflow:hidden;position:relative;top:0px; left:0px; width:350px; height:40px; z-Index:0'>
+<div id='m' >
 
     <img src='menu/images/prof.jpg' ONCLICK='controle=1;mnh("h",800,"m")'>
 	<ul id="nav" class="dropdown dropdown-vertical">
-	<li>	<a href="emploisprof.php" class="smenu">EMPLOI DU TEMPS</a></li>
-	<li>	<a href="evaluationprof.php" class="smenu">CALENDRIER EVALUATION</a></li>
+	<li>	<a href="emploisprof.php" class="smenu" title="Consulter Emploi du temps suivant le semestre en cours">EMPLOI DU TEMPS</a></li>
+	<li>	<a href="evaluationprof.php" class="smenu"title="Plannifier et consulter les évaluations suivant le semestre en cours">CALENDRIER EVALUATION</a></li>
 		<?php
 			while($lignecl=mysql_fetch_array($reqcl))
 {
@@ -169,14 +169,14 @@ echo'
 <ul>';
 $_SESSION["classe"]=$code;
 echo'
-<li><a href="cahiertexte.php?num='.$code.'" class="smenu">CAHIER DE TEXTE</a></li>
-<li><a href="cahierabsence.php?num='.$code.'" class="smenu">CAHIER D\'ABSENCE</a></li>
-<li><a href="notes_evaluation.php?num='.$code.'" class="smenu">NOTES EVALUATIONS</a></li>
-<li><a href="modif_notes.php?num='.$code.'" class="smenu">NOTES ELEVES</a></li>
-<li><a href="notes_eleveabsent.php?num='.$code.'" class="smenu">NOTES ABSENCES JUSTIFIEES</a></li>
-<li><a href="notes_appeciation.php?num='.$code.'" class="smenu">APPRECIATION PROF</a></li>';
+<li><a href="cahiertexte.php?num='.$code.'" class="smenu" title="Remplir le cahier de texte">CAHIER DE TEXTE</a></li>
+<li><a href="cahierabsence.php?num='.$code.'" class="smenu"title="Remplir le cahier Absence suivant le planning en cours">CAHIER D\'ABSENCE</a></li>
+<li><a href="notes_evaluation.php?num='.$code.'" class="smenu" title="Donner les notes suivants les évaluations déja corrigées">NOTES EVALUATIONS</a></li>
+<li><a href="modif_notes.php?num='.$code.'" class="smenu" title="Modifier les notes des éleves aprés réclamaion">NOTES ELEVES</a></li>
+<li><a href="notes_eleveabsent.php?num='.$code.'" class="smenu" title="Modier les notes des Eléves qui ont des absences justifiées lors des évaluations">NOTES ABSENCES JUSTIFIEES</a></li>
+<li><a href="notes_appeciation.php?num='.$code.'" class="smenu" title="Aprés composition , Chaque professeur doit donner des appréciations aux éléves suivant ses spécialitées">APPRECIATION PROF</a></li>';
 if($nc<>0)
-echo'<li><a href="notes_conduite.php?num='.$code.'" class="smenu">NOTES CONDUITE </a></li>';
+echo'<li><a href="notes_conduite.php?num='.$code.'" class="smenu" title="Donner une note de conduite aux éléves encadrés">NOTES CONDUITE </a></li>';
 echo'
 </ul>
 </li>';

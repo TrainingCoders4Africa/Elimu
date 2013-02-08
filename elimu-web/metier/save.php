@@ -1,4 +1,44 @@
 <?php
+//require_once('../class.phpmailer.php');
+function envoiMail($host,$port,$username,$password,$expediteur,$reponse,$nom,$objet,$message,$classe,$annee,$fichier)
+	{
+		//require_once('class.phpmailer.php');
+
+		// creer un compte email pour elimu
+			$mail             = new PHPMailer();
+			$mail->IsSMTP(); // telling the class to use SMTP
+			
+		//	$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+													   // 1 = errors and messages
+													   // 2 = messages only
+			$mail->SMTPAuth   = true;                  // enable SMTP authentication
+			$mail->SMTPSecure = "ssl";                 // sets the prefix to the servier
+			$mail->Host       = $host;	   		      // sets GMAIL as the SMTP server
+			$mail->Port       = $port;                // set the SMTP port for the GMAIL server
+			$mail->Username   = $username;			  // GMAIL username
+			$mail->Password   = $password; 
+			$mail->SetFrom($expediteur, $nom);
+			$mail->AddReplyTo($expediteur, $nom);
+			$mail->Subject    = $objet;
+			//
+			$mail->MsgHTML($message);
+			if($fichier<>"")
+			$mail->AddAttachment("../pieces/".$fichier);     
+			$var[]=array();
+			$var=adressedest($classe,$annee);
+			echo"Nombre d'element: ";
+			echo count(adressedest($classe,$annee));
+			echo "<br>";
+			foreach($var as $val){	
+			$mail->AddAddress($val);		
+			}
+			if(!$mail->Send()) {
+			  echo "Mailer Error: " . $mail->ErrorInfo;
+								} 
+			else {
+			  echo "Message sent!";
+				}
+	}
 //save profile
 function save_profile(){
 	if(isset($_POST["libelle1"])){
@@ -368,7 +408,6 @@ function save_sousdiscipline(){
 
 
 }
-
 //save personnel
 function save_personnel(){
 if(isset($_POST["matricule"])){
@@ -768,60 +807,45 @@ echo"Attention vous n'avez coché aucune classe !!";
 else{
 $exereq0=mysql_query("select * from specialites where professeur='$prof' and discipline='".$discipline."' ");
 //$n=mysql_num_rows($exereq0);
-     if(mysql_num_rows($exereq0)==0){
+if(mysql_num_rows($exereq0)==0)
+{
  	$sql_ajout0="INSERT INTO specialites VALUES ( '','$prof','$discipline')";
    $query_ajout0=mysql_query($sql_ajout0) ;
-			if($query_ajout0){
-  while ($monchoix = array_shift($choix)) 
-{         
-/*$sqlstm2d="select  iddis from disciplines where disciplines.etude=(select etude from classes where libelle='".($monchoix)."') and libelle='".$discipline."'";
-$req2d=mysql_query($sqlstm2d);
-$ligne2d=mysql_fetch_array($req2d);
-$iddis=($ligne2d['iddis']);*/
-   
-$exereq=mysql_query("select * from enseigner where classe= '".($monchoix)."' and discipline='$discipline' and annee='$annee' ");
-     if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','".($monchoix)."','$discipline','$annee')";
-   $query_ajout=mysql_query($sql_ajout) ;
-			if($query_ajout){
-			echo"<div align=center class=imp>enregistrement valide!</div>";
-			}
-			else
-			{
-				echo"<div align=center class=imp>Echec!Veuillez reprendre</div>";
-     		}
-								}
-     else{
-    	echo "<br>matiére déja attribuée à ".($monchoix)." pour cette année académique ".$annee;
-     }
-	 }
-}	 
+	if($query_ajout0){
+			$miseu="delete from enseigner where personnel= '$prof'  and annee='$annee' and discipline='$discipline'";
+			$req2u=mysql_query($miseu);
+			
+								while ($monchoix = array_shift($choix)) 
+								{         
+
+								$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','$monchoix','$discipline','$annee')";
+							   $query_ajout=mysql_query($sql_ajout) ;
+										if($query_ajout){
+										echo"<div align=center class=imp>enregistrement valide!</div>";
+										}
+										else
+										{
+									echo"<div align=center class=imp>Echec!Veuillez reprendre</div>";
+								}    
+							}
+					}	 
 }
 else{
-$miseu="delete from enseigner where personnel= '$prof'  and annee='$annee' and discipline in(select  iddis from disciplines where  libelle='".$discipline."')";
-	$req2u=mysql_query($miseu);
+$miseu="delete from enseigner where personnel= '$prof'  and annee='$annee' and discipline='$discipline'";
+	$req2u=mysql_query($miseu); 
   while ($monchoix = array_shift($choix)) 
-{         
-$sqlstm2d="select  iddis from disciplines where disciplines.etude=(select etude from classes where libelle='".($monchoix)."') and libelle='".$discipline."'";
-$req2d=mysql_query($sqlstm2d);
-$ligne2d=mysql_fetch_array($req2d);
-$iddis=($ligne2d['iddis']);
-   
-$exereq=mysql_query("select * from enseigner where classe= '".($monchoix)."' and discipline='$iddis' and annee='$annee' ");
-     if(mysql_num_rows($exereq)==0){
- 	$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','".($monchoix)."','$iddis','$annee')";
+{    
+ 	echo$sql_ajout="INSERT INTO enseigner VALUES ( '$prof','$monchoix','$discipline','$annee')";
    $query_ajout=mysql_query($sql_ajout) ;
 			if($query_ajout){
 			echo"<div align=center class=imp>enregistrement valide!</div>";
 			}
 			else
 			{
-				echo"<div align=center class=imp>Echec!Veuillez reprendre</div>";
+				echo"<div align=center class=imp>Echec!Veuillez reprendre SVP!!!</div>";
      		}
-								}
-     else{
-    	echo "<br>matiére déja attribuée à ".($monchoix)." pour cette année académique ".$annee;
-     }
+								
+    
 	 }
 }
 	 }	
@@ -2392,58 +2416,135 @@ location.href="absenceeleve.php?num='.$sclasse.'&annee='.$annee.'";
 }
 // envoyer informations a tous les parents eléves ad'une classe
 function informer(){
-if(isset($_POST["outil"])){
-	$outil = addslashes($_POST['outil']);
+//require_once('../all_function.php');
+	$outil = addslashes($_POST['outil']);// l'option message email ou sms
 	$matricule=addslashes($_POST['matricule']);
-	$classe=addslashes($_POST['classe']);
-	$annee=addslashes($_POST['annee']);
-if($outil='MAIL'){
-	$objet=addslashes($_POST['objet']);
-	$message=addslashes($_POST['message']);
-	//$photo=addslashes($_POST['photo']);
-	/*	if($_FILES['photo']['name']<>""){
-		//$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
-		$photo=$_FILES['photo']['name'];
-$extension_upload = strtolower(  substr(  strrchr($photo, '.')  ,1)  );
-//if ( in_array($extension_upload,$extensions_valides) ){
-     //echo "Extension correcte";
-      $tab=explode(".",$photo);
-      $nb=0;
-      for($i=0;$i<strlen($photo);$i++){
-		  	if(isset($tab[$i])){
-		        $nb+=1;
-		  	}
-
-	   }
-	$stock=getcwd();
-	$dir=$stock."/pieces/";
-	$mynb=$nb-1;
-	$p=str_replace('/', '-', $matricule);
-	$logo ="eleve". $p.".".$tab[$mynb] ;
-	$chemin  =$logo;
-	if(file_exists($dir.$logo)){
-		 unlink($dir.$logo);
-		}
+	$classe=addslashes($_POST['classe']);// code de la classe 
+//$annee=annee_academique();
+$annee=addslashes($_POST['annee']);
+switch ($outil)
+{
+	case 'MAIL':
+	//print_r($_POST);
+	$message=$_POST['FCKeditor1'];
+//	break;
+//if($outil='MAIL'){
+//require_once('../class.phpmailer.php');
+	$host="smtp.gmail.com";
+	$port="465";
+	$username="elimuprojet@gmail.com";
+	$password="passelimu";
+		
+	$host="smtp.gmail.com";
+	$port=465;
+	$username="elimuprojet@gmail.com";
+	$password="passelimu";
 	
- 	move_uploaded_file($_FILES['photo']['tmp_name'], $dir.$_FILES['photo']['name']);
- 	rename($dir.$photo,$dir.$logo);
+	$expediteur="elimuprojet@gmail.com";
+	$reponse="elimuprojet@gmail.com";
+	$nom="ELIMU";
+	$objet=$_POST['objet'];
+	//$message=$_POST['message'];//
+	//$fichier=$_POST['fichier'];
+		if($_FILES['fichier']['name']<>""){
+	$fichier=$_FILES['fichier']['name'];
+    $dir="../pieces/";
+	$fichiers  =$fichier;
+	if(file_exists($dir.$fichiers)){
+		 unlink($dir.$fichiers);
+		}	
+ 	move_uploaded_file($_FILES['fichier']['tmp_name'], $dir.$_FILES['fichier']['name']);
+ 	//rename($dir.$fichier,$dir.$logo);
 	}
 	else
-	$chemin="";*/
+	$fichiers="";
+	$adresse="hrakotoarison4@gmail.com";
+		$tab=array();
+	$i=0;
+	//recuperation des email d'une classe
+	function adressedest($clas,$annee){
+		$i=0;
+		$requete='SELECT email_tuteur8 email FROM eleves WHERE matricule in (select eleve from inscription where classe="'.$clas.'" and annee="'.$annee.'") and email_tuteur8 <>""';
+		$resultat=mysql_query($requete);
+			while($ligne=mysql_fetch_assoc($resultat)){
+				$tab[$i]=$ligne["email"];		
+				$i++;				
+			}			
+		return $tab;
+	}
+	
+
+envoiMail($host,$port,$username,$password,$expediteur,$reponse,$nom,$objet,$message,$classe,$annee,$fichiers);
+
+			
+	break;
+	//sms au tuteurs de la classe choisi
+case 'SMS':
+		$CONFIG_KANNEL_HOST="localhost";
+		$CONFIG_KANNEL_PORT="8011";
+		$in_msg =addslashes($_POST['message']);	
+		//fonction envoie de mail
+		function sendSmsMessage($in_phoneNumber, $in_msg){
+	   $url = '/send/sms/'.urlencode(utf8_encode($in_phoneNumber)).'/'.urlencode(utf8_encode($in_msg));
+	   $results = file('http://localhost:8011'.$url);
+		}
+			//recuperation des téléphones des tuteurs  d'une classe
+		function telephonedest($clas,$annee){
+		$i=0;
+		$requete='SELECT tel_tuteur8 tel FROM eleves WHERE matricule in (select eleve from inscription where classe="'.$clas.'" and annee="'.$annee.'") and tel_tuteur8 <>""';
+		$resultat=mysql_query($requete);
+			while($ligne=mysql_fetch_assoc($resultat)){
+				$tab[$i]=$ligne["tel"];		
+				$i++;				
+			}			
+		return $tab;
+		}
+
+		$var[]=array();
+			$var=telephonedest($classe,$annee);
+			echo"Nombre d'element: ";
+			echo count(telephonedest($classe,$annee));
+			echo "<br>";
+			foreach($var as $val){	
+			sendSmsMessage($val, $in_msg);	
+			}
+			
+			break;
+		}
+
+
+
+}
+//informer un tuteur
+function informertuteur(){
+$matricule=addslashes($_POST['matricule']);
+	$classe=addslashes($_POST['classe']);// code de la classe 
+	$annee=addslashes($_POST['annee']);
+	$eleve=addslashes($_POST['eleve']);
+	$adresse=addslashes($_POST['adresse']);
+	$objets=addslashes($_POST['objet']);
+	//$message=addslashes($_POST['message']);
+	$message=$_POST['FCKeditor1'];
+	if($_FILES['photo']['name']<>""){
+	$photo=$_FILES['photo']['name'];
+    $dir="../pieces/";
+	$chemin  =$photo;
+	if(file_exists($dir.$chemin)){
+		 unlink($dir.$chemin);
+		}	
+ 	move_uploaded_file($_FILES['photo']['tmp_name'], $dir.$_FILES['photo']['name']);
+	}
+	else
+	$chemin="";
+
 //error_reporting(E_ALL);
 error_reporting(E_STRICT);
-
 date_default_timezone_set('America/Toronto');
-
 require_once('../class.phpmailer.php');
-//include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
-
-$mail = new PHPMailer();
-
-
+$mail             = new PHPMailer();
 $mail->IsSMTP(); // telling the class to use SMTP
 $mail->Host       = "mail.yourdomain.com"; // SMTP server
-$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
                                            // 1 = errors and messages
                                            // 2 = messages only
 $mail->SMTPAuth   = true;                  // enable SMTP authentication
@@ -2458,40 +2559,28 @@ $mail->SetFrom('elimuprojet@gmail.com', 'TEST ELIMU');
 
 $mail->AddReplyTo("elimuprojet@gmail.com","TEST ELIMU");
 
-$mail->Subject    = $objet;
+$mail->Subject    = $objets;
 
 $mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
 
 
-//$mail->MsgHTML($body);
+//$mail->MsgHTML();
 //corp du mail
 $mail->MsgHTML($message);
-/*if($chemin<>"")
-$mail->AddAttachment($chemin);   */   // attachment
-/*$sqletude=mysql_query("select email_tuteur8 from eleves where matricule in(select eleve from inscription where classe='$classe' and annee='$annee')
-	and email_tuteur8 <>''");
-while(	$lig=mysql_fetch_array($sqletude)){
-	$adrees=$lig['email_tuteur8'];
-
-*/		
-//$address = "mngdiouf@gmail.com";
-//$mail->AddAddress($address, "John Doe");
-$adresse="amprojet@gmail.com";
+ 
 $mail->AddAddress($adresse);
-//$mail->AddAddress();
 
-
+if($chemin<>"")
+$mail->AddAttachment("../pieces/".$chemin);  
+//$lieu="../pieces/".$chemin;
+   // attachment
 //$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
 
 if(!$mail->Send()) {
   echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
-  echo "Message sent!";
-}
-//}
 
-	
-}
+  echo "Message sent à ".$adresse." !";
 }
 }
 

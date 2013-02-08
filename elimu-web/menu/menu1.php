@@ -138,7 +138,7 @@ function mnh(vl,pb,dg){
 </head>
 <body bgcolor='white'>
 
-<div id='m' style='overflow:hidden;position:relative;top:0px; left:0px; width:350px; height:40px; z-Index:0'>
+<div id='m' >
 
     <img src='menu/images/surveillant.jpg' ONCLICK='controle=1;mnh("h",450,"m")'>
 	<ul id="nav" class="dropdown dropdown-vertical">
@@ -150,6 +150,7 @@ $code=$lignecl['classe'];
 $etag1 = findByValue('classes','idclasse',$code);
 						$cha1 = mysql_fetch_row($etag1);
 						$classe=$cha1[3];
+						// vérifier sil ya une classe au niveau du cycle moyen
 $conduitecc=("select count(*) nbo from classes where idclasse='".$code."' and etude in(select idetude from etudes where cycle='MOYEN')");
 $resultatcc=mysql_query($conduitecc);
 $lignecc=mysql_fetch_array($resultatcc);
@@ -159,14 +160,15 @@ echo'
 <ul>';
 $_SESSION["classe"]=$code;
 echo'
-<li><a href="info_classe.php?num='.$code.'" class="smenu">INFOS CLASSES</a></li>
-<li><a href="eleves.php?num='.$code.'" class="smenu">LISTE DES ELEVES</a></li>
-<li><a href="emplois_classes.php?num='.$code.'" class="smenu">EMPLOI DU TEMPS</a></li>
-<li><a href="retards_eleves.php?num='.$code.'" class="smenu">RETARDS</a></li>';
+<li><a href="info_classe.php?num='.$code.'" class="smenu" title="Informations sur les disciplines,coef, profs et sur effectif de la classe en garçon et fille">INFOS CLASSES</a></li>
+<li><a href="eleves.php?num='.$code.'" class="smenu" title="Espace pour ajout,update, consulter,rechercher ou exporter la liste des élèves de la classe">LISTE DES ELEVES</a></li>
+<li><a href="emplois_classes.php?num='.$code.'" class="smenu"title="Espace pour ajouter,consulter,supprimer emplois du temps de la classe">EMPLOI DU TEMPS</a></li>
+<li><a href="retards_eleves.php?num='.$code.'" class="smenu" title="Ajouter,consulter les retardataires de la classe de la journée">RETARDS</a></li>';
+//<li><a href="cahierabsence.php?num='.$code.'" class="smenu"title="Remplir le cahier Absence suivant le planning en cours">CAHIER D\'ABSENCE</a></li>
 if($nc<>0)
-echo'<li><a href="notes_conduite.php?num='.$code.'" class="smenu">NOTES CONDUITE </a></li>
-<li><a href="deliberation.php?num='.$code.'" class="smenu">DELIBERATION</a></li>
-<li><a href="informer_tuteur.php?num='.$code.'" class="smenu">INFORMER TUTEUR</a></li>
+echo'<li><a href="notes_conduite.php?num='.$code.'" class="smenu"title="Donner une note de conduite aux éleves de la classe aprés compléter la délibération">NOTES CONDUITE </a></li>
+<li><a href="deliberation.php?num='.$code.'" class="smenu" title="Espace délibération ">DELIBERATION</a></li>
+<li><a href="informer_tuteur.php?num='.$code.'" class="smenu" title="Espace pour informer les Tuteurs des Eleves en choisissant entre Sms et Email">INFORMER TUTEUR</a></li>
 ';
 echo'</ul></li>';
 

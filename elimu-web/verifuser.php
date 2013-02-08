@@ -7,7 +7,7 @@ $pas="";$matricule="";
 $aca=annee_academique();
 $datejour=date("Y")."-".date("m")."-".date("d");
 $d=substr($datejour,0,7);
-if(@$_POST["Statut5"]=="Administrateur"){
+if($_POST["Statut5"]=="Administrateur"){
 $rsl=verif_connexion("administrateurs","connex_reussie.php");
 $etr=explode("/",$rsl);
 	if ($etr[0]=="error") {
@@ -21,7 +21,7 @@ $etr=explode("/",$rsl);
 	header("location: connex_reussie.php");
 	}
 }
-elseif(@$_POST["Statut5"]<>"Administrateur"){
+elseif($_POST["Statut5"]<>"Administrateur"){
 //récupération des infos des users autre que l'administrateur
 $info_perso=user_connect($_POST['Login1'],$_POST['Statut5']);
 $perso= explode("*", $info_perso);
@@ -81,6 +81,7 @@ else
 	/*echo'<SCRIPT LANGUAGE="JavaScript">
 location.href="index.php"
 </SCRIPT>';*/
+
 header("location: index.php");
 }
 ?>

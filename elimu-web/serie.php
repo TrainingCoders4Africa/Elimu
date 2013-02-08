@@ -1,20 +1,14 @@
 <?php
 session_start();
-@$menu=$_SESSION["menu"];
-/*if (isset($_GET["vis"])) {
-  $titre=" Série >> Consultation" ;
-  $pageint="consulter/serie.php";
-}*/
+if(isset($_SESSION["login1"])){
+$menu=$_SESSION["menu"];
 if(isset($_GET["mod"])) {
    $titre=" Série >> Modification" ;
    $pageint="forms/update/serie.php";
 }
 elseif(isset($_GET["ajout"])) {
      $titre=" Série >> Ajout" ;
-	/* $table="series";
-//$titre="Saisie Agence";
-$j="kct";
-$sss="ajout";*/
+
      $pageint="forms/save/serie.php";
 }
 
@@ -22,12 +16,19 @@ else {
        $titre=" Série >> Consultation" ;
          $pageint="forms/consulter/serie.php";
 }
-$p="";
-$uno=1;
-$dos=1;
-$trois=1;
-$quatre=0;
-$cinq=0;
-$six=0;
+//les infos bulle des boutons du formulaire
+$titreaj="Ajouter Série pour le secondaire";$titrevis="Lister les Séries";$titrerech="";$titresup="";$titremod=" Modifier Libellé Série";$titreimp="";
+//les boutons visibles sont a 1 et ceux de 0 sont masqués
+$bvis=1;//bouton visualiser les données
+$bajout=1;//bunton insert into database 
+$bmod=1;// bouton update données
+$bsup=0;//bouton delete données
+$brech=0;//bouton recherhe données
+$bimp=0;// bouton imprimer des données
 include 'include.php';
+}
+//redirection en cas de fraude
+else{
+header("location: index.php");
+}
 ?>

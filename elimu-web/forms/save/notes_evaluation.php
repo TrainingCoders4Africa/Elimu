@@ -135,11 +135,11 @@ $type=$lig['type'];
 			$idsm=$dis[1];
 				$titres = findByValue('disciplines','iddis',$iddis);
 						$tit = mysql_fetch_row($titres);
-						$discipline=accents($tit[1]);
+						$discipline=$tit[1];
 							//libelle sous discipline
 					 $smat = findByValue('sous_matiere','idsm',$idsm);
 						$sousmat = mysql_fetch_row($smat);
-						$sousd=accents($sousmat[1]);
+						$sousd=$sousmat[1];
 						if($sousd<>"")
 						$affi=$discipline.' : '.$sousd;
 						else

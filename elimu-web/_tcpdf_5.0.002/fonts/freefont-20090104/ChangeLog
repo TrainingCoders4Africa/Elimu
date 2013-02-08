@@ -683,7 +683,7 @@ $Id: ChangeLog,v 1.254 2009/01/04 16:12:59 Stevan_White Exp $
 	* FreeSerif.sfd:
 
 	WAZU says
-	http://www.wazu.jp/gallery/Fonts_Hanunoo.html
+	http://www.wazu.jp/gallery/Fonts_Hanbviso.html
 	
 	MPH 2B Damase doesn't support the consonant-vowel ligatures necessary
 	to render Buhid writing.
@@ -693,7 +693,7 @@ $Id: ChangeLog,v 1.254 2009/01/04 16:12:59 Stevan_White Exp $
 	don't know why.
 	
 	Made page to match the example of the combining forms at
-	http://www.omniglot.com/writing/hanunoo.htm
+	http://www.omniglot.com/writing/hanbviso.htm
 
 2008-10-24 Stevan_White
 	* FreeSerif.sfd:

@@ -16,10 +16,10 @@ $etagiaire = findByValue('coefficients','idcoef',$numero);
 					      $idetude=$row[3];
 					      $etagiaires = findByValue('disciplines','iddis',$iddis);
 						$row1 = mysql_fetch_row($etagiaires);
-                       $discipline=accents($row1[1]);
+                       $discipline=$row1[1];
 					   $smat = findByValue('sous_matiere','idsm',$idsm);
 						$sousmat = mysql_fetch_row($smat);
-						$sousd=accents($sousmat[1]);
+						$sousd=$sousmat[1];
 						if($sousd<>"")
 						$affi=$discipline.' : '.$sousd;
 						else

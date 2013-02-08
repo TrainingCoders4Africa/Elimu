@@ -11,7 +11,7 @@
               		while($row1 = mysql_fetch_row($selection))
 				 	{
                        	$p1=$row1[0];
-						$p2=accents($row1[1]);
+						$p2=$row1[1];
 						echo"<tr>
 							<td  align=center>$p1</td>
 							<td  align=center>$p2</td>

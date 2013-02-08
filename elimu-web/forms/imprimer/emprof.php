@@ -132,7 +132,7 @@ $t_print.='</table>';
 		$html2pdf->pdf->IncludeJS("print(true);");
         $html2pdf->writeHTML($t_print	);
 		$html2pdf->pdf->SeTdisplayMode('fullpage');
-        $html2pdf->Output('uno.pdf');
+        $html2pdf->Output('bvis.pdf');
     }
 	
     catch(HTML2PDF_exception $e) {

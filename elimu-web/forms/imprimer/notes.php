@@ -60,7 +60,7 @@ $cycle=lcycle($classe);
 $t_print=' <page_footer>
         <table style="width: 100%;">
             <tr>
-                <Td style="text-align: left;    width: 50%">Adresse : '.$adresse.'</Td>
+                <Td style="text-align: left;    width: 50%">Adresse : '.utf8_encode($adresse).'</Td>
                 <Td style="text-align: right;    width: 50%">Fax : '.$fax.'</Td>
             </tr>
 			<tr>
@@ -149,26 +149,32 @@ $t_print.='
 </Tr>
 <Tr><Td ALIGN="left" ROWSPAN="1" NOWRAP>&nbsp;&nbsp;</Td></Tr>
 <Tr>
-<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP><b>'.$eta.'</b></Td>
-</Tr><Tr><Td class="petit">&nbsp;</Td></Tr>
+<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP><b>'.utf8_encode($eta).'</b></Td>
+</Tr>
+</table>
+<table cellspacing="0" bordercolor="#AEBFE2" cellpadding="2" width=100 ALIGN="center" border="0">
+<Tr><Td class="petit">&nbsp;</Td></Tr>
 <Tr><Td ROWSPAN=1 ><HR width=100%></Td></Tr>
 <Tr>
 <Td ALIGN="center" ><b>&nbsp;BULLETIN DE NOTES</b></Td>
 </Tr>
 <Tr><Td ROWSPAN=1 ><HR width=100%></Td></Tr>
+</table>
+<table cellspacing="0" bordercolor="#AEBFE2" cellpadding="2" width=100 ALIGN="left" border="0">
+
 <Tr>
 <Td class="petit">&nbsp;</Td>
 </Tr>
 <Tr>
-<Td  ROWSPAN="1"  ALIGN="center" NOWRAP >&nbsp;'.utf8_encode("Prénom").':<b>&nbsp;'. $prenom.'</b></Td>
-<Td ROWSPAN="1"  ALIGN="center" NOWRAP >&nbsp;Nom:<b>&nbsp;'. $nom.'</b></Td>
+<Td  ROWSPAN="1"  ALIGN="left" NOWRAP >&nbsp;'.utf8_encode("Prénom").':<b>&nbsp;'. $prenom.'</b></Td>
+<Td ROWSPAN="1"  ALIGN="right" NOWRAP >&nbsp;Nom:<b>&nbsp;'. $nom.'</b></Td>
 </Tr><Tr><Td ALIGN="center" ROWSPAN="1" NOWRAP>&nbsp;&nbsp;</Td></Tr>
 <Tr>
-<Td ROWSPAN="1"  ALIGN="center" NOWRAP>&nbsp;'.utf8_encode("Né(e)").' le :&nbsp;&nbsp;&nbsp;'.$date_n.' '.utf8_encode("à") .' '.accents($lieu).'</Td>
-<Td ROWSPAN="1"  ALIGN="center" NOWRAP>&nbsp;Classe:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. libclasse($classe).'</Td>
+<Td ROWSPAN="1"  ALIGN="left" NOWRAP>&nbsp;'.utf8_encode("Né(e)").' le :&nbsp;&nbsp;&nbsp;'.$date_n.' '.utf8_encode("à") .' '.accents($lieu).'</Td>
+<Td ROWSPAN="1"  ALIGN="right" NOWRAP>&nbsp;Classe:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'. libclasse($classe).'</Td>
 </Tr><Tr><Td ALIGN="center" ROWSPAN="1" NOWRAP>&nbsp;&nbsp;</Td></Tr>
 <Tr>
-<Td ROWSPAN="1"  ALIGN="center" NOWRAP>&nbsp;Matricule:&nbsp;&nbsp;&nbsp;<b>'. $eleve.'</b></Td><Td class="petit">&nbsp;</Td>
+<Td ROWSPAN="1"  ALIGN="left" NOWRAP>&nbsp;Matricule:&nbsp;&nbsp;&nbsp;<b>'. $eleve.'</b></Td><Td class="petit">&nbsp;</Td>
 <Td ROWSPAN="1"  ALIGN="center" NOWRAP>&nbsp;'.utf8_encode("Nbre d'élèves").' :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>'. Effectifclasse($classe,$annee).'</b></Td><Td class="petit">&nbsp;</Td>
 <Td ROWSPAN="1"  ALIGN="center" NOWRAP>&nbsp;Redoublant :&nbsp;&nbsp;&nbsp;'.redoublant($eleve,$classe,$annee).'</Td>
 </Tr><Tr>
@@ -393,8 +399,6 @@ $t_print.='</table>';
 break;
 //Bulletin du second semestre
 case 'BULLETINS2':
-//elseif($choix=="BULLETINS2"){
-
 $se="S2";
 $son=0;//somme total des totaux points
 $soc=0;//totaux coefficient
@@ -411,13 +415,19 @@ $t_print.='
 </Tr>
 <Tr><Td ALIGN="left" ROWSPAN="1" NOWRAP>&nbsp;&nbsp;</Td></Tr>
 <Tr>
-<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP><b>'.$eta.'</b></Td>
+<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP><b>'.utf8_encode($eta).'</b></Td>
 </Tr><Tr><Td class="petit">&nbsp;</Td></Tr>
+</table>
+<table cellspacing="0" bordercolor="#AEBFE2" cellpadding="2" width=100 ALIGN="center" border="0">
+
 <Tr><Td ROWSPAN=1 ><HR width=100%></Td></Tr>
 <Tr>
 <Td ALIGN="center" ><b>&nbsp;BULLETIN DE NOTES</b></Td>
 </Tr>
 <Tr><Td ROWSPAN=1 ><HR width=100%></Td></Tr>
+</table>
+<table cellspacing="0" bordercolor="#AEBFE2" cellpadding="2" width=100 ALIGN="left" border="0">
+
 <Tr>
 <Td class="petit">&nbsp;</Td>
 </Tr>
@@ -620,20 +630,19 @@ while($ligere=mysql_fetch_array($reere)){
  $t_print.='</Tr>';
 
  $t_print.='<Tr>
-<Td colspan="7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<Td colspan="8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Td>
 </Tr>
 <Tr>
-<Td ALIGN="MIDDLE" ROWSPAN="3" colspan="4" NOWRAP>&nbsp;&nbsp;</Td>
-<Td ALIGN="MIDDLE" ROWSPAN="1" NOWRAP >&nbsp;<b>Premier Semestre</b>&nbsp;</Td>
-<Td ALIGN="MIDDLE" ROWSPAN="1" NOWRAP>&nbsp;<b>'.$moy1.'&nbsp;</b></Td>
+<Td ALIGN="center" ROWSPAN="1" NOWRAP colspan="2" >&nbsp;<b>Premier Semestre</b>&nbsp;</Td>
+<Td ALIGN="center" ROWSPAN="1" NOWRAP>&nbsp;<b>'.$moy1.'&nbsp;</b></Td>
 </Tr>
 <Tr>
-<Td ALIGN="MIDDLE" ROWSPAN="1" NOWRAP>&nbsp;<b>Second Semestre&nbsp;</b></Td>
-<Td ALIGN="MIDDLE" ROWSPAN="1" NOWRAP>&nbsp;<b>'.$moy2.'&nbsp;</b></Td>
+<Td ALIGN="center" ROWSPAN="1" NOWRAP colspan="2">&nbsp;<b>Second Semestre&nbsp;</b></Td>
+<Td ALIGN="center" ROWSPAN="1" NOWRAP>&nbsp;<b>'.$moy2.'&nbsp;</b></Td>
 </Tr><Tr>
-<Td ALIGN="MIDDLE" ROWSPAN="1" NOWRAP>&nbsp;<b>Moyenne '.utf8_encode("Générale").'&nbsp;</b></Td>
-<Td ALIGN="MIDDLE" ROWSPAN="1" NOWRAP>&nbsp;<b>'.$note_finale.'&nbsp;</b></Td>
+<Td ALIGN="center" ROWSPAN="1" NOWRAP colspan="2">&nbsp;<b>Moyenne '.utf8_encode("Générale").'&nbsp;</b></Td>
+<Td ALIGN="center" ROWSPAN="1" NOWRAP>&nbsp;<b>'.$note_finale.'&nbsp;</b></Td>
 </Tr><Tr>
 <Td colspan="8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -817,7 +826,7 @@ $t_print.='
 </table>';
 break;
  //}
-//echo $t_print;
+echo $t_print;
 }
 
   require_once(dirname(__FILE__).'/../../html2pdf.class.php');

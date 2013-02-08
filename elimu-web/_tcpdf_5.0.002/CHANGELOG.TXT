@@ -633,7 +633,7 @@
 	- Examples 1 and 35 were fixed.
 
 4.4.008 (2008-12-28)
-	- Bug #2472169 "Unordered bullet size not adjusted for unit type" was fixed.
+	- Bug #2472169 "bvisrdered bullet size not adjusted for unit type" was fixed.
 
 4.4.007 (2008-12-23)
 	- Bug #2459935 "no unit conversion for header line" was fixed.

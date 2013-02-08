@@ -17,6 +17,7 @@ $mois=date("n");
 		else{
 		 $aca=date("Y")-1 .'/'.$annee;
 		}
+//exec("C:\Program Files\kiwanja.net\FrontlineSMS_1.6.16.3\FrontlineSMS.exe");
 ?>
 
 <head>
@@ -60,8 +61,8 @@ topmargin="0" leftmargin="0" onLoad="chgFocus()">
 	<table border=0 cellpadding=0 cellspacing=10 align="left" >
   <tr><td><b>Login * </b></td><td> <input class='kc1' id='Login' type=text name=Login1 size='20'required placeholder="Donner le Login"/></td></tr>
   <tr><td><b>Mot de Passe *</b></td><td> <input class='kc1' id='Mot de Passe' type='password' name=Mot_de_Passe7 size='20' required placeholder="Donner le mot de passe" /></td></tr>
-	<tr><td><b>Profil *</b></td><td><select class=kc1  id="Statut" type="text" name="Statut5" size="1" required  placeholder="Choisir votre profile"  />
-   <option value=>Choisir votre profile</option>
+	<tr><td><b>Profil *</b></td><td><select class=kc1  id="Statut" type="text" name="Statut5" size="1" required  placeholder="Choisir le profil"  />
+   <option value=>Choisir votre profil</option>
 	                     <option value='Administrateur' >Administrateur</option>
 						 
 						  <?php

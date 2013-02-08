@@ -55,7 +55,7 @@ function sendSmsMessage($in_phoneNumber, $in_msg)
    $results = file('http://localhost:8011'.$url);
  }
  sendSmsMessage($in_phoneNumber, $in_msg);
-echo  'ok';
+echo  'message:<br>'.urlencode(utf8_encode($in_msg).'<br> Envoyé à : '.urlencode(utf8_encode($in_phoneNumber));
 
 
 }

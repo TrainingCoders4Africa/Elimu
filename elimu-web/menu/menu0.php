@@ -147,7 +147,7 @@ function mnh(vl,pb,dg){
 </head>
 <body bgcolor='white'>
 
-<div id='m' style='overflow:hidden;position:relative;top:0px; left:0px; width:350px; height:40px; z-Index:0'>
+<div id='m' >
 
     <img src='menu/images/censeur.jpg' ONCLICK='controle=1;mnh("h",450,"m")'>
 	<ul id="nav" class="dropdown dropdown-vertical">

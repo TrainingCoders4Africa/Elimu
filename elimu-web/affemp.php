@@ -6,7 +6,7 @@ include '/dao/select.php';
 if(isset($_POST['PROF_ID']) and isset($_POST['SEMESTRE_ID']) )
 {
 $code=securite_bdd($_POST['SEMESTRE_ID']);
-$sclasse=securite_bdd(accents($_POST['PROF_ID']));
+$sclasse=securite_bdd($_POST['PROF_ID']);
 $annee=annee_academique();
 $nb=0;
 
@@ -74,7 +74,7 @@ $cours="-";
 else{
 $cours= $discipline.'<br/>'.$salle;
 echo'
-<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP ><A HREF="emplois_classes.php?sup=1'.'&j='. $jour.'&hd='. $debut.'&hf='.$fin.'&num='. $sclasse.'&se='. $code.'"><FONT color= "black" >&nbsp;'. utf8_encode($discipline).'<br/>'.$salle.'&nbsp;</TD>';
+<TD ALIGN=MIDDLE ROWSPAN=1 NOWRAP ><A HREF="emplois_classes.php?sup=1'.'&j='. $jour.'&hd='. $debut.'&hf='.$fin.'&num='. $sclasse.'&se='. $code.'" title="Eliminer ce plannig"><FONT color= "black" >&nbsp;'. utf8_encode($discipline).'<br/>'.$salle.'&nbsp;</TD>';
 }
 					
 }

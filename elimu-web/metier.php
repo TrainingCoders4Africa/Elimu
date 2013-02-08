@@ -43,36 +43,36 @@ RETURN '<table border="0" cellpadding="0" cellspacing="0" height=24>
 }
 
 
-function smenu($page,$vis,$ajout,$mod,$sup,$rech,$imp){
+function smenu($vis,$ajout,$mod,$sup,$rech,$imp,$titreaj,$titrevis,$titremod,$titrerech,$titreimp,$titresup){
 $_SESSION['classe']=@$_GET['num'];
 $classe=$_SESSION['classe'];
  if($vis==1)
-   $vis="<a href='?vis=1&num=".@$classe."'><img src='menu/imgsmenu/vis1.jpg' border='0' alt=''/></a> ";
+   $vis="<a href='?vis=1&num=".@$classe."'><img src='menu/imgsmenu/vis1.jpg' border='0' alt=''/ title='".$titrevis."'></a> ";
  else
   $vis="<img src='menu/imgsmenu/vis0.jpg' border='0' alt=''/> ";
 
   if($ajout==1)
-   $ajout="<a href='?ajout=1 &num=".@$classe."'><img src='menu/imgsmenu/ajout1.jpg' border='0' alt=''/></a> ";
+   $ajout="<a href='?ajout=1 &num=".@$classe."'><img src='menu/imgsmenu/ajout1.jpg' border='0' alt=''title='".$titreaj."'/></a> ";
  else
   $ajout="<img src='menu/imgsmenu/ajout0.jpg' border='0' alt=''/> ";
 
    if($mod==1)
-   $mod="<a href='?mod=1 &num=".@$classe."'><img src='menu/imgsmenu/mod1.jpg' border='0' alt=''/> </a>";
+   $mod="<a href='?mod=1 &num=".@$classe."'><img src='menu/imgsmenu/mod1.jpg' border='0' alt='' title='".$titremod."'/> </a>";
  else
   $mod="<img src='menu/imgsmenu/mod0.jpg' border='0' alt=''/> ";
 
   if($sup==1)
-   $sup="<a href='?sup=1 &num=".@$classe."'><img src='menu/imgsmenu/sup1.jpg' border='0' alt=''/> </a>";
+   $sup="<a href='?sup=1 &num=".@$classe."'><img src='menu/imgsmenu/sup1.jpg' border='0' alt=''/ title='".$titresup."'> </a>";
  else
   $sup="<img src='menu/imgsmenu/sup0.jpg' border='0' alt=''/> ";
 
    if($rech==1)
-   $rech="<a href='?rech=1 &num=".@$classe."'><img src='menu/imgsmenu/rech1.jpg' border='0' alt=''/> </a>";
+   $rech="<a href='?rech=1 &num=".@$classe."'><img src='menu/imgsmenu/rech1.jpg' border='0' alt=''title='".$titrerech."'/> </a>";
  else
   $rech="<img src='menu/imgsmenu/rech0.jpg' border='0' alt=''/> ";
 
   if($imp==1)
-   $imp="<a href='?imp=1' &num=".@$classe."><img src='menu/imgsmenu/imp1.jpg' border='0' alt=''/> </a>";
+   $imp="<a href='?imp=1' &num=".@$classe."><img src='menu/imgsmenu/imp1.jpg' border='0' alt=''title='".$titreimp."'/> </a>";
  else
   $imp="<img src='menu/imgsmenu/imp0.jpg' border='0' alt=''/> ";
    //$_SESSION["annee"]=2009;

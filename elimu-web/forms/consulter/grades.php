@@ -9,7 +9,7 @@
               		$selection = findByAll('grades5');
               		while($row1 = mysql_fetch_row($selection))
 				 	{
-                       	$p1=accents($row1[1]);
+                       	$p1=$row1[1];
 							echo"<tr>
 							<td  align=center>$p1</td>
 						

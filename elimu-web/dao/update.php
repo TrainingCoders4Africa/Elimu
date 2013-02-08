@@ -292,13 +292,13 @@ function retour(){
 
 	if(isset($_POST["dateretour"])){
 
-	$dossier = addslashes($_POST['dossier']);
+	$bajoutsier = addslashes($_POST['dossier']);
 	$dateretour = dateslashes($_POST['dateretour']);
 	//$destination = addslashes($_POST['destinaire']);
 	//$dateMig = addslashes($_POST['datemig']);
 	//$motif = addslashes($_POST['motif']);
 
- 	$sql_ajout = "UPDATE `migration` SET `dateRetour` = '$dateretour' WHERE `idMig` = '$dossier' ";
+ 	$sql_ajout = "UPDATE `migration` SET `dateRetour` = '$dateretour' WHERE `idMig` = '$bajoutsier' ";
 
 
    // echo "<br> requete : ".$sql_ajout;

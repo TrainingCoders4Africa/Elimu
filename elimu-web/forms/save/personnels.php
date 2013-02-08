@@ -110,7 +110,7 @@ function go()
 				 $table = 'matrimonial5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
 			
 					</select></TD>
@@ -133,7 +133,7 @@ function go()
 				 $table = 'corps5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
 </select></td><td>
 <B>&nbsp;Grade *</B><SELECT NAME="grade" id="grade" required>
@@ -142,7 +142,7 @@ function go()
 				 $table = 'grades5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
 					</select></td><td  ALIGN=LEFT ROWSPAN=1 NOWRAP>
 <B>&nbsp;Echelon *</B><SELECT NAME="echelon" id="echelon" required>
@@ -151,7 +151,7 @@ function go()
 				 $table = 'echelons5';
 				 $selection = findByAll($table);
 				while($ro=mysql_fetch_row($selection)){
-                            echo"<option value='".$ro[0]."'>".accents($ro[1])."</option>";
+                            echo"<option value='".$ro[0]."'>".$ro[1]."</option>";
     			}?>
 					</select></td></tr>
 

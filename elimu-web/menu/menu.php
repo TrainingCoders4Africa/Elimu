@@ -1,16 +1,4 @@
 <?php
-
-      /* $date = $values['Datedebut'];
-                    $date=implode('-',array_reverse (explode('/',$date)));
-                    $values['Datedebut'] = $date." 0000:00:00";
-
-<script>
-    $(function() {
-        $( "#birthdate_farmer" ).datepicker();
-    });
-</script>*/
-//require("all_function.php");
-
 $sqlstmcl="select distinct cycle  from categories";
 $reqcl=mysql_query($sqlstmcl);
 $sqlstm="select count(*)nb from categories where cycle ='SECONDAIRE'";
@@ -157,35 +145,35 @@ function mnh(vl,pb,dg){
 </head>
 <body bgcolor='white'>
 
-<div id='m' style='overflow:hidden;position:relative;top:0px; left:0px; width:350px; height:40px; z-Index:0'>
+<div id='m'>
 
     <img src='menu/images/configgen.jpg' ONCLICK='controle=1;mnh("h",450,"m")'>
 	<ul id="nav" class="dropdown dropdown-vertical">
-	<li>	<a href="parametrage/config.php" class="smenu">Paramétrages</a></li>
-		<li>	<a href="sauver.php" class="smenu">Sauvegarde BD</a></li>
+	<li>	<a href="parametrage/config.php" class="smenu" title="Espace Parametrage">Paramétrages</a></li>
+		<li>	<a href="sauver.php" class="smenu" title="cliquer dessus pour backuper la base de données">Sauvegarde BD</a></li>
 		<?php
 echo'
 <li><span class="dir">gestion des Cycles </span>
 <ul>';
 echo'
-<li><a href="profiles.php" class="smenu">Ges Profiles</a></li>';
+<li><a href="profiles.php" class="smenu" title="Ajouter, lister les profiles">Ges Profiles</a></li>';
 if($n<> 0)	{
-echo'<li><a href="serie.php" class="smenu">Ges Série</a></li>';
+echo'<li><a href="serie.php" class="smenu" title="Ajouer,lister,modifier les séries pour le cycle secondaire">Ges Série</a></li>';
 }
 if($np<> 0)	{
-echo'<li><a href="filieres.php" class="smenu">Ges Des Filiéres</a></li>';
+echo'<li><a href="filieres.php" class="smenu" title="Ajouter,modifier,consulter les filiéres pour le cycle professionnel">Ges Des Filiéres</a></li>';
 }
 echo'
-<li><a href="etudes.php" class="smenu">Ges Niveau Etude</a></li>
-<li><a href="classes.php" class="smenu">Ges Classes</a></li>
+<li><a href="etudes.php" class="smenu" title=" ajouter, consulter les niveaux etudes">Ges Niveau Etude</a></li>
+<li><a href="classes.php" class="smenu" title="Ajouter,consulter,modifier les classes">Ges Classes</a></li>
 ';
 	
 if($ma<> 0)	{
 echo'
-<li><a href="disciplines.php" class="smenu">Ges Disciplines</a></li>
-<li><a href="credit_horaire.php" class="smenu">Ges Crédit Horaire</a></li>
-<li><a href="coefs.php" class="smenu">Ges Coéficients</a></li>
-<li><a href="programmesd.php" class="smenu">Ges Programmes</a></li>
+<li><a href="disciplines.php" class="smenu" title="ajout,consulter,modier les disciplines, ajouter des sous disciplines">Ges Disciplines</a></li>
+<li><a href="credit_horaire.php" class="smenu" title="Espace ajouter, consulter,modifier les crédits horaires">Ges Crédit Horaire</a></li>
+<li><a href="coefs.php" class="smenu" title="ajout,modifier,consulter les coef des disciplines">Ges Coéficients</a></li>
+<li><a href="programmesd.php" class="smenu" title="Espace pour la saisie du programme à enseigner">Ges Programmes</a></li>
 
 ';}
 
@@ -193,44 +181,44 @@ echo'
 </ul>
 </li>
 				
-<li><a href="salles.php" class="smenu">Ges Salle de Cours</a></li>	
-<li><span class="dir">Le Personnel</span>
+<li><a href="salles.php" class="smenu" title="Espace ajout,consulter,modifier les salles de cours">Ges Salle de Cours</a></li>	
+<li><span class="dir" title="Gestion du Personnel">Le Personnel</span>
 <ul>
-<li><a href="corps.php" class="smenu">Ges des Corps</a></li>
-<li><a href="echelons.php" class="smenu">Ges des Echelons</a></li>
-<li><a href="grades.php" class="smenu">Ges des Grades</a></li>
-<li><a href="personnels.php" class="smenu">Ges Personnel</a></li>
+<li><a href="corps.php" class="smenu"title="Ajout,visualiser les Corps du personnel">Ges des Corps</a></li>
+<li><a href="echelons.php" class="smenu"title="Ajout,consulter les Echelons du personnels">Ges des Echelons</a></li>
+<li><a href="grades.php" class="smenu" title="ajout,lister les Grades du personnel">Ges des Grades</a></li>
+<li><a href="personnels.php" class="smenu"title="ajout,consulter,recherche personnel">Ges Personnel</a></li>
 </ul></li>
 <?php
 //}
 if($li<> 0)	{
 ?>
-<li><span class="dir">Ges Bulletin Notes</span>
+<li><span class="dir"title=" Espace pour Définir les Grilles">Ges Bulletin Notes</span>
 <ul>
-<li><a href="appreciations.php" class="smenu">Ges des Appréciations</a></li>
-<li><a href="honneurs.php" class="smenu">Ges des Honneurs</a></li>
-<li><a href="remarques.php" class="smenu">Ges Remarques</a></li>
-<li><a href="decision.php" class="smenu">Décision Conseil</a></li>
+<li><a href="appreciations.php" class="smenu" title="Ajout,lister ,modifier la grille des Appréciations">Ges des Appréciations</a></li>
+<li><a href="honneurs.php" class="smenu"title="ajout,modier,lister la grille des honneurs">Ges des Honneurs</a></li>
+<li><a href="remarques.php" class="smenu" title="Ajout,modifier, lister la grille des remarques">Ges Remarques</a></li>
+<li><a href="decision.php" class="smenu" title="Ajout,modifier,lister la grille Décision du conseil des classes">Décision Conseil</a></li>
 </ul></li>
 <?php
 }
 ?>
-<li><span class="dir">Configuration Annuélle</span>
+<li><span class="dir" title=" Espace pour définir les Parametres Annuels">Configuration Annuélle</span>
 <ul>
 
 <?php
 if($li<> 0)	{
 ?>
-<li><a href="semestres.php" class="smenu">Ges Semestres</a></li>
-<li><a href="surveillants.php" class="smenu">Ges Surveillants</a></li>
-<li><a href="professeurs.php" class="smenu">Ges Professeurs</a></li>
+<li><a href="semestres.php" class="smenu" title="Ajout,Modifier,consulter le planning des semestres">Ges Semestres</a></li>
+<li><a href="surveillants.php" class="smenu" title="Ajout,Modifier,consulter le personnel Surveillant de l'annee en cours">Ges Surveillants</a></li>
+<li><a href="professeurs.php" class="smenu"title="ajout,modifier,consulter le corps professoral de l'année en cours">Ges Professeurs</a></li>
 <?php
 }
 
 if($ele<> 0)	{
 ?>
 <!--<li><a href="semestres.php" class="smenu">Ges Trimestres</a></li>!-->
-<li><a href="enseignants.php" class="smenu">Ges Enseignants</a></li>
+<li><a href="enseignants.php" class="smenu" title="Ajout,modifier,consulter le corps enseignant de l'annee en cours">Ges Enseignants</a></li>
 
 <?php
 }

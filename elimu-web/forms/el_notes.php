@@ -109,10 +109,6 @@ echo'
 		$li=mysql_fetch_array($re);
 		$note=$li['note'];		
 		//discipline composée
-		/*$sqd="SELECT upper(libelle) uplib FROM disciplines WHERE iddis='$dis'";
-		$red=mysql_query($sqd);
-		$lid=mysql_fetch_array($red);
-		$discipline=UcFirstAndToLower(accents($lid['uplib']));*/
 $disciple = explode("D", $dis);
 			$iddis = $disciple[0];
 			$idsm=$disciple[1];
@@ -120,18 +116,18 @@ $disciple = explode("D", $dis);
 						//libelle discipline
 					 $titres = findByValue('disciplines','iddis',$iddis);
 						$tit = mysql_fetch_row($titres);
-						$discipline=accents($tit[1]);
+						$discipline=$tit[1];
 							//libelle sous discipline
 					 $smat = findByValue('sous_matiere','idsm',$idsm);
 						$sousmat = mysql_fetch_row($smat);
-						$sousd=accents($sousmat[1]);
+						$sousd=$sousmat[1];
 						if($sousd<>"")
 						$affi=$sousd;
 						else
 						$affi=$discipline;
 		echo'
 		<TD ALIGN=left ROWSPAN=1 NOWRAP>'. $date_af.'&nbsp;</a></TD>
-		<TD ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'. accents($affi).'&nbsp;</a></TD>
+		<TD ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'. $affi.'&nbsp;</a></TD>
 		<TD ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.$type.'&nbsp;</TD>
 		<TD ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'. $note.'&nbsp;</TD>
 		<TD ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.libelle_semestre($se).'&nbsp;</TD>
@@ -173,7 +169,7 @@ echo'
 <Td  ROWSPAN="1"  ALIGN="LEFT" NOWRAP >&nbsp;Prénom :<b>&nbsp;'. $prenom.'</b></Td>
 <Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP >&nbsp;Nom:<b>&nbsp;'. $nom.'</b></Td>
 </Tr><Tr>
-<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Né(e) le :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$date_n.' à '.accents($lieu).'</b></Td>
+<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Né(e) le :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$date_n.' à '.$lieu.'</b></Td>
 </Tr><Tr>
 <Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Classe:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>'. libclasse($classe).'</b></Td>
 <Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Effectif :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>'. Effectifclasse($classe,$annee).'</b></Td></Tr><Tr>
@@ -234,11 +230,11 @@ $soc=$soc+$coef;
 						//libelle discipline
 					 $titres = findByValue('disciplines','iddis',$iddis);
 						$tit = mysql_fetch_row($titres);
-						$disciplines=accents($tit[1]);
+						$disciplines=$tit[1];
 							//libelle sous discipline
 					 $smat = findByValue('sous_matiere','idsm',$idsm);
 						$sousmat = mysql_fetch_row($smat);
-						$sousd=accents($sousmat[1]);
+						$sousd=$sousmat[1];
 						if($sousd<>"")
 						$affi=$sousd;
 						else
@@ -294,8 +290,8 @@ echo'
 <Td ALIGN=center ROWSPAN=1 NOWRAP>&nbsp;'. $ms.'&nbsp;</Td>
 <Td ALIGN=center ROWSPAN=1 NOWRAP>&nbsp;'.$coef.'&nbsp;</Td>
 <Td ALIGN=center ROWSPAN=1 NOWRAP>&nbsp;'. $tp.'&nbsp;</Td>
-<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.accents($th).'&nbsp;</Td> 
-<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.accents($rem).'&nbsp;</Td> 
+<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.$th.'&nbsp;</Td> 
+<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.$rem.'&nbsp;</Td> 
 </Tr>';
 }
 }
@@ -373,7 +369,7 @@ $condition=" mini>=$minnote and maxi<= $maxinote ";
 else{
 $condition="mini>=$fi and maxi<=$maxinote ";
 }
-echo$sqere="select libelle1   from honneurs where ".$condition;
+$sqere="select libelle1   from honneurs where ".$condition;
 $reere=mysql_query($sqere);
 while($ligere=mysql_fetch_array($reere)){
 	$ho=$ligere['libelle1'];
@@ -446,7 +442,7 @@ echo'
 <Td  ROWSPAN="1"  ALIGN="LEFT" NOWRAP >&nbsp;Prénom :<b>&nbsp;'. $prenom.'</b></Td>
 <Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP >&nbsp;Nom:<b>&nbsp;'. $nom.'</b></Td>
 </Tr><Tr>
-<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Date et lieu de Naissance:<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$date_n.' à '.accents($lieu).'</b></Td>
+<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Date et lieu de Naissance:<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$date_n.' à '.$lieu.'</b></Td>
 </Tr><Tr>
 <Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Classe:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>'. libclasse($classe).'</b></Td>
 <Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>&nbsp;Effectif :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>'. Effectifclasse($classe,$annee).'</b></Td></Tr><Tr>
@@ -505,11 +501,11 @@ $soc=$soc+$coef;
 						//libelle discipline
 					 $titres = findByValue('disciplines','iddis',$iddis);
 						$tit = mysql_fetch_row($titres);
-						$disciplines=accents($tit[1]);
+						$disciplines=$tit[1];
 							//libelle sous discipline
 					 $smat = findByValue('sous_matiere','idsm',$idsm);
 						$sousmat = mysql_fetch_row($smat);
-						$sousd=accents($sousmat[1]);
+						$sousd=$sousmat[1];
 						if($sousd<>"")
 						$affi=$sousd;
 						else
@@ -569,7 +565,7 @@ echo'
 <Td ALIGN=center ROWSPAN=1 NOWRAP>&nbsp;'. $ms.'&nbsp;</Td>
 <Td ALIGN=center ROWSPAN=1 NOWRAP>&nbsp;'.$coef.'&nbsp;</Td>
 <Td ALIGN=center ROWSPAN=1 NOWRAP>&nbsp;'. $tp.'&nbsp;</Td>
-<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.accents($rem).'&nbsp;</Td> 
+<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'.$rem.'&nbsp;</Td> 
 </Tr>';
 }
 }
@@ -646,7 +642,7 @@ $condition=" mini>=$minnote and maxi<= $maxinote ";
 else{
 $condition="mini>=$fi and maxi<=$maxinote ";
 }
-echo$sqehonneur="select id,libelle1 from honneurs where ".$condition;
+$sqehonneur="select id,libelle1 from honneurs where ".$condition;
 $reerehonneur=mysql_query($sqehonneur);
 	while($ligerehonneur=mysql_fetch_array($reerehonneur)){
 	$ho=$ligerehonneur['libelle1'];
@@ -779,11 +775,11 @@ if(($nature=='Autres') or ($lv1c==$iddis) or ($lv2c==$iddis) or ($lvc==$iddis)){
 						//libelle discipline
 					 $titres = findByValue('disciplines','iddis',$iddis);
 						$tit = mysql_fetch_row($titres);
-						$disciplines=accents($tit[1]);
+						$disciplines=$tit[1];
 							//libelle sous discipline
 					 $smat = findByValue('sous_matiere','idsm',$idsm);
 						$sousmat = mysql_fetch_row($smat);
-						$sousd=accents($sousmat[1]);
+						$sousd=$sousmat[1];
 						if($sousd<>"")
 						$affi=$disciplines.' : '.$sousd;
 						else

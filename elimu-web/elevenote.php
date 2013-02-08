@@ -104,11 +104,11 @@ $nombre=$nombre+1;
 						//libelle discipline
 					 $titres = findByValue('disciplines','iddis',$iddis);
 						$tit = mysql_fetch_row($titres);
-						$disciplines=accents($tit[1]);
+						$disciplines=$tit[1];
 							//libelle sous discipline
 					 $smat = findByValue('sous_matiere','idsm',$idsm);
 						$sousmat = mysql_fetch_row($smat);
-						$sousd=accents($sousmat[1]);
+						$sousd=$sousmat[1];
 						if($sousd<>"")
 						$affi=$sousd;
 						else

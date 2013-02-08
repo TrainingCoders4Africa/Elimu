@@ -10,12 +10,18 @@ $sclasse=securite_bdd($_POST['CLASSE_ID']);
 $annee=annee_academique();
 $sq45="select * from emploi_temps WHERE ((debut  <='$debut'  and fin >='$fin') or(debut  >='$debut'  and fin <='$fin')  or debut >='$fin' or (debut  <='$debut'  and fin <='$fin' and fin >'$debut'))  and jour='$jour' and annee='$annee' and semestre='$semestre' and classe='$sclasse' ";
 $rq45=mysql_query($sq45);
+//vérifier si heure à programmer est a lheure d'une heure déja programmée
+$stkhd = "select * from emploi_temps where jour='$jour' and ((debut  >='$debut'  and fin >='$fin' and debut<'$fin') 
+ or (debut  <='$debut'  and fin <='$fin' and fin >'$debut')  or
+(debut  >='$debut'  and fin <='$fin')) and annee='$annee' and semestre='$semestre' and classe='$sclasse'  ";
+$hdp=mysql_query($stkhd);
+// vérifié si a lheure choisi ya un cours proprammé
 $stk = "select * from emploi_temps where jour='$jour' and debut='$debut' and fin='$fin' and annee='$annee' and semestre='$semestre' and classe='$sclasse'  ";
 $RSU1=mysql_query($stk);
 if(mysql_num_rows($RSU1)<>0){
 echo'	Planning d&eacute;ja enregistr&eacute;';
 }
-elseif(mysql_num_rows($rq45)<>0){
+elseif(mysql_num_rows($hdp)<>0){
 echo'Planning Impossible car la classe  n\'est pas disponible a cette heure';
 }
 elseif($semestre=="" and $jour=="" and $debut==""){
