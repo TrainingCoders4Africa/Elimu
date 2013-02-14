@@ -123,7 +123,7 @@ echo" <input name=disci$i type=hidden value='$disci'>";
 
 
 echo'
-<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'. ($disciples).'&nbsp;</Td>';
+<Td ALIGN=left ROWSPAN=1 NOWRAP>&nbsp;'. utf8_encode($disciples).'&nbsp;</Td>';
 
 //total devoir + moyenne devoir
 $s="SELECT count(discipline) dv,sum(note) nt,round(sum(note)/count(discipline),3) md FROM evaluations,notes WHERE evaluations.id=notes.evaluation and evaluations.classe='$classe' and evaluations.annee='$annee'and

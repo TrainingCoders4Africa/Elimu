@@ -24,22 +24,19 @@ elseif(isset($_GET["rech"])) {
     $pageint="metier/recherche.php";
 		  
 }
-elseif(isset($_GET["ajout"])) {
-  $titre="  Inscription des Eléves de la ".$classe." >> Ajout" ;	 
-         $pageint="forms/save/eleves.php";
-
-			 
+elseif(isset($_GET["vis"])) {
+	     $titre="  Liste des Eléves de la ".$classe." >> Consultation" ;
+      $pageint="forms/consulter/eleves.php";
 }
 else {
-    $titre="  Liste des Eléves de la ".$classe." >> Consultation" ;
-      $pageint="forms/consulter/eleves.php";
+  $titre="  Inscription des Eléves de la ".$classe." >> Ajout" ;	 
+         $pageint="forms/save/eleves.php";
 	
 		}
-		 	  $titreaj="Ajouter des éléves ";
-			    $titrevis="la liste des éleves de la classe";
-				$titrerech="Recherche un Eléve suivant Matricule";$titresup="";$titremod="";$titreimp="";
 	//les infos bulle des boutons du formulaire
-$titreaj="Ajouter Eleves";$titrevis="Lister les Eleves de la classe";$titrerech="REchercher Eleve suivant le matricule";$titresup="";$titremod="";$titreimp="";
+$titreaj="Ajouter Eleves";$titrevis="Lister les Eleves de la classe";
+$titrerech="REchercher Eleve suivant le matricule";
+$titresup="";$titremod="";$titreimp="";
 //les boutons visibles sont a 1 et ceux de 0 sont masqués
 $bvis=1;//bouton visualiser les données
 $bajout=1;//bunton insert into database 

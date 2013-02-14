@@ -16,7 +16,7 @@ $reqlv2=findByNValue("credit_horaire","credit_horaire.etude in (select etude fro
 $reqlvc=findByNValue("credit_horaire","credit_horaire.etude in (select etude from classes where idclasse='$sclasse') 
 				 and nature=(select idnature from nature where nature='Langue classique')");
 					$lvc=mysql_num_rows($reqlvc);
-$etagiaire = findByNValue('eleves',"matricule in (select eleve from inscription where annee='$annee' and classe='$sclasse')");
+$etagiaire = findByNValue('eleves',"matricule ='$eleve'");
 						$row = mysql_fetch_row($etagiaire);
                        //$matricule=$row[0];
                            $matricule=$row[0];

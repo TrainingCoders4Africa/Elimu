@@ -31,7 +31,7 @@ $bvis=1;//bouton visualiser les données
 $bajout=1;//bunton insert into database 
 $bmod=0;// bouton update données
 $bsup=0;//bouton delete données
-$brech=0;//bouton recherhe données
+$brech=1;//bouton recherhe données
 $bimp=0;// bouton imprimer des données
 require_once 'include.php';
 }

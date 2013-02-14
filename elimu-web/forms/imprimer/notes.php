@@ -35,6 +35,7 @@ $cycle=lcycle($classe);
 	$mail=$ligne9['mail'];
 	$site=$ligne9['web'];
 	$bp=$ligne9['bp'];
+	$logo=$ligne9['logo'];
 //lister les évaluations déja réalisée et notée
 	$sqlstm1="select id,date_format(date_prevue,'%d/%m/%Y') affi,discipline,type,semestre from evaluations where id in (select evaluation from notes where eleve='$eleve') and annee='$annee' and classe='$classe'
 	order by discipline,semestre,type desc ,date_prevue  ";
@@ -78,8 +79,13 @@ $t_print=' <page_footer>
 	case 'CARNET':
 	// le carnet de note de l'éleve
 $t_print.='
-	<table border="1" cellspacing="0"  cellpadding="2" width="100" ALIGN="center">
-	<Tr>
+	<table border="1" cellspacing="0"  cellpadding="2" width="100" ALIGN="center">';
+	/*if($logo<>''){
+	$t_print.='<Tr><Td>
+	<img src="parametrage/logos/logo.gif">
+	</Td></Tr>';
+	}*/
+	$t_print.='<Tr>
 	<Td align="center" colspan="5" NOWRAP  ><B>&nbsp; Carnet de Notes de '.$prenom.' '.$nom.' de la '.libclasse($classe).'</B></Td>
 	</tr>
 	<Tr>
@@ -98,7 +104,7 @@ $t_print.='
 		$type=$ligne['type'];
 		$se=$ligne['semestre'];
 		//note evaluation
-		$sq="SELECT note FROM notes WHERE eleve='$eleve' and evaluation='$eva'";
+		$sq="SELECT note FROM notes WHERE eleve='$eleve' and evaluation='$eva' order by evaluation desc";
 		$re=mysql_query($sq);
 		$li=mysql_fetch_array($re);
 		$note=$li['note'];
@@ -139,8 +145,9 @@ $soc=0;//totaux coefficient
 $t_print.='
 <table cellspacing="0" bordercolor="#AEBFE2" cellpadding="2" width=100 ALIGN="left" border="0">
 <tr><Td class="petit">&nbsp;</Td></tr>
+<tr><td></td></tr>
 <Tr>
-<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>IA '. $ia.'</Td><Td class="petit">&nbsp;</Td><Td class="petit">&nbsp;</Td><Td class="petit">&nbsp;</Td>
+<Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>IA '. $ia.'</Td><Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>IA '. $ia.'</Td><Td class="petit">&nbsp;</Td><Td class="petit">&nbsp;</Td><Td class="petit">&nbsp;</Td>
 <Td ROWSPAN="1"  ALIGN="LEFT" NOWRAP>'.utf8_encode("Année").' Scolaire : '. $annee.'</Td>
 </Tr><Tr><Td class="petit">&nbsp;</Td></Tr>
 <Tr>
@@ -838,7 +845,7 @@ echo $t_print;
 		//for($i=0;$i<5;$i++){
         $html2pdf->writeHTML($t_print	);
 //		}
-        $html2pdf->Output('notes.pdf');
+        $html2pdf->Output("notes.pdf");
     }
     catch(HTML2PDF_exception $e) {
         echo $e;

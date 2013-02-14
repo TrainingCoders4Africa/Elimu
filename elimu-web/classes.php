@@ -1,7 +1,8 @@
 <?php
+// dakar network solution
 session_start();
 if(isset($_SESSION["login1"])){
-@$menu=$_SESSION["menu"];
+$menu=$_SESSION["menu"];
 if (isset($_GET["sup"])) {
   $titre="  Classes >> Suppression" ;
   $pageint="forms/delete/classes.php";

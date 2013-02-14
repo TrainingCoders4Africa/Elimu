@@ -123,7 +123,7 @@ $classe=$ligne10u141000['classe'];
 
 $t_print.='</table>';
 //echo $t_print;
-
+$nomfi='bvis.pdf';
 
   require_once(dirname(__FILE__).'/../../html2pdf.class.php');
     try
@@ -132,7 +132,7 @@ $t_print.='</table>';
 		$html2pdf->pdf->IncludeJS("print(true);");
         $html2pdf->writeHTML($t_print	);
 		$html2pdf->pdf->SeTdisplayMode('fullpage');
-        $html2pdf->Output('bvis.pdf');
+        $html2pdf->Output($nomfi);
     }
 	
     catch(HTML2PDF_exception $e) {

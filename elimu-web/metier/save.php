@@ -515,6 +515,44 @@ $in_msg = "Bienvenue à l'application Elimu de l'établissement ".$etablissement."
  }
  sendSmsMessage($in_phoneNumber, $in_msg);
  
+ if(($mail<>"") and $sock = @fsockopen('www.google.fr', 80, $num, $error, 5))
+ {
+ 
+ $objets="Parametres de connection ";
+ 
+ //error_reporting(E_ALL);
+error_reporting(E_STRICT);
+date_default_timezone_set('America/Toronto');
+//require_once('../class.phpmailer.php');
+$mail             = new PHPMailer();
+$mail->IsSMTP(); // telling the class to use SMTP
+$mail->Host       = "mail.yourdomain.com"; // SMTP server
+//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+                                           // 1 = errors and messages
+                                           // 2 = messages only
+$mail->SMTPAuth   = true;                  // enable SMTP authentication
+$mail->SMTPSecure = "ssl";                 // sets the prefix to the servier
+$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+$mail->Port       = 465;                   // set the SMTP port for the GMAIL server
+$mail->Username   = "elimuprojet@gmail.com";  // GMAIL username
+$mail->Password   = "passelimu";            // GMAIL password
+
+// creer un compte email pour elimu
+$mail->SetFrom('elimuprojet@gmail.com', 'TEST ELIMU');
+
+$mail->AddReplyTo("elimuprojet@gmail.com","TEST ELIMU");
+
+$mail->Subject    = $objets;
+
+$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+
+
+//$mail->MsgHTML();
+//corp du mail
+$mail->MsgHTML($in_msg);
+ 
+$mail->AddAddress($mail);
+}
 			echo"<div align=center class=imp>enregistrement valide!</div>";
 			}
 			else

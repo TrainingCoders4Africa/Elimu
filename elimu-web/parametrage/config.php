@@ -37,7 +37,8 @@ $query = "SELECT * FROM etablissements";
 		              <?php
                     	if($ligne[3] <>""){
                     	?>
-					  <td> <img <?php echo" <img src='logos/". $ligne[3]."' align='right'  height='100%' width='30%' >";?></td>
+					  <td> <img <?php echo" <img src='logos/". $ligne[3]."' align='right'  height='100%' width='30%'";?> >
+					  </td>
 					  <?php
 					}
 					

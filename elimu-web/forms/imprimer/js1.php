@@ -42,7 +42,7 @@ Emploi du temps  de la '.libclasse($sclasse).' pour le '.UcFirstAndToLower(utf8_
 </table>
 ';
 //$t_print.='emploi du temps '.$sclasse.$code;
-$t_print.='<table border="1" cellspacing="0"  cellpadding="2"  width=100 ALIGN="left">
+$t_print.='<table border="1" cellspacing="0"  cellpadding="2"  width=100 ALIGN="center">
 <TR>
 <td align="center" colspan="1" NOWRAP ><B>HORAIRE</B></td>';
 

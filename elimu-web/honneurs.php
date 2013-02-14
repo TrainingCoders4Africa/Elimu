@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['matricule'])){
+if(isset($_SESSION['login1'])){
 $menu=$_SESSION["menu"];
 if (isset($_GET["sup"])) {
   $titre="  Grille des Honneurs >> Suppression" ;

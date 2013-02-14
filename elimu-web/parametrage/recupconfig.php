@@ -49,6 +49,10 @@ $extension_upload = strtolower(  substr(  strrchr($photo, '.')  ,1)  );
  	move_uploaded_file($_FILES['logo']['tmp_name'], $dir.$_FILES['logo']['name']);
  	rename($dir.$photo,$dir.$logo);
 	}
+	elseif(isset($_POST["chemin"]))
+	{
+	$chemin=$_POST["chemin"];
+	}
 	else
 	$chemin="";
 	 $req_vide="truncate table etablissements";

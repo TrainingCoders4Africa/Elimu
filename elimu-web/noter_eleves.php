@@ -44,8 +44,8 @@ echo'
             <th width=100><b><font color="white">Notes</th>
                      </tr>';
 				   		
-                	
-                  $ligne=mysql_fetch_row($exec);
+                	    while($ligne=mysql_fetch_row($exec)){
+                //  $ligne=mysql_fetch_row($exec);
                                $code=$ligne['0'];
 							      $prenom=$ligne['1'];
                                $nom=$ligne['2'];
@@ -75,7 +75,7 @@ echo'
 			        
 			          ";
                      $i++;
-                  
+                  }
 				  echo" <input name=evaluation type=hidden value='$codee'>";
 				  echo'	<table>
 <TR><TD class=petit>&nbsp;</TD>

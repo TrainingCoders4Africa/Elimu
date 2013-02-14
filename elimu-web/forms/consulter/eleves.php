@@ -1,11 +1,7 @@
 <?php 
 $sclasse=securite_bdd($_GET['num']);
 $annee=annee_academique();
-
 $nbre_eleve=effectif_classe($sclasse,$annee);
-	$nomfichier="impression/impression.txt";
-					touch($nomfichier);
-        				$fichier = fopen($nomfichier, 'wb+');
 ?>
 <center>
 <table border="1" cellpadding="2" bordercolor="black" cellspacing="0" align="center">
@@ -17,7 +13,7 @@ else{
 ?>
 
 <div align=left><B>&nbsp;Effectif de la classe : <?php echo @$nbre_eleve;?>&nbsp;</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="impression/impression.php?id=<?php echo $sclasse;?>&dates=<?php echo $annee;?>&page=<?php echo 'ELEVE';?>" target="_blank" > Exporter la liste des Elèves</a>
+<a href="forms/imprimer/eleves.php?classe=<?php echo $sclasse;?>&annee=<?php echo $annee;?>" target="_blank" > Exporter la liste des Elèves</a>
 </div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 
   				 <tr bgcolor="white">
@@ -64,10 +60,8 @@ else{
 							<td  align=center>'.$tel_e.'</td>
 							
 							</tr>';/**/
-        			$b="$prenom;$nom;$dlnais;\r\n";
-              				 fwrite($fichier,$b);
+        			
 }
-  fclose($fichier);
   }
   				 ?>
 </tr></tbody>

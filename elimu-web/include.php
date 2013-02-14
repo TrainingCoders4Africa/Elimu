@@ -178,7 +178,7 @@ var initSlider = function() {
    <td>
    <?php
                     	if($a <>""){
-						 echo" <img src='parametrage/logos/". $a."' width='109' height='108' border='0' title=".'Etablissement'.$c." >";
+						 echo" <img src='parametrage/logos/". $a."' width='109' height='108' border='0' style='background-repeat:no-repeat' valign='top' title=".$c." >";
 						 }
 						 else{
                     	?>
